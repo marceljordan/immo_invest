@@ -1,0 +1,15 @@
+find_replace:
+  - find_value: "LH_Immo_Dev"
+    replace_value:
+      TEST: "LH_Immo_Test"
+      PROD: "LH_Immo_Prod"
+
+  - find_value: "WH_Immo_Dev"
+    replace_value:
+      TEST: "WH_Immo_Test"
+      PROD: "WH_Immo_Prod"
+
+  - find_value: "SM_IMMO_ANALYTICS_DEV"
+    replace_value:
+      TEST: "SM_IMMO_ANALYTICS_TEST"
+      PROD: "SM_IMMO_ANALYTICS_PROD"
