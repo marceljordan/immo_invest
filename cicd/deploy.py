@@ -8,8 +8,6 @@ from fabric_cicd import FabricWorkspace, publish_all_items
 
 
 ITEM_TYPES = [
-    "Lakehouse",
-    "Warehouse",
     "DataPipeline",
     "Dataflow",
     "Notebook",
@@ -43,12 +41,10 @@ def main() -> int:
 
     repository_directory = Path.cwd()
 
-    parameter_file_path = repository_directory / "parameter.yml"
-
     print(f"Deploying to environment: {args.environment}")
     print(f"Target workspace ID: {args.workspace_id}")
     print(f"Repository directory: {repository_directory}")
-    print(f"Parameter file: {parameter_file_path}")
+    print(f"Item types in scope: {ITEM_TYPES}")
 
     target_workspace = FabricWorkspace(
         workspace_id=args.workspace_id,
@@ -56,7 +52,6 @@ def main() -> int:
         repository_directory=str(repository_directory),
         item_type_in_scope=ITEM_TYPES,
         token_credential=token_credential,
-        parameter_file_path=str(parameter_file_path),
     )
 
     publish_all_items(target_workspace)
