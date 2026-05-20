@@ -8,10 +8,7 @@ from fabric_cicd import FabricWorkspace, publish_all_items
 
 
 ITEM_TYPES = [
-    "DataPipeline",
-    "Dataflow",
-    "Notebook",
-    "SemanticModel",
+     "SemanticModel",
     "Report",
 ]
 
