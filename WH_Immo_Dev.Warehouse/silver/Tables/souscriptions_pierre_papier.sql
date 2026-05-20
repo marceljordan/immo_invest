@@ -1,0 +1,27 @@
+CREATE TABLE [silver].[souscriptions_pierre_papier] (
+
+	[souscription_id] varchar(50) NULL, 
+	[investisseur_id] varchar(50) NULL, 
+	[partenaire_id] varchar(50) NULL, 
+	[conseiller_id] varchar(50) NULL, 
+	[agence_id] varchar(50) NULL, 
+	[produit_id] varchar(50) NULL, 
+	[societe_gestion_id] varchar(50) NULL, 
+	[type_support] varchar(8000) NULL, 
+	[nom_support] varchar(8000) NULL, 
+	[date_souscription] date NULL, 
+	[montant_souscrit] decimal(18,2) NULL, 
+	[nombre_parts] decimal(18,4) NULL, 
+	[prix_part] decimal(18,2) NULL, 
+	[frais_souscription] decimal(18,2) NULL, 
+	[duree_recommandee] varchar(8000) NULL, 
+	[rendement_previsionnel] decimal(9,4) NULL, 
+	[statut_souscription] varchar(8000) NULL, 
+	[date_validation] date NULL, 
+	[date_rejet] date NULL, 
+	[motif_rejet] varchar(8000) NULL, 
+	[mode_paiement] varchar(8000) NULL, 
+	[created_at] datetime2(6) NULL, 
+	[updated_at] datetime2(6) NULL, 
+	[is_deleted] bit NULL
+);

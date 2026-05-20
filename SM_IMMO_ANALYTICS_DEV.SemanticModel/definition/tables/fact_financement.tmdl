@@ -1,0 +1,285 @@
+table fact_financement
+	lineageTag: 36f7634d-5267-47e4-b1dd-a7f1c7c156ce
+	sourceLineageTag: [gold].[fact_financement]
+
+	column financement_key
+		dataType: string
+		sourceProviderType: varchar(400)
+		lineageTag: 8c6551b5-94a5-4a72-9807-7b78ea118fec
+		sourceLineageTag: financement_key
+		summarizeBy: none
+		sourceColumn: financement_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column financement_id
+		dataType: string
+		sourceProviderType: varchar(50)
+		lineageTag: 497dcc25-2f16-4adc-b865-e30832be4425
+		sourceLineageTag: financement_id
+		summarizeBy: none
+		sourceColumn: financement_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column vente_id
+		dataType: string
+		sourceProviderType: varchar(50)
+		lineageTag: ea90885c-64f7-4550-84ef-5b5b6755c57f
+		sourceLineageTag: vente_id
+		summarizeBy: none
+		sourceColumn: vente_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column date_demande_key
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: 87ccf416-6790-4da7-ab31-4901ce1543a7
+		sourceLineageTag: date_demande_key
+		summarizeBy: none
+		sourceColumn: date_demande_key
+
+		changedProperty = SummarizeBy
+
+		annotation SummarizationSetBy = User
+
+	column date_accord_principe_key
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: 4a741a81-699c-4964-bb52-2a48fb09487e
+		sourceLineageTag: date_accord_principe_key
+		summarizeBy: none
+		sourceColumn: date_accord_principe_key
+
+		changedProperty = SummarizeBy
+
+		annotation SummarizationSetBy = User
+
+	column date_offre_pret_key
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: 3437a350-f650-48a4-931f-67020aab4d2d
+		sourceLineageTag: date_offre_pret_key
+		summarizeBy: none
+		sourceColumn: date_offre_pret_key
+
+		changedProperty = SummarizeBy
+
+		annotation SummarizationSetBy = User
+
+	column date_acceptation_offre_key
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: e48852f1-4408-4bb6-8048-6b2c490b4016
+		sourceLineageTag: date_acceptation_offre_key
+		summarizeBy: none
+		sourceColumn: date_acceptation_offre_key
+
+		changedProperty = SummarizeBy
+
+		annotation SummarizationSetBy = User
+
+	column investisseur_key
+		dataType: string
+		sourceProviderType: varchar(400)
+		lineageTag: 4263507e-6b3b-46e8-852e-086d4c7dfdb6
+		sourceLineageTag: investisseur_key
+		summarizeBy: none
+		sourceColumn: investisseur_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column statut_key
+		dataType: string
+		sourceProviderType: varchar(400)
+		lineageTag: 00c6be7b-d8d1-4a58-bfce-ac7ae51fe1ee
+		sourceLineageTag: statut_key
+		summarizeBy: none
+		sourceColumn: statut_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column investisseur_id
+		dataType: string
+		sourceProviderType: varchar(50)
+		lineageTag: bdd51e21-35a9-4015-b1ef-61c06220f7e8
+		sourceLineageTag: investisseur_id
+		summarizeBy: none
+		sourceColumn: investisseur_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column banque
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: e2849e49-7caf-4012-a2ba-cff9e0a797a4
+		sourceLineageTag: banque
+		summarizeBy: none
+		sourceColumn: banque
+
+		annotation SummarizationSetBy = Automatic
+
+	column courtier
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: 70390845-beb1-4e4b-a0bd-9563c876f04c
+		sourceLineageTag: courtier
+		summarizeBy: none
+		sourceColumn: courtier
+
+		annotation SummarizationSetBy = Automatic
+
+	column montant_demande
+		dataType: double
+		sourceProviderType: decimal(18, 2)
+		lineageTag: d884284a-ade1-407d-877c-076cdf481322
+		sourceLineageTag: montant_demande
+		summarizeBy: none
+		sourceColumn: montant_demande
+
+		changedProperty = SummarizeBy
+
+		annotation SummarizationSetBy = User
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column montant_accorde
+		dataType: double
+		sourceProviderType: decimal(18, 2)
+		lineageTag: 06b0bed9-3f71-4d6d-931a-1e8a6915ed32
+		sourceLineageTag: montant_accorde
+		summarizeBy: none
+		sourceColumn: montant_accorde
+
+		changedProperty = SummarizeBy
+
+		annotation SummarizationSetBy = User
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column taux_credit
+		dataType: decimal
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		sourceProviderType: decimal(9, 4)
+		lineageTag: 688a0f6e-3538-46a0-8e35-e7d916739601
+		sourceLineageTag: taux_credit
+		summarizeBy: none
+		sourceColumn: taux_credit
+
+		changedProperty = SummarizeBy
+
+		annotation SummarizationSetBy = User
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	column duree_credit_mois
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: 29acf868-c273-4a29-8622-e4a3e8e3592d
+		sourceLineageTag: duree_credit_mois
+		summarizeBy: none
+		sourceColumn: duree_credit_mois
+
+		changedProperty = SummarizeBy
+
+		annotation SummarizationSetBy = User
+
+	column mensualite_estimee
+		dataType: double
+		sourceProviderType: decimal(18, 2)
+		lineageTag: 4e1abf9e-3e46-415b-8a46-bd72791ccfd4
+		sourceLineageTag: mensualite_estimee
+		summarizeBy: none
+		sourceColumn: mensualite_estimee
+
+		changedProperty = SummarizeBy
+
+		annotation SummarizationSetBy = User
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column apport_personnel
+		dataType: double
+		sourceProviderType: decimal(18, 2)
+		lineageTag: 4d2d26e4-f045-4a8c-84d5-926854b9a6fe
+		sourceLineageTag: apport_personnel
+		summarizeBy: none
+		sourceColumn: apport_personnel
+
+		changedProperty = SummarizeBy
+
+		annotation SummarizationSetBy = User
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column assurance_emprunteur
+		dataType: double
+		sourceProviderType: decimal(18, 2)
+		lineageTag: 7a3a474c-1bab-4fb0-8345-b03937dc9665
+		sourceLineageTag: assurance_emprunteur
+		summarizeBy: none
+		sourceColumn: assurance_emprunteur
+
+		changedProperty = SummarizeBy
+
+		annotation SummarizationSetBy = User
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column statut_financement
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: 66010103-6e18-4e7d-975b-9f85e5e7dcab
+		sourceLineageTag: statut_financement
+		summarizeBy: none
+		sourceColumn: statut_financement
+
+		annotation SummarizationSetBy = Automatic
+
+	column motif_refus
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: bffacbff-d33e-42b8-a987-cd2316493f08
+		sourceLineageTag: motif_refus
+		summarizeBy: none
+		sourceColumn: motif_refus
+
+		annotation SummarizationSetBy = Automatic
+
+	column created_at
+		dataType: dateTime
+		formatString: General Date
+		sourceProviderType: datetime2
+		lineageTag: 0fcc48f2-f4ca-42a0-9619-f5322cec9088
+		sourceLineageTag: created_at
+		summarizeBy: none
+		sourceColumn: created_at
+
+		annotation SummarizationSetBy = Automatic
+
+	column updated_at
+		dataType: dateTime
+		formatString: General Date
+		sourceProviderType: datetime2
+		lineageTag: 64c7411d-5d2a-4180-ab7d-55dab030f4a4
+		sourceLineageTag: updated_at
+		summarizeBy: none
+		sourceColumn: updated_at
+
+		annotation SummarizationSetBy = Automatic
+
+	partition fact_financement = entity
+		mode: directLake
+		source
+			entityName: fact_financement
+			schemaName: gold
+			expressionSource: DatabaseQuery
+
+	annotation PBI_ResultType = Table
+

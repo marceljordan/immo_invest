@@ -1,0 +1,334 @@
+table fact_reservation
+	lineageTag: 62ee089d-5f48-4740-ba82-2c3d4faf8e22
+	sourceLineageTag: [gold].[fact_reservation]
+
+	column reservation_key
+		dataType: string
+		sourceProviderType: varchar(400)
+		lineageTag: 1a1383bc-147a-4be7-846b-50ed666c4aa1
+		sourceLineageTag: reservation_key
+		summarizeBy: none
+		sourceColumn: reservation_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column reservation_id
+		dataType: string
+		sourceProviderType: varchar(50)
+		lineageTag: 4348402d-0212-409e-83b4-a08a73eae29d
+		sourceLineageTag: reservation_id
+		summarizeBy: none
+		sourceColumn: reservation_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column date_reservation_key
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: 22612a55-5776-4b3f-a75e-9a12a904cc24
+		sourceLineageTag: date_reservation_key
+		summarizeBy: none
+		sourceColumn: date_reservation_key
+
+		changedProperty = SummarizeBy
+
+		annotation SummarizationSetBy = User
+
+	column date_annulation_key
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: d55f7485-c6e9-471d-9222-001530eb9df6
+		sourceLineageTag: date_annulation_key
+		summarizeBy: none
+		sourceColumn: date_annulation_key
+
+		changedProperty = SummarizeBy
+
+		annotation SummarizationSetBy = User
+
+	column date_expiration_reservation_key
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: 83568742-4df8-4a5f-998c-ad87e6e3a5b6
+		sourceLineageTag: date_expiration_reservation_key
+		summarizeBy: none
+		sourceColumn: date_expiration_reservation_key
+
+		changedProperty = SummarizeBy
+
+		annotation SummarizationSetBy = User
+
+	column investisseur_key
+		dataType: string
+		sourceProviderType: varchar(400)
+		lineageTag: 36209048-1ed6-4453-a64b-66aa163c5348
+		sourceLineageTag: investisseur_key
+		summarizeBy: none
+		sourceColumn: investisseur_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column partenaire_key
+		dataType: string
+		sourceProviderType: varchar(400)
+		lineageTag: 7bcef515-d8df-46c2-9dc5-b1f091ae2352
+		sourceLineageTag: partenaire_key
+		summarizeBy: none
+		sourceColumn: partenaire_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column conseiller_key
+		dataType: string
+		sourceProviderType: varchar(400)
+		lineageTag: 882cb548-d990-461d-92be-08d7474c2ee0
+		sourceLineageTag: conseiller_key
+		summarizeBy: none
+		sourceColumn: conseiller_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column agence_region_key
+		dataType: string
+		sourceProviderType: varchar(400)
+		lineageTag: eb70cd95-6431-4eec-bd75-dc871f09986e
+		sourceLineageTag: agence_region_key
+		summarizeBy: none
+		sourceColumn: agence_region_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column programme_key
+		dataType: string
+		sourceProviderType: varchar(400)
+		lineageTag: f1978aa8-de9e-4db0-8ecc-b0c641d75fcc
+		sourceLineageTag: programme_key
+		summarizeBy: none
+		sourceColumn: programme_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column lot_key
+		dataType: string
+		sourceProviderType: varchar(400)
+		lineageTag: 1914b549-3006-4541-ba39-1ae8cec2f322
+		sourceLineageTag: lot_key
+		summarizeBy: none
+		sourceColumn: lot_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column statut_key
+		dataType: string
+		sourceProviderType: varchar(400)
+		lineageTag: 5b6d2a0c-83bc-4a78-895f-8854e539601e
+		sourceLineageTag: statut_key
+		summarizeBy: none
+		sourceColumn: statut_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column lot_id
+		dataType: string
+		sourceProviderType: varchar(50)
+		lineageTag: 8e8b5cbe-0c75-4001-978d-e9792b153811
+		sourceLineageTag: lot_id
+		summarizeBy: none
+		sourceColumn: lot_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column programme_id
+		dataType: string
+		sourceProviderType: varchar(50)
+		lineageTag: 232e38fd-14d8-466a-a12d-b2aa86fe1a4f
+		sourceLineageTag: programme_id
+		summarizeBy: none
+		sourceColumn: programme_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column investisseur_id
+		dataType: string
+		sourceProviderType: varchar(50)
+		lineageTag: e282b400-014b-4167-8dbc-64bb14a82f74
+		sourceLineageTag: investisseur_id
+		summarizeBy: none
+		sourceColumn: investisseur_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column partenaire_id
+		dataType: string
+		sourceProviderType: varchar(50)
+		lineageTag: 4a2b57e7-c4ac-43ff-9575-f21e865462b9
+		sourceLineageTag: partenaire_id
+		summarizeBy: none
+		sourceColumn: partenaire_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column conseiller_id
+		dataType: string
+		sourceProviderType: varchar(50)
+		lineageTag: 0c3ef4bb-723d-4b13-8cbb-a0e56f4ca721
+		sourceLineageTag: conseiller_id
+		summarizeBy: none
+		sourceColumn: conseiller_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column agence_id
+		dataType: string
+		sourceProviderType: varchar(50)
+		lineageTag: 32162f99-ad1e-46dc-821f-e3c1dcafa736
+		sourceLineageTag: agence_id
+		summarizeBy: none
+		sourceColumn: agence_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column montant_reservation
+		dataType: double
+		sourceProviderType: decimal(18, 2)
+		lineageTag: 82a98919-36f2-4a48-aa57-2596df4dce8e
+		sourceLineageTag: montant_reservation
+		summarizeBy: none
+		sourceColumn: montant_reservation
+
+		changedProperty = SummarizeBy
+
+		annotation SummarizationSetBy = User
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column prix_reserve
+		dataType: double
+		sourceProviderType: decimal(18, 2)
+		lineageTag: e9f5ce3f-86f5-4a07-a357-caf9c79435ea
+		sourceLineageTag: prix_reserve
+		summarizeBy: none
+		sourceColumn: prix_reserve
+
+		changedProperty = SummarizeBy
+
+		annotation SummarizationSetBy = User
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column remise_appliquee
+		dataType: double
+		sourceProviderType: decimal(18, 2)
+		lineageTag: 4d2f41b9-17f8-4bd5-8d4a-eb7c81f2fa34
+		sourceLineageTag: remise_appliquee
+		summarizeBy: none
+		sourceColumn: remise_appliquee
+
+		changedProperty = SummarizeBy
+
+		annotation SummarizationSetBy = User
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column apport_prevu
+		dataType: double
+		sourceProviderType: decimal(18, 2)
+		lineageTag: ab791f6d-57e7-493e-9e92-e70fba850398
+		sourceLineageTag: apport_prevu
+		summarizeBy: none
+		sourceColumn: apport_prevu
+
+		changedProperty = SummarizeBy
+
+		annotation SummarizationSetBy = User
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column montant_credit_prevu
+		dataType: double
+		sourceProviderType: decimal(18, 2)
+		lineageTag: 4c1f19b5-8956-45e3-8941-afb0cfb00b4e
+		sourceLineageTag: montant_credit_prevu
+		summarizeBy: none
+		sourceColumn: montant_credit_prevu
+
+		changedProperty = SummarizeBy
+
+		annotation SummarizationSetBy = User
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column canal_reservation
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: a72fa9de-2f9d-462c-b59f-d0237d1dc16d
+		sourceLineageTag: canal_reservation
+		summarizeBy: none
+		sourceColumn: canal_reservation
+
+		annotation SummarizationSetBy = Automatic
+
+	column mode_financement_prevu
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: 7d813b92-49c0-40f4-9792-47cae35e737e
+		sourceLineageTag: mode_financement_prevu
+		summarizeBy: none
+		sourceColumn: mode_financement_prevu
+
+		annotation SummarizationSetBy = Automatic
+
+	column statut_reservation
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: 2b7af4db-cbac-40b3-86dc-f7c139104f02
+		sourceLineageTag: statut_reservation
+		summarizeBy: none
+		sourceColumn: statut_reservation
+
+		annotation SummarizationSetBy = Automatic
+
+	column motif_annulation
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: 34e4cbc2-a2d6-4342-a349-82ef84cec395
+		sourceLineageTag: motif_annulation
+		summarizeBy: none
+		sourceColumn: motif_annulation
+
+		annotation SummarizationSetBy = Automatic
+
+	column created_at
+		dataType: dateTime
+		formatString: General Date
+		sourceProviderType: datetime2
+		lineageTag: 24f22840-64a3-43d3-bbbf-71b5b4f17c3c
+		sourceLineageTag: created_at
+		summarizeBy: none
+		sourceColumn: created_at
+
+		annotation SummarizationSetBy = Automatic
+
+	column updated_at
+		dataType: dateTime
+		formatString: General Date
+		sourceProviderType: datetime2
+		lineageTag: 57833463-0163-45bc-bca9-72f99b5f5969
+		sourceLineageTag: updated_at
+		summarizeBy: none
+		sourceColumn: updated_at
+
+		annotation SummarizationSetBy = Automatic
+
+	partition fact_reservation = entity
+		mode: directLake
+		source
+			entityName: fact_reservation
+			schemaName: gold
+			expressionSource: DatabaseQuery
+
+	annotation PBI_ResultType = Table
+

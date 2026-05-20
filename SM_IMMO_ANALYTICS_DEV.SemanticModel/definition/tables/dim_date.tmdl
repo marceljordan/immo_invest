@@ -1,0 +1,153 @@
+table dim_date
+	lineageTag: 53aa3f19-fd98-41c1-98cb-5fabea99f6b0
+	sourceLineageTag: [gold].[dim_date]
+
+	column date_key
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: 5d08ae54-0032-43bf-b5fc-0e1bbcfb13aa
+		sourceLineageTag: date_key
+		summarizeBy: none
+		sourceColumn: date_key
+
+		changedProperty = SummarizeBy
+
+		annotation SummarizationSetBy = User
+
+	column full_date
+		dataType: dateTime
+		formatString: General Date
+		sourceProviderType: date
+		lineageTag: cec17caa-721c-40b3-a64d-7b9b8ed32fab
+		sourceLineageTag: full_date
+		summarizeBy: none
+		sourceColumn: full_date
+
+		changedProperty = SummarizeBy
+
+		annotation SummarizationSetBy = User
+
+	column annee
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: 9eaa1191-b41d-425c-b623-853514f223c4
+		sourceLineageTag: annee
+		summarizeBy: none
+		sourceColumn: annee
+
+		changedProperty = SummarizeBy
+
+		annotation SummarizationSetBy = User
+
+	column trimestre
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: 87f4502f-04e6-4aed-a1f3-ff6cffb46f04
+		sourceLineageTag: trimestre
+		summarizeBy: none
+		sourceColumn: trimestre
+
+		changedProperty = SummarizeBy
+
+		annotation SummarizationSetBy = User
+
+	column mois
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: 8466aebd-0c89-4458-9c2a-63d39c7402c5
+		sourceLineageTag: mois
+		summarizeBy: none
+		sourceColumn: mois
+
+		changedProperty = SummarizeBy
+
+		annotation SummarizationSetBy = User
+
+	column jour
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: fec1ce41-5229-4d0c-87c4-5cf24a34f449
+		sourceLineageTag: jour
+		summarizeBy: none
+		sourceColumn: jour
+
+		changedProperty = SummarizeBy
+
+		annotation SummarizationSetBy = User
+
+	column nom_mois
+		dataType: string
+		sourceProviderType: varchar(30)
+		lineageTag: eef2df6f-eb44-4c99-88b6-bae7c5bbdc73
+		sourceLineageTag: nom_mois
+		summarizeBy: none
+		sourceColumn: nom_mois
+
+		changedProperty = SummarizeBy
+
+		annotation SummarizationSetBy = User
+
+	column nom_jour
+		dataType: string
+		sourceProviderType: varchar(30)
+		lineageTag: 46b6c4f9-bef4-4db9-8dfd-218b3f18b703
+		sourceLineageTag: nom_jour
+		summarizeBy: none
+		sourceColumn: nom_jour
+
+		changedProperty = SummarizeBy
+
+		annotation SummarizationSetBy = User
+
+	column numero_jour_semaine
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: 2a507ccc-447b-4058-9f2a-4586091550dd
+		sourceLineageTag: numero_jour_semaine
+		summarizeBy: none
+		sourceColumn: numero_jour_semaine
+
+		changedProperty = SummarizeBy
+
+		annotation SummarizationSetBy = User
+
+	column annee_mois_key
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: 2863eec9-8c3a-4008-82ff-4409437f0942
+		sourceLineageTag: annee_mois_key
+		summarizeBy: none
+		sourceColumn: annee_mois_key
+
+		changedProperty = SummarizeBy
+
+		annotation SummarizationSetBy = User
+
+	column annee_mois
+		dataType: string
+		sourceProviderType: varchar(7)
+		lineageTag: 6ae7c864-3752-4927-8d14-7b4f1c686545
+		sourceLineageTag: annee_mois
+		summarizeBy: none
+		sourceColumn: annee_mois
+
+		changedProperty = SummarizeBy
+
+		annotation SummarizationSetBy = User
+
+	partition dim_date = entity
+		mode: directLake
+		source
+			entityName: dim_date
+			schemaName: gold
+			expressionSource: DatabaseQuery
+
+	annotation PBI_ResultType = Table
+

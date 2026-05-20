@@ -1,0 +1,26 @@
+CREATE TABLE [gold].[fact_financement] (
+
+	[financement_key] varchar(400) NULL, 
+	[financement_id] varchar(50) NULL, 
+	[vente_id] varchar(50) NULL, 
+	[date_demande_key] int NULL, 
+	[date_accord_principe_key] int NULL, 
+	[date_offre_pret_key] int NULL, 
+	[date_acceptation_offre_key] int NULL, 
+	[investisseur_key] varchar(400) NULL, 
+	[statut_key] varchar(400) NULL, 
+	[investisseur_id] varchar(50) NULL, 
+	[banque] varchar(8000) NULL, 
+	[courtier] varchar(8000) NULL, 
+	[montant_demande] decimal(18,2) NULL, 
+	[montant_accorde] decimal(18,2) NULL, 
+	[taux_credit] decimal(9,4) NULL, 
+	[duree_credit_mois] int NULL, 
+	[mensualite_estimee] decimal(18,2) NULL, 
+	[apport_personnel] decimal(18,2) NULL, 
+	[assurance_emprunteur] decimal(18,2) NULL, 
+	[statut_financement] varchar(8000) NULL, 
+	[motif_refus] varchar(8000) NULL, 
+	[created_at] datetime2(6) NULL, 
+	[updated_at] datetime2(6) NULL
+);

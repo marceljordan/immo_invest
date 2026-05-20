@@ -1,0 +1,27 @@
+CREATE TABLE [silver].[dossiers_adv] (
+
+	[dossier_adv_id] varchar(50) NULL, 
+	[vente_id] varchar(50) NULL, 
+	[reservation_id] varchar(50) NULL, 
+	[investisseur_id] varchar(50) NULL, 
+	[lot_id] varchar(50) NULL, 
+	[programme_id] varchar(50) NULL, 
+	[partenaire_id] varchar(50) NULL, 
+	[conseiller_id] varchar(50) NULL, 
+	[statut_dossier] varchar(8000) NULL, 
+	[date_ouverture_dossier] date NULL, 
+	[date_reception_pieces] date NULL, 
+	[date_validation_dossier] date NULL, 
+	[date_envoi_notaire] date NULL, 
+	[date_signature_acte] date NULL, 
+	[delai_traitement_jours] int NULL, 
+	[pieces_manquantes] bit NULL, 
+	[nombre_relances] int NULL, 
+	[blocage_adv] bit NULL, 
+	[motif_blocage] varchar(8000) NULL, 
+	[responsable_adv_id] varchar(50) NULL, 
+	[commentaire_adv] varchar(8000) NULL, 
+	[created_at] datetime2(6) NULL, 
+	[updated_at] datetime2(6) NULL, 
+	[is_deleted] bit NULL
+);

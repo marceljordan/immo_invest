@@ -1,0 +1,14 @@
+# Fichier : packages.yml
+#
+# Rôle :
+# - Déclarer les packages dbt utilisés par le projet.
+#
+# Action :
+# - Ajoute dbt-utils pour utiliser la macro generate_surrogate_key.
+#
+# Objectif :
+# - Générer des surrogate keys propres et standardisées dans les dimensions Gold.
+
+packages:
+  - package: dbt-labs/dbt_utils
+    version: 1.3.0

@@ -1,0 +1,479 @@
+# Fichier : models/gold/schema_facts.yml
+#
+# Rôle :
+# - Déclarer les tests dbt sur les tables de faits Gold.
+#
+# Actions réalisées :
+# - Vérifie que chaque clé technique de fait est non nulle.
+# - Vérifie que chaque clé technique de fait est unique.
+# - Vérifie les relations entre facts et dimensions.
+# - Vérifie certaines mesures obligatoires.
+#
+# Objectif :
+# - Garantir que le modèle Kimball est cohérent :
+#   les facts doivent pointer vers des dimensions existantes.
+
+version: 2
+
+models:
+  - name: fact_reservation
+    description: "Fait des réservations immobilières."
+    columns:
+      - name: reservation_key
+        tests:
+          - not_null
+          - unique
+
+      - name: reservation_id
+        tests:
+          - not_null
+          - unique
+
+      - name: date_reservation_key
+        tests:
+          - relationships:
+              to: ref('dim_date')
+              field: date_key
+
+      - name: investisseur_key
+        tests:
+          - relationships:
+              to: ref('dim_investisseur')
+              field: investisseur_key
+
+      - name: partenaire_key
+        tests:
+          - relationships:
+              to: ref('dim_partenaire')
+              field: partenaire_key
+
+      - name: conseiller_key
+        tests:
+          - relationships:
+              to: ref('dim_conseiller')
+              field: conseiller_key
+
+      - name: agence_region_key
+        tests:
+          - relationships:
+              to: ref('dim_agence_region')
+              field: agence_region_key
+
+      - name: programme_key
+        tests:
+          - relationships:
+              to: ref('dim_programme_immobilier')
+              field: programme_key
+
+      - name: lot_key
+        tests:
+          - relationships:
+              to: ref('dim_lot_immobilier')
+              field: lot_key
+
+  - name: fact_vente
+    description: "Fait des ventes immobilières."
+    columns:
+      - name: vente_key
+        tests:
+          - not_null
+          - unique
+
+      - name: vente_id
+        tests:
+          - not_null
+          - unique
+
+      - name: date_signature_acte_key
+        tests:
+          - relationships:
+              to: ref('dim_date')
+              field: date_key
+
+      - name: investisseur_key
+        tests:
+          - relationships:
+              to: ref('dim_investisseur')
+              field: investisseur_key
+
+      - name: partenaire_key
+        tests:
+          - relationships:
+              to: ref('dim_partenaire')
+              field: partenaire_key
+
+      - name: conseiller_key
+        tests:
+          - relationships:
+              to: ref('dim_conseiller')
+              field: conseiller_key
+
+      - name: agence_region_key
+        tests:
+          - relationships:
+              to: ref('dim_agence_region')
+              field: agence_region_key
+
+      - name: programme_key
+        tests:
+          - relationships:
+              to: ref('dim_programme_immobilier')
+              field: programme_key
+
+      - name: lot_key
+        tests:
+          - relationships:
+              to: ref('dim_lot_immobilier')
+              field: lot_key
+
+      - name: prix_vente_ttc
+        tests:
+          - not_null
+
+      - name: montant_total_operation
+        tests:
+          - not_null
+
+  - name: fact_commission
+    description: "Fait des commissions."
+    columns:
+      - name: commission_key
+        tests:
+          - not_null
+          - unique
+
+      - name: commission_id
+        tests:
+          - not_null
+          - unique
+
+      - name: date_calcul_key
+        tests:
+          - relationships:
+              to: ref('dim_date')
+              field: date_key
+
+      - name: investisseur_key
+        tests:
+          - relationships:
+              to: ref('dim_investisseur')
+              field: investisseur_key
+
+      - name: partenaire_key
+        tests:
+          - relationships:
+              to: ref('dim_partenaire')
+              field: partenaire_key
+
+      - name: conseiller_key
+        tests:
+          - relationships:
+              to: ref('dim_conseiller')
+              field: conseiller_key
+
+      - name: agence_region_key
+        tests:
+          - relationships:
+              to: ref('dim_agence_region')
+              field: agence_region_key
+
+      - name: produit_key
+        tests:
+          - relationships:
+              to: ref('dim_produit_investissement')
+              field: produit_key
+
+      - name: programme_key
+        tests:
+          - relationships:
+              to: ref('dim_programme_immobilier')
+              field: programme_key
+
+      - name: montant_commission_net
+        tests:
+          - not_null
+
+  - name: fact_objectif_commercial
+    description: "Fait des objectifs commerciaux."
+    columns:
+      - name: objectif_key
+        tests:
+          - not_null
+          - unique
+
+      - name: objectif_id
+        tests:
+          - not_null
+          - unique
+
+      - name: date_objectif_key
+        tests:
+          - relationships:
+              to: ref('dim_date')
+              field: date_key
+
+      - name: agence_region_key
+        tests:
+          - relationships:
+              to: ref('dim_agence_region')
+              field: agence_region_key
+
+      - name: conseiller_key
+        tests:
+          - relationships:
+              to: ref('dim_conseiller')
+              field: conseiller_key
+
+      - name: partenaire_key
+        tests:
+          - relationships:
+              to: ref('dim_partenaire')
+              field: partenaire_key
+
+  - name: fact_souscription_pierre_papier
+    description: "Fait des souscriptions pierre-papier."
+    columns:
+      - name: souscription_key
+        tests:
+          - not_null
+          - unique
+
+      - name: souscription_id
+        tests:
+          - not_null
+          - unique
+
+      - name: date_souscription_key
+        tests:
+          - relationships:
+              to: ref('dim_date')
+              field: date_key
+
+      - name: investisseur_key
+        tests:
+          - relationships:
+              to: ref('dim_investisseur')
+              field: investisseur_key
+
+      - name: partenaire_key
+        tests:
+          - relationships:
+              to: ref('dim_partenaire')
+              field: partenaire_key
+
+      - name: conseiller_key
+        tests:
+          - relationships:
+              to: ref('dim_conseiller')
+              field: conseiller_key
+
+      - name: agence_region_key
+        tests:
+          - relationships:
+              to: ref('dim_agence_region')
+              field: agence_region_key
+
+      - name: produit_key
+        tests:
+          - relationships:
+              to: ref('dim_produit_investissement')
+              field: produit_key
+
+      - name: montant_souscrit
+        tests:
+          - not_null
+
+  - name: fact_operation_crowdfunding
+    description: "Fait des opérations de crowdfunding immobilier."
+    columns:
+      - name: crowdfunding_key
+        tests:
+          - not_null
+          - unique
+
+      - name: operation_crowdfunding_id
+        tests:
+          - not_null
+          - unique
+
+      - name: date_investissement_key
+        tests:
+          - relationships:
+              to: ref('dim_date')
+              field: date_key
+
+      - name: investisseur_key
+        tests:
+          - relationships:
+              to: ref('dim_investisseur')
+              field: investisseur_key
+
+      - name: partenaire_key
+        tests:
+          - relationships:
+              to: ref('dim_partenaire')
+              field: partenaire_key
+
+      - name: conseiller_key
+        tests:
+          - relationships:
+              to: ref('dim_conseiller')
+              field: conseiller_key
+
+      - name: agence_region_key
+        tests:
+          - relationships:
+              to: ref('dim_agence_region')
+              field: agence_region_key
+
+      - name: montant_investi
+        tests:
+          - not_null
+
+  - name: fact_financement
+    description: "Fait des financements."
+    columns:
+      - name: financement_key
+        tests:
+          - not_null
+          - unique
+
+      - name: financement_id
+        tests:
+          - not_null
+          - unique
+
+      - name: date_demande_key
+        tests:
+          - relationships:
+              to: ref('dim_date')
+              field: date_key
+
+      - name: investisseur_key
+        tests:
+          - relationships:
+              to: ref('dim_investisseur')
+              field: investisseur_key
+
+  - name: fact_gestion_locative
+    description: "Fait de gestion locative."
+    columns:
+      - name: gestion_locative_key
+        tests:
+          - not_null
+          - unique
+
+      - name: gestion_id
+        tests:
+          - not_null
+          - unique
+
+      - name: date_debut_gestion_key
+        tests:
+          - relationships:
+              to: ref('dim_date')
+              field: date_key
+
+      - name: investisseur_key
+        tests:
+          - relationships:
+              to: ref('dim_investisseur')
+              field: investisseur_key
+
+      - name: programme_key
+        tests:
+          - relationships:
+              to: ref('dim_programme_immobilier')
+              field: programme_key
+
+      - name: lot_key
+        tests:
+          - relationships:
+              to: ref('dim_lot_immobilier')
+              field: lot_key
+
+  - name: fact_revente
+    description: "Fait des reventes de biens immobiliers."
+    columns:
+      - name: revente_key
+        tests:
+          - not_null
+          - unique
+
+      - name: revente_id
+        tests:
+          - not_null
+          - unique
+
+      - name: date_demande_revente_key
+        tests:
+          - relationships:
+              to: ref('dim_date')
+              field: date_key
+
+      - name: investisseur_key
+        tests:
+          - relationships:
+              to: ref('dim_investisseur')
+              field: investisseur_key
+
+      - name: programme_key
+        tests:
+          - relationships:
+              to: ref('dim_programme_immobilier')
+              field: programme_key
+
+      - name: lot_key
+        tests:
+          - relationships:
+              to: ref('dim_lot_immobilier')
+              field: lot_key
+
+  - name: fact_dossier_adv
+    description: "Fait des dossiers ADV."
+    columns:
+      - name: dossier_adv_key
+        tests:
+          - not_null
+          - unique
+
+      - name: dossier_adv_id
+        tests:
+          - not_null
+          - unique
+
+      - name: date_ouverture_dossier_key
+        tests:
+          - relationships:
+              to: ref('dim_date')
+              field: date_key
+
+      - name: investisseur_key
+        tests:
+          - relationships:
+              to: ref('dim_investisseur')
+              field: investisseur_key
+
+      - name: partenaire_key
+        tests:
+          - relationships:
+              to: ref('dim_partenaire')
+              field: partenaire_key
+
+      - name: conseiller_key
+        tests:
+          - relationships:
+              to: ref('dim_conseiller')
+              field: conseiller_key
+
+      - name: programme_key
+        tests:
+          - relationships:
+              to: ref('dim_programme_immobilier')
+              field: programme_key
+
+      - name: lot_key
+        tests:
+          - relationships:
+              to: ref('dim_lot_immobilier')
+              field: lot_key

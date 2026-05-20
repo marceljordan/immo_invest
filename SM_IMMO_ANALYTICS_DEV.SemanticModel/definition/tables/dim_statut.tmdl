@@ -1,0 +1,43 @@
+table dim_statut
+	lineageTag: 01b1ae24-a2b9-41fa-81e9-9fd34d3d7305
+	sourceLineageTag: [gold].[dim_statut]
+
+	column statut_key
+		dataType: string
+		sourceProviderType: varchar(400)
+		lineageTag: 1091e09b-6880-4651-8401-896e75ca77eb
+		sourceLineageTag: statut_key
+		summarizeBy: none
+		sourceColumn: statut_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column domaine_statut
+		dataType: string
+		sourceProviderType: varchar(16)
+		lineageTag: 820d6ca8-5f46-4f37-9da9-4e4e09ddc906
+		sourceLineageTag: domaine_statut
+		summarizeBy: none
+		sourceColumn: domaine_statut
+
+		annotation SummarizationSetBy = Automatic
+
+	column statut_value
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: 65633f00-73e1-4216-a622-726783bb4772
+		sourceLineageTag: statut_value
+		summarizeBy: none
+		sourceColumn: statut_value
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_statut = entity
+		mode: directLake
+		source
+			entityName: dim_statut
+			schemaName: gold
+			expressionSource: DatabaseQuery
+
+	annotation PBI_ResultType = Table
+

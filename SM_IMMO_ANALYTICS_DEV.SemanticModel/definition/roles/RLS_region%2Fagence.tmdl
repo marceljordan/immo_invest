@@ -1,0 +1,42 @@
+role RLS_region/agence
+	modelPermission: read
+
+	tablePermission dim_agence_region =
+			VAR CurrentUser =
+			    LOWER(USERPRINCIPALNAME())
+			
+			VAR UserAccess =
+			    FILTER(
+			        ALL(security_user_access),
+			        LOWER(security_user_access[user_email]) = CurrentUser
+			            && security_user_access[is_active] = TRUE()
+			    )
+			
+			VAR HasAllAccess =
+			    COUNTROWS(
+			        FILTER(UserAccess, security_user_access[access_level] = "ALL")
+			    ) > 0
+			
+			VAR HasADVAccess =
+			    COUNTROWS(
+			        FILTER(UserAccess, security_user_access[access_level] = "ADV")
+			    ) > 0
+			
+			RETURN
+			    HasAllAccess
+			    || HasADVAccess
+			    ||
+			    dim_agence_region[region_id]
+			        IN SELECTCOLUMNS(
+			            FILTER(UserAccess, NOT ISBLANK(security_user_access[region_id])),
+			            "region_id", security_user_access[region_id]
+			        )
+			    ||
+			    dim_agence_region[agence_id]
+			        IN SELECTCOLUMNS(
+			            FILTER(UserAccess, NOT ISBLANK(security_user_access[agence_id])),
+			            "agence_id", security_user_access[agence_id]
+			        )
+
+	annotation PBI_Id = 3a31b6091b95484b858c715872d04d4b
+

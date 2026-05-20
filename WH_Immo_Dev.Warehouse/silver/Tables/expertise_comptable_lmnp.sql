@@ -1,0 +1,25 @@
+CREATE TABLE [silver].[expertise_comptable_lmnp] (
+
+	[dossier_comptable_id] varchar(50) NULL, 
+	[investisseur_id] varchar(50) NULL, 
+	[vente_id] varchar(50) NULL, 
+	[lot_id] varchar(50) NULL, 
+	[programme_id] varchar(50) NULL, 
+	[annee_fiscale] int NULL, 
+	[regime_fiscal] varchar(8000) NULL, 
+	[statut_dossier_comptable] varchar(8000) NULL, 
+	[date_ouverture] date NULL, 
+	[date_reception_documents] date NULL, 
+	[date_declaration] date NULL, 
+	[recettes_locatives] decimal(18,2) NULL, 
+	[charges_deductibles] decimal(18,2) NULL, 
+	[amortissements] decimal(18,2) NULL, 
+	[resultat_fiscal] decimal(18,2) NULL, 
+	[impot_estime] decimal(18,2) NULL, 
+	[comptable_id] varchar(50) NULL, 
+	[nombre_relances] int NULL, 
+	[pieces_manquantes] bit NULL, 
+	[created_at] datetime2(6) NULL, 
+	[updated_at] datetime2(6) NULL, 
+	[is_deleted] bit NULL
+);

@@ -1,0 +1,335 @@
+table dim_lot_immobilier
+	lineageTag: c1505a65-8fe8-4417-9912-50d51f590aa5
+	sourceLineageTag: [gold].[dim_lot_immobilier]
+
+	column lot_key
+		dataType: string
+		sourceProviderType: varchar(400)
+		lineageTag: 1f7f961d-a0c8-42d2-abbe-353428982adb
+		sourceLineageTag: lot_key
+		summarizeBy: none
+		sourceColumn: lot_key
+
+		changedProperty = SummarizeBy
+
+		annotation SummarizationSetBy = User
+
+	column lot_id
+		dataType: string
+		sourceProviderType: varchar(50)
+		lineageTag: 6bcdfc3f-afda-4496-9035-51c0005e840d
+		sourceLineageTag: lot_id
+		summarizeBy: none
+		sourceColumn: lot_id
+
+		changedProperty = SummarizeBy
+
+		annotation SummarizationSetBy = User
+
+	column programme_id
+		dataType: string
+		sourceProviderType: varchar(50)
+		lineageTag: c56240e2-a22f-49a8-bfd7-34f70b577ae1
+		sourceLineageTag: programme_id
+		summarizeBy: none
+		sourceColumn: programme_id
+
+		changedProperty = SummarizeBy
+
+		annotation SummarizationSetBy = User
+
+	column programme_key
+		dataType: string
+		sourceProviderType: varchar(400)
+		lineageTag: 683e9f78-60de-48df-b471-1e1e1e0e8c64
+		sourceLineageTag: programme_key
+		summarizeBy: none
+		sourceColumn: programme_key
+
+		changedProperty = SummarizeBy
+
+		annotation SummarizationSetBy = User
+
+	column numero_lot
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: b0dfeb0b-4c6a-4f31-bf89-e4724239af1f
+		sourceLineageTag: numero_lot
+		summarizeBy: none
+		sourceColumn: numero_lot
+
+		changedProperty = SummarizeBy
+
+		annotation SummarizationSetBy = User
+
+	column type_lot
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: 06ecce78-7526-4840-a493-a6a5876a466d
+		sourceLineageTag: type_lot
+		summarizeBy: none
+		sourceColumn: type_lot
+
+		changedProperty = SummarizeBy
+
+		annotation SummarizationSetBy = User
+
+	column typologie
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: f2099a4b-bc65-42a4-b793-b0fb2a11056f
+		sourceLineageTag: typologie
+		summarizeBy: none
+		sourceColumn: typologie
+
+		changedProperty = SummarizeBy
+
+		annotation SummarizationSetBy = User
+
+	column surface_m2
+		dataType: decimal
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		sourceProviderType: decimal(10, 2)
+		lineageTag: d1ab1e66-715d-4fc3-b867-9288d08da788
+		sourceLineageTag: surface_m2
+		summarizeBy: none
+		sourceColumn: surface_m2
+
+		changedProperty = SummarizeBy
+
+		annotation SummarizationSetBy = User
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	column etage
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: af373acc-45f5-4bea-80d1-62971b5fb99b
+		sourceLineageTag: etage
+		summarizeBy: none
+		sourceColumn: etage
+
+		changedProperty = SummarizeBy
+
+		annotation SummarizationSetBy = User
+
+	column orientation
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: 86ba97bf-aac7-47ca-8c2d-27c94724f755
+		sourceLineageTag: orientation
+		summarizeBy: none
+		sourceColumn: orientation
+
+		changedProperty = SummarizeBy
+
+		annotation SummarizationSetBy = User
+
+	column parking_inclus
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		sourceProviderType: bit
+		lineageTag: f8b7c03f-4376-4e8a-b1bb-a175b07b967a
+		sourceLineageTag: parking_inclus
+		summarizeBy: none
+		sourceColumn: parking_inclus
+
+		changedProperty = SummarizeBy
+
+		annotation SummarizationSetBy = User
+
+	column prix_catalogue
+		dataType: double
+		sourceProviderType: decimal(18, 2)
+		lineageTag: ce1d132e-f2e8-4574-a478-a23a2efbcf5b
+		sourceLineageTag: prix_catalogue
+		summarizeBy: none
+		sourceColumn: prix_catalogue
+
+		changedProperty = SummarizeBy
+
+		annotation SummarizationSetBy = User
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column prix_remise
+		dataType: double
+		sourceProviderType: decimal(18, 2)
+		lineageTag: 4725bdde-43be-40bc-874d-4ca3f1470211
+		sourceLineageTag: prix_remise
+		summarizeBy: none
+		sourceColumn: prix_remise
+
+		changedProperty = SummarizeBy
+
+		annotation SummarizationSetBy = User
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column prix_final
+		dataType: double
+		sourceProviderType: decimal(18, 2)
+		lineageTag: dee0abec-96d9-4e00-8f59-146b8f11b81f
+		sourceLineageTag: prix_final
+		summarizeBy: none
+		sourceColumn: prix_final
+
+		changedProperty = SummarizeBy
+
+		annotation SummarizationSetBy = User
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column loyer_estime_mensuel
+		dataType: double
+		sourceProviderType: decimal(18, 2)
+		lineageTag: 75261765-9a71-4289-b900-8150e0410b1d
+		sourceLineageTag: loyer_estime_mensuel
+		summarizeBy: none
+		sourceColumn: loyer_estime_mensuel
+
+		changedProperty = SummarizeBy
+
+		annotation SummarizationSetBy = User
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column rentabilite_brute_estimee
+		dataType: decimal
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		sourceProviderType: decimal(9, 4)
+		lineageTag: 192e995c-0019-4c5f-afda-2e67e63588ac
+		sourceLineageTag: rentabilite_brute_estimee
+		summarizeBy: none
+		sourceColumn: rentabilite_brute_estimee
+
+		changedProperty = SummarizeBy
+
+		annotation SummarizationSetBy = User
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	column statut_lot
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: 120503e0-e531-45d9-93f2-062f7f74e0a4
+		sourceLineageTag: statut_lot
+		summarizeBy: none
+		sourceColumn: statut_lot
+
+		changedProperty = SummarizeBy
+
+		annotation SummarizationSetBy = User
+
+	column date_disponibilite
+		dataType: dateTime
+		formatString: General Date
+		sourceProviderType: date
+		lineageTag: aa7a4df9-f306-455d-be1e-836984a42cd1
+		sourceLineageTag: date_disponibilite
+		summarizeBy: none
+		sourceColumn: date_disponibilite
+
+		changedProperty = SummarizeBy
+
+		annotation SummarizationSetBy = User
+
+	column date_reservation
+		dataType: dateTime
+		formatString: General Date
+		sourceProviderType: date
+		lineageTag: 455c7d9d-41eb-41c7-88df-5f35d35c1385
+		sourceLineageTag: date_reservation
+		summarizeBy: none
+		sourceColumn: date_reservation
+
+		changedProperty = SummarizeBy
+
+		annotation SummarizationSetBy = User
+
+	column date_vente
+		dataType: dateTime
+		formatString: General Date
+		sourceProviderType: date
+		lineageTag: 0ff8f3bf-d42c-4247-b22e-5b330b7fe2eb
+		sourceLineageTag: date_vente
+		summarizeBy: none
+		sourceColumn: date_vente
+
+		changedProperty = SummarizeBy
+
+		annotation SummarizationSetBy = User
+
+	column investisseur_id
+		dataType: string
+		sourceProviderType: varchar(50)
+		lineageTag: 7bbe61ab-a161-454f-82de-bb3c5f4b0708
+		sourceLineageTag: investisseur_id
+		summarizeBy: none
+		sourceColumn: investisseur_id
+
+		changedProperty = SummarizeBy
+
+		annotation SummarizationSetBy = User
+
+	column partenaire_id
+		dataType: string
+		sourceProviderType: varchar(50)
+		lineageTag: 5f1cd1d8-a029-4635-b541-998a1715a9bb
+		sourceLineageTag: partenaire_id
+		summarizeBy: none
+		sourceColumn: partenaire_id
+
+		changedProperty = SummarizeBy
+
+		annotation SummarizationSetBy = User
+
+	column is_active
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		sourceProviderType: bit
+		lineageTag: de8adca7-8927-4eb4-9818-126c8a232662
+		sourceLineageTag: is_active
+		summarizeBy: none
+		sourceColumn: is_active
+
+		changedProperty = SummarizeBy
+
+		annotation SummarizationSetBy = User
+
+	column created_at
+		dataType: dateTime
+		formatString: General Date
+		sourceProviderType: datetime2
+		lineageTag: 873ffdf8-5dd1-4438-be7e-b7559611e9ce
+		sourceLineageTag: created_at
+		summarizeBy: none
+		sourceColumn: created_at
+
+		changedProperty = SummarizeBy
+
+		annotation SummarizationSetBy = User
+
+	column updated_at
+		dataType: dateTime
+		formatString: General Date
+		sourceProviderType: datetime2
+		lineageTag: 77fc0f4c-00fe-416a-b707-b11cd2196222
+		sourceLineageTag: updated_at
+		summarizeBy: none
+		sourceColumn: updated_at
+
+		changedProperty = SummarizeBy
+
+		annotation SummarizationSetBy = User
+
+	partition dim_lot_immobilier = entity
+		mode: directLake
+		source
+			entityName: dim_lot_immobilier
+			schemaName: gold
+			expressionSource: DatabaseQuery
+
+	annotation PBI_ResultType = Table
+

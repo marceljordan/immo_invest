@@ -1,0 +1,211 @@
+# Fichier : models/gold/schema_dimensions.yml
+#
+# Rôle :
+# - Déclarer les tests dbt sur les dimensions Gold.
+#
+# Actions réalisées :
+# - Vérifie que chaque clé technique de dimension est non nulle.
+# - Vérifie que chaque clé technique de dimension est unique.
+# - Vérifie certains champs métier obligatoires.
+# - Vérifie les valeurs autorisées pour la dimension statut.
+#
+# Objectif :
+# - Garantir que les dimensions Kimball sont propres avant de les utiliser
+#   dans les tables de faits.
+
+version: 2
+
+models:
+  - name: dim_date
+    description: "Dimension Date conforme du modèle Kimball."
+    columns:
+      - name: date_key
+        tests:
+          - not_null
+          - unique
+
+      - name: full_date
+        tests:
+          - not_null
+          - unique
+
+      - name: annee
+        tests:
+          - not_null
+
+      - name: mois
+        tests:
+          - not_null
+
+  - name: dim_agence_region
+    description: "Dimension Agence / Région."
+    columns:
+      - name: agence_region_key
+        tests:
+          - not_null
+          - unique
+
+      - name: agence_id
+        tests:
+          - not_null
+          - unique
+
+      - name: nom_agence
+        tests:
+          - not_null
+
+      - name: region_id
+        tests:
+          - not_null
+
+  - name: dim_conseiller
+    description: "Dimension Conseiller commercial."
+    columns:
+      - name: conseiller_key
+        tests:
+          - not_null
+          - unique
+
+      - name: conseiller_id
+        tests:
+          - not_null
+          - unique
+
+      - name: agence_region_key
+        tests:
+          - relationships:
+              to: ref('dim_agence_region')
+              field: agence_region_key
+
+  - name: dim_partenaire
+    description: "Dimension Partenaire professionnel du patrimoine."
+    columns:
+      - name: partenaire_key
+        tests:
+          - not_null
+          - unique
+
+      - name: partenaire_id
+        tests:
+          - not_null
+          - unique
+
+      - name: raison_sociale
+        tests:
+          - not_null
+
+  - name: dim_investisseur
+    description: "Dimension Investisseur."
+    columns:
+      - name: investisseur_key
+        tests:
+          - not_null
+          - unique
+
+      - name: investisseur_id
+        tests:
+          - not_null
+          - unique
+
+      - name: partenaire_key
+        tests:
+          - relationships:
+              to: ref('dim_partenaire')
+              field: partenaire_key
+
+      - name: conseiller_key
+        tests:
+          - relationships:
+              to: ref('dim_conseiller')
+              field: conseiller_key
+
+      - name: agence_region_key
+        tests:
+          - relationships:
+              to: ref('dim_agence_region')
+              field: agence_region_key
+
+  - name: dim_produit_investissement
+    description: "Dimension Produit d’investissement."
+    columns:
+      - name: produit_key
+        tests:
+          - not_null
+          - unique
+
+      - name: produit_id
+        tests:
+          - not_null
+          - unique
+
+      - name: famille_produit
+        tests:
+          - not_null
+
+      - name: type_produit
+        tests:
+          - not_null
+
+  - name: dim_programme_immobilier
+    description: "Dimension Programme immobilier."
+    columns:
+      - name: programme_key
+        tests:
+          - not_null
+          - unique
+
+      - name: programme_id
+        tests:
+          - not_null
+          - unique
+
+      - name: nom_programme
+        tests:
+          - not_null
+
+  - name: dim_lot_immobilier
+    description: "Dimension Lot immobilier."
+    columns:
+      - name: lot_key
+        tests:
+          - not_null
+          - unique
+
+      - name: lot_id
+        tests:
+          - not_null
+          - unique
+
+      - name: programme_key
+        tests:
+          - relationships:
+              to: ref('dim_programme_immobilier')
+              field: programme_key
+
+  - name: dim_statut
+    description: "Dimension transverse des statuts métier."
+    columns:
+      - name: statut_key
+        tests:
+          - not_null
+          - unique
+
+      - name: domaine_statut
+        tests:
+          - not_null
+          - accepted_values:
+              values:
+                - RESERVATION
+                - VENTE
+                - COMMISSION
+                - SOUSCRIPTION
+                - CROWDFUNDING
+                - FINANCEMENT
+                - GESTION_LOCATIVE
+                - REVENTE
+                - DOSSIER_ADV
+                - RECLAMATION
+
+      - name: statut_value
+        tests:
+          - not_null

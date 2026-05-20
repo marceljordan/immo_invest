@@ -1,0 +1,48 @@
+role RLS_conseillers
+	modelPermission: read
+
+	tablePermission dim_conseiller =
+			VAR CurrentUser =
+			    LOWER(USERPRINCIPALNAME())
+			
+			VAR UserAccess =
+			    FILTER(
+			        ALL(security_user_access),
+			        LOWER(security_user_access[user_email]) = CurrentUser
+			            && security_user_access[is_active] = TRUE()
+			    )
+			
+			VAR HasAllAccess =
+			    COUNTROWS(
+			        FILTER(UserAccess, security_user_access[access_level] = "ALL")
+			    ) > 0
+			
+			VAR HasADVAccess =
+			    COUNTROWS(
+			        FILTER(UserAccess, security_user_access[access_level] = "ADV")
+			    ) > 0
+			
+			RETURN
+			    HasAllAccess
+			    || HasADVAccess
+			    ||
+			    dim_conseiller[region_id]
+			        IN SELECTCOLUMNS(
+			            FILTER(UserAccess, NOT ISBLANK(security_user_access[region_id])),
+			            "region_id", security_user_access[region_id]
+			        )
+			    ||
+			    dim_conseiller[agence_id]
+			        IN SELECTCOLUMNS(
+			            FILTER(UserAccess, NOT ISBLANK(security_user_access[agence_id])),
+			            "agence_id", security_user_access[agence_id]
+			        )
+			    ||
+			    dim_conseiller[conseiller_id]
+			        IN SELECTCOLUMNS(
+			            FILTER(UserAccess, NOT ISBLANK(security_user_access[conseiller_id])),
+			            "conseiller_id", security_user_access[conseiller_id]
+			        )
+
+	annotation PBI_Id = fafad815f29e4db685a2b0cbf7d81d61
+

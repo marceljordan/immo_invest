@@ -1,0 +1,393 @@
+table dim_investisseur
+	lineageTag: 2c13826c-2a0a-4ae3-a468-57e8bd24bde1
+	sourceLineageTag: [gold].[dim_investisseur]
+
+	column investisseur_key
+		dataType: string
+		sourceProviderType: varchar(400)
+		lineageTag: 8b32f38a-773e-45ed-a556-fbad92028df2
+		sourceLineageTag: investisseur_key
+		summarizeBy: none
+		sourceColumn: investisseur_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column investisseur_id
+		dataType: string
+		sourceProviderType: varchar(50)
+		lineageTag: 31a71c8d-ec82-42ef-a17b-1fb1b81def1d
+		sourceLineageTag: investisseur_id
+		summarizeBy: none
+		sourceColumn: investisseur_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column prospect_id
+		dataType: string
+		sourceProviderType: varchar(50)
+		lineageTag: 3f2c56ff-e4ea-4f4a-865d-5335f79d370c
+		sourceLineageTag: prospect_id
+		summarizeBy: none
+		sourceColumn: prospect_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column civilite
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: 73661d18-655d-4706-ad10-f8e55d4cba38
+		sourceLineageTag: civilite
+		summarizeBy: none
+		sourceColumn: civilite
+
+		annotation SummarizationSetBy = Automatic
+
+	column nom
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: 1f47865c-37b5-4f95-ba41-7cbf9d38b61e
+		sourceLineageTag: nom
+		summarizeBy: none
+		sourceColumn: nom
+
+		annotation SummarizationSetBy = Automatic
+
+	column prenom
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: 67fabaa9-d346-4126-8305-05a153edd01d
+		sourceLineageTag: prenom
+		summarizeBy: none
+		sourceColumn: prenom
+
+		annotation SummarizationSetBy = Automatic
+
+	column nom_complet
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: d12825f4-19f4-43a2-aea6-ecc39c509505
+		sourceLineageTag: nom_complet
+		summarizeBy: none
+		sourceColumn: nom_complet
+
+		annotation SummarizationSetBy = Automatic
+
+	column email
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: 437fea74-0ac1-4d16-ae88-93ca2e214c3d
+		sourceLineageTag: email
+		summarizeBy: none
+		sourceColumn: email
+
+		annotation SummarizationSetBy = Automatic
+
+	column telephone
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: 0566ce44-4228-4784-95fc-5e3350b545e5
+		sourceLineageTag: telephone
+		summarizeBy: none
+		sourceColumn: telephone
+
+		annotation SummarizationSetBy = Automatic
+
+	column adresse
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: 1d2edbb0-f599-4305-a8fe-dd57669e7bc0
+		sourceLineageTag: adresse
+		summarizeBy: none
+		sourceColumn: adresse
+
+		annotation SummarizationSetBy = Automatic
+
+	column ville
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: a4333ff5-ca48-48d1-804b-6f503abb5b7c
+		sourceLineageTag: ville
+		summarizeBy: none
+		sourceColumn: ville
+
+		annotation SummarizationSetBy = Automatic
+
+	column code_postal
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: 8e4f9ad3-7c44-431e-baaf-00c4078363e5
+		sourceLineageTag: code_postal
+		summarizeBy: none
+		sourceColumn: code_postal
+
+		annotation SummarizationSetBy = Automatic
+
+	column pays
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: fb9aaf91-9454-4cdd-a899-254eb7b89f3a
+		sourceLineageTag: pays
+		summarizeBy: none
+		sourceColumn: pays
+
+		annotation SummarizationSetBy = Automatic
+
+	column profession
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: ae2ef21d-8d5b-4cd2-8971-67c24970189b
+		sourceLineageTag: profession
+		summarizeBy: none
+		sourceColumn: profession
+
+		annotation SummarizationSetBy = Automatic
+
+	column situation_familiale
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: 3d4f1c5c-fe33-4d7f-aed2-2eda6a6ab664
+		sourceLineageTag: situation_familiale
+		summarizeBy: none
+		sourceColumn: situation_familiale
+
+		annotation SummarizationSetBy = Automatic
+
+	column revenu_annuel
+		dataType: double
+		sourceProviderType: decimal(18, 2)
+		lineageTag: 469ab0d8-6784-4e98-ae0d-a8ec58308162
+		sourceLineageTag: revenu_annuel
+		summarizeBy: sum
+		sourceColumn: revenu_annuel
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column patrimoine_financier
+		dataType: double
+		sourceProviderType: decimal(18, 2)
+		lineageTag: 2578b20d-3a55-40fd-bf28-a3fb132273bd
+		sourceLineageTag: patrimoine_financier
+		summarizeBy: sum
+		sourceColumn: patrimoine_financier
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column patrimoine_immobilier
+		dataType: double
+		sourceProviderType: decimal(18, 2)
+		lineageTag: 9ed69815-5cfa-4cbd-9466-4d5b109aebee
+		sourceLineageTag: patrimoine_immobilier
+		summarizeBy: sum
+		sourceColumn: patrimoine_immobilier
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column profil_investisseur
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: f76008c3-9983-4f57-87df-a4464d562de9
+		sourceLineageTag: profil_investisseur
+		summarizeBy: none
+		sourceColumn: profil_investisseur
+
+		annotation SummarizationSetBy = Automatic
+
+	column objectif_principal
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: 36677471-aa9a-43af-9c32-91858a540115
+		sourceLineageTag: objectif_principal
+		summarizeBy: none
+		sourceColumn: objectif_principal
+
+		annotation SummarizationSetBy = Automatic
+
+	column horizon_placement
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: 3aadf996-7aeb-4896-86ac-c55d26b68ecc
+		sourceLineageTag: horizon_placement
+		summarizeBy: none
+		sourceColumn: horizon_placement
+
+		annotation SummarizationSetBy = Automatic
+
+	column niveau_experience
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: b53e242f-c66e-418b-b31c-20b473c040d8
+		sourceLineageTag: niveau_experience
+		summarizeBy: none
+		sourceColumn: niveau_experience
+
+		annotation SummarizationSetBy = Automatic
+
+	column statut_kyc
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: 1b6fe2a3-b173-45d4-9aed-11ca270dfbe6
+		sourceLineageTag: statut_kyc
+		summarizeBy: none
+		sourceColumn: statut_kyc
+
+		annotation SummarizationSetBy = Automatic
+
+	column statut_lcbft
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: eac8d667-2715-459c-849f-5bbceefcec7b
+		sourceLineageTag: statut_lcbft
+		summarizeBy: none
+		sourceColumn: statut_lcbft
+
+		annotation SummarizationSetBy = Automatic
+
+	column date_entree_relation
+		dataType: dateTime
+		formatString: General Date
+		sourceProviderType: date
+		lineageTag: bb53f765-bdab-4835-a62b-532133bf3663
+		sourceLineageTag: date_entree_relation
+		summarizeBy: none
+		sourceColumn: date_entree_relation
+
+		annotation SummarizationSetBy = Automatic
+
+	column partenaire_id
+		dataType: string
+		sourceProviderType: varchar(50)
+		lineageTag: 004695dc-b670-439b-ac7c-e41690c988d2
+		sourceLineageTag: partenaire_id
+		summarizeBy: none
+		sourceColumn: partenaire_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column partenaire_key
+		dataType: string
+		sourceProviderType: varchar(400)
+		lineageTag: f6de7563-86a6-459e-8737-14d4493b5a40
+		sourceLineageTag: partenaire_key
+		summarizeBy: none
+		sourceColumn: partenaire_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column conseiller_id
+		dataType: string
+		sourceProviderType: varchar(50)
+		lineageTag: 2fda7e78-1dc3-4bad-b3a1-9fc33e415b05
+		sourceLineageTag: conseiller_id
+		summarizeBy: none
+		sourceColumn: conseiller_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column conseiller_key
+		dataType: string
+		sourceProviderType: varchar(400)
+		lineageTag: 93003bc0-9463-4d7f-a699-9a3a80d7311a
+		sourceLineageTag: conseiller_key
+		summarizeBy: none
+		sourceColumn: conseiller_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column agence_id
+		dataType: string
+		sourceProviderType: varchar(50)
+		lineageTag: 304771b5-c310-46ea-b1ff-196037c31493
+		sourceLineageTag: agence_id
+		summarizeBy: none
+		sourceColumn: agence_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column agence_region_key
+		dataType: string
+		sourceProviderType: varchar(400)
+		lineageTag: 5d1b0a5d-5376-4648-9eba-94fec4e341a8
+		sourceLineageTag: agence_region_key
+		summarizeBy: none
+		sourceColumn: agence_region_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column statut_client
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: 18a3f107-3586-4c33-875f-c29583f1e9b0
+		sourceLineageTag: statut_client
+		summarizeBy: none
+		sourceColumn: statut_client
+
+		annotation SummarizationSetBy = Automatic
+
+	column date_creation
+		dataType: dateTime
+		formatString: General Date
+		sourceProviderType: datetime2
+		lineageTag: a304ede7-0353-46cc-bff0-d50e592345d6
+		sourceLineageTag: date_creation
+		summarizeBy: none
+		sourceColumn: date_creation
+
+		annotation SummarizationSetBy = Automatic
+
+	column created_by
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: f8a7e110-d800-440a-b40a-c791c998467e
+		sourceLineageTag: created_by
+		summarizeBy: none
+		sourceColumn: created_by
+
+		annotation SummarizationSetBy = Automatic
+
+	column last_update_date
+		dataType: dateTime
+		formatString: General Date
+		sourceProviderType: datetime2
+		lineageTag: 10b96a8f-833e-469b-bf1d-3f657a1a5629
+		sourceLineageTag: last_update_date
+		summarizeBy: none
+		sourceColumn: last_update_date
+
+		annotation SummarizationSetBy = Automatic
+
+	column last_updated_by
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: 57e91ce5-2e10-47bc-b63c-6f7870e7fd8f
+		sourceLineageTag: last_updated_by
+		summarizeBy: none
+		sourceColumn: last_updated_by
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_deleted
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		sourceProviderType: bit
+		lineageTag: dd3a2968-752f-4778-9fbb-6ad999a7e747
+		sourceLineageTag: is_deleted
+		summarizeBy: none
+		sourceColumn: is_deleted
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_investisseur = entity
+		mode: directLake
+		source
+			entityName: dim_investisseur
+			schemaName: gold
+			expressionSource: DatabaseQuery
+
+	annotation PBI_ResultType = Table
+

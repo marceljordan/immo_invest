@@ -1,0 +1,358 @@
+table 'Calculation group'
+	lineageTag: 2d6121f8-10f5-499e-a47e-c026a79f40db
+
+	calculationGroup
+
+		calculationItem 'Calculation item' = SELECTEDMEASURE()
+
+	measure 'CA Signé' =
+			
+			SUM(fact_vente[montant_total_operation])
+		lineageTag: 885a3495-ef9f-460d-84f6-d92e903d288f
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure Measure
+		lineageTag: 48a9da2a-57b2-4912-93e4-1e4faf6924f1
+
+		annotation 43dbc3e8-3a1c-4b6f-9923-b49ff7d6691c = True
+
+	measure 'Nb Ventes' =
+			
+			COUNTROWS(fact_vente)
+		formatString: 0
+		lineageTag: bb624904-0e2a-4beb-a3ca-c0892fcfbf71
+
+	measure 'Nb Réservations' =
+			
+			COUNTROWS(fact_reservation)
+		formatString: 0
+		lineageTag: ca8b6d2a-6f88-47ca-926b-cec6143f3b5d
+
+	measure 'Taux Réservation Vente' =
+			
+			DIVIDE([Nb Ventes], [Nb Réservations])
+		lineageTag: 58a99a83-ee91-4779-a95a-0ef45587e336
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Objectif CA' =
+			
+			SUM(fact_objectif_commercial[objectif_ca])
+		lineageTag: b5f887a1-bb93-4a3a-86bf-338589d23b31
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Taux Atteinte Objectif CA' =
+			
+			DIVIDE([CA Signé], [Objectif CA])
+		lineageTag: aa7fbb22-d1de-4557-aff5-47a54630063f
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'CA Moyen Vente' =
+			
+			DIVIDE([CA Signé], [Nb Ventes])
+		lineageTag: dd064345-250f-4e38-b521-95ea63eaa3a8
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Montant Réservé' =
+			
+			SUM(fact_reservation[prix_reserve])
+		lineageTag: 57221575-7138-4760-8da8-197ee084281c
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Montant Crédit' =
+			
+			SUM(fact_vente[montant_credit])
+		lineageTag: 3e577772-acf4-45b8-ae93-67a5655227bb
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Montant Apport' =
+			
+			SUM(fact_vente[montant_apport])
+		lineageTag: 60f34fed-8832-4508-9530-6832604f8efb
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Nb Programmes' =
+			
+			DISTINCTCOUNT(dim_programme_immobilier[programme_key])
+		formatString: 0
+		lineageTag: 91b7d34d-de9f-405e-a5e5-2c9fef41e9dc
+
+	measure 'Nb Lots Disponibles' =
+			
+			SUM(dim_programme_immobilier[nombre_lots_disponibles])
+		formatString: 0
+		lineageTag: cb5cb8d2-3769-4ce7-9100-37c548049453
+
+	measure 'Prix Moyen m2' =
+			
+			AVERAGE(dim_programme_immobilier[prix_moyen_m2])
+		lineageTag: c902abe4-b76b-4597-a007-ea112a8b8e49
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Rentabilité Cible Moyenne' =
+			
+			AVERAGE(dim_programme_immobilier[rentabilite_cible])
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		lineageTag: a6034350-0b87-48c8-b49e-5a95ef7c168b
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	measure 'Nb Lots' =
+			
+			DISTINCTCOUNT(dim_lot_immobilier[lot_key])
+		formatString: 0
+		lineageTag: 7c93916c-1bae-4ff9-9080-19c234f5323d
+
+	measure 'Prix Final Moyen Lot' =
+			
+			AVERAGE(dim_lot_immobilier[prix_final])
+		lineageTag: 4a46ca7c-302a-46a1-820a-cff9c35b468f
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Rentabilité Brute Estimée Moyenne' =
+			
+			AVERAGE(dim_lot_immobilier[rentabilite_brute_estimee])
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		lineageTag: fc83001d-57ca-4640-a122-bb7fd94e8a71
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	measure 'Surface Moyenne' =
+			
+			AVERAGE(dim_lot_immobilier[surface_m2])
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		lineageTag: c3464683-6e76-4eac-b7a8-92e48dd19d39
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	measure 'Nb Investisseurs' =
+			
+			DISTINCTCOUNT(dim_investisseur[investisseur_key])
+		formatString: 0
+		lineageTag: af0da8a7-cbc9-41a1-ba00-046ce4968bac
+
+	measure 'Patrimoine Financier Moyen' =
+			
+			AVERAGE(dim_investisseur[patrimoine_financier])
+		lineageTag: fef14951-50f3-4c0f-9ebe-c86032c18011
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Patrimoine Immobilier Moyen' =
+			
+			AVERAGE(dim_investisseur[patrimoine_immobilier])
+		lineageTag: f8c3c83e-e750-49fb-a4a5-3890b138847f
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Revenu Annuel Moyen' =
+			
+			AVERAGE(dim_investisseur[revenu_annuel])
+		lineageTag: dcee22a5-fe24-49a9-aba7-613097346ea3
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Commission Brute' =
+			
+			SUM(fact_commission[montant_commission_brut])
+		lineageTag: f9f51f55-370a-48a8-a5b0-928ac974a7a5
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Commission Nette' =
+			
+			SUM(fact_commission[montant_commission_net])
+		lineageTag: 719a755b-fcfb-4dc3-b730-f29b453b1771
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Part Commission Partenaire' =
+			
+			SUM(fact_commission[part_commission_partenaire])
+		lineageTag: 5a9b158f-fda8-4cdf-b1e0-01c5b0d70952
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Part Commission Interne' =
+			
+			SUM(fact_commission[part_commission_interne])
+		lineageTag: 6db00012-4716-41dd-8f69-db0bc3fdf147
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Taux Commission Moyen' =
+			
+			AVERAGE(fact_commission[taux_commission])
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		lineageTag: a4a89a8f-5e46-4824-9c46-305341136e43
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	measure 'Nb Dossiers ADV' =
+			
+			COUNTROWS(fact_dossier_adv)
+		formatString: 0
+		lineageTag: 2aa2ccf4-9306-446c-897f-5b900d4b70ea
+
+	measure 'Nb Dossiers Pièces Manquantes' =
+			
+			CALCULATE(
+			    COUNTROWS(fact_dossier_adv),
+			    fact_dossier_adv[pieces_manquantes] = TRUE()
+			)
+		formatString: 0
+		lineageTag: 9aa929ad-f431-4d2e-8cb0-9250f550fd45
+
+	measure 'Nb Dossiers Bloqués' =
+			
+			CALCULATE(
+			    COUNTROWS(fact_dossier_adv),
+			    fact_dossier_adv[blocage_adv] = TRUE()
+			)
+		formatString: 0
+		lineageTag: fa9039a0-49b3-47fe-9ef4-0327064d9b09
+
+	measure 'Délai Moyen Traitement ADV' =
+			
+			AVERAGE(fact_dossier_adv[delai_traitement_jours])
+		lineageTag: a485e4ce-9768-4e12-8eb5-7965e0c9dbae
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Montant Financement Demandé' =
+			
+			SUM(fact_financement[montant_demande])
+		lineageTag: 21b66e4b-d396-4e13-bda0-99b0aa8d86a5
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Montant Financement Accordé' =
+			
+			SUM(fact_financement[montant_accorde])
+		lineageTag: b1752446-bf1d-4ab2-97e0-f19664d70f5a
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Taux Crédit Moyen' =
+			
+			AVERAGE(fact_financement[taux_credit])
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		lineageTag: 9297f962-127f-4d70-a424-45e49db95abc
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	measure 'Taux Occupation Moyen' =
+			
+			AVERAGE(fact_gestion_locative[taux_occupation])
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		lineageTag: 9e70c93f-8571-40bb-840c-6a0771085e05
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	measure 'Montant Impayés' =
+			
+			SUM(fact_gestion_locative[montant_impayes])
+		lineageTag: 9f8844c9-ed87-4a76-81ba-7b90c8df8b67
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Ventes Sans Date Acte' =
+			
+			CALCULATE(
+			    COUNTROWS(fact_vente),
+			    ISBLANK(fact_vente[date_signature_acte_key])
+			)
+		formatString: 0
+		lineageTag: e14ab785-d4cc-43b5-8e8c-033d2a9e5cfc
+
+	measure 'Ventes Sans Investisseur' =
+			
+			CALCULATE(
+			    COUNTROWS(fact_vente),
+			    ISBLANK(fact_vente[investisseur_key])
+			)
+		formatString: 0
+		lineageTag: 289799b2-fccb-4ede-91ef-c082fe2373cd
+
+	measure 'Réservations Sans Lot' =
+			
+			CALCULATE(
+			    COUNTROWS(fact_reservation),
+			    ISBLANK(fact_reservation[lot_key])
+			)
+		formatString: 0
+		lineageTag: 168e5dd7-4c3c-4c23-bdab-6ef093d83ccd
+
+	measure 'Commissions Bloquées' =
+			
+			CALCULATE(
+			    COUNTROWS(fact_commission),
+			    NOT ISBLANK(fact_commission[motif_blocage])
+			)
+		formatString: 0
+		lineageTag: c036242d-9fe0-499c-9516-6b16aacd5abe
+
+	measure 'Dossiers ADV Bloqués' =
+			
+			CALCULATE(
+			    COUNTROWS(fact_dossier_adv),
+			    fact_dossier_adv[blocage_adv] = TRUE()
+			)
+		formatString: 0
+		lineageTag: 95ba6e97-3aab-42b3-affb-fe11305c68ed
+
+	measure 'Dossiers Pièces Manquantes' =
+			
+			CALCULATE(
+			    COUNTROWS(fact_dossier_adv),
+			    fact_dossier_adv[pieces_manquantes] = TRUE()
+			)
+		formatString: 0
+		lineageTag: a1b4efe9-78f8-4c24-a917-543207ab0ea5
+
+	measure 'Financements Refusés' =
+			
+			CALCULATE(
+			    COUNTROWS(fact_financement),
+			    fact_financement[statut_financement] = "Refusé"
+			)
+		formatString: 0
+		lineageTag: f0866272-5566-4729-a713-6e812303f923
+
+	measure 'Lots Vendus Encore Disponibles' =
+			
+			CALCULATE(
+			    DISTINCTCOUNT(dim_lot_immobilier[lot_key]),
+			    dim_lot_immobilier[statut_lot] = "Disponible",
+			    NOT ISBLANK(dim_lot_immobilier[date_vente])
+			)
+		formatString: 0
+		lineageTag: 4c2efdf1-433a-406d-aa5f-0c6a7c0f5c51
+
+	column 'Calculation group column'
+		dataType: string
+		lineageTag: 24ea75f9-3fbc-4c94-95ab-1e37be7acb32
+		summarizeBy: none
+		sourceColumn: Name
+		sortByColumn: Ordinal
+
+		annotation SummarizationSetBy = Automatic
+
+	column Ordinal
+		dataType: int64
+		formatString: 0
+		lineageTag: de686005-f3d6-46f8-b040-8ae0c8b2483c
+		summarizeBy: sum
+		sourceColumn: Ordinal
+
+		annotation SummarizationSetBy = Automatic
+

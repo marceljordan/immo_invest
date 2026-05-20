@@ -1,0 +1,292 @@
+table dim_produit_investissement
+	lineageTag: 7f8a2395-19b0-4185-806e-bfdae47297f6
+	sourceLineageTag: [gold].[dim_produit_investissement]
+
+	column produit_key
+		dataType: string
+		sourceProviderType: varchar(400)
+		lineageTag: d78cbc7a-dbf9-4c38-8ec7-a0fd430f74c6
+		sourceLineageTag: produit_key
+		summarizeBy: none
+		sourceColumn: produit_key
+
+		changedProperty = SummarizeBy
+
+		annotation SummarizationSetBy = User
+
+	column produit_id
+		dataType: string
+		sourceProviderType: varchar(50)
+		lineageTag: c98eb9bf-4fd6-426f-a020-5386b84e532c
+		sourceLineageTag: produit_id
+		summarizeBy: none
+		sourceColumn: produit_id
+
+		changedProperty = SummarizeBy
+
+		annotation SummarizationSetBy = User
+
+	column nom_produit
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: 1170ad85-b07f-478f-9704-5148325dcee5
+		sourceLineageTag: nom_produit
+		summarizeBy: none
+		sourceColumn: nom_produit
+
+		changedProperty = SummarizeBy
+
+		annotation SummarizationSetBy = User
+
+	column famille_produit
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: 08f174cf-7aac-4d05-88ff-663fa8bac8f6
+		sourceLineageTag: famille_produit
+		summarizeBy: none
+		sourceColumn: famille_produit
+
+		changedProperty = SummarizeBy
+
+		annotation SummarizationSetBy = User
+
+	column type_produit
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: c462fd6d-2f53-4931-9c72-79b6b477f279
+		sourceLineageTag: type_produit
+		summarizeBy: none
+		sourceColumn: type_produit
+
+		annotation SummarizationSetBy = Automatic
+
+	column sous_type_produit
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: c9cf0d70-66a8-4aa0-8c5f-94a4051b689f
+		sourceLineageTag: sous_type_produit
+		summarizeBy: none
+		sourceColumn: sous_type_produit
+
+		changedProperty = SummarizeBy
+
+		annotation SummarizationSetBy = User
+
+	column fiscalite
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: aa2086ad-1a95-4427-96b1-227b9956c8b2
+		sourceLineageTag: fiscalite
+		summarizeBy: none
+		sourceColumn: fiscalite
+
+		changedProperty = SummarizeBy
+
+		annotation SummarizationSetBy = User
+
+	column niveau_risque
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: b2424044-8649-4d51-8e18-9a61210ababc
+		sourceLineageTag: niveau_risque
+		summarizeBy: none
+		sourceColumn: niveau_risque
+
+		changedProperty = SummarizeBy
+
+		annotation SummarizationSetBy = User
+
+	column duree_recommandee
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: e54cc577-4fa5-4ae7-8e05-c93ba19d3f63
+		sourceLineageTag: duree_recommandee
+		summarizeBy: none
+		sourceColumn: duree_recommandee
+
+		changedProperty = SummarizeBy
+
+		annotation SummarizationSetBy = User
+
+	column rendement_cible_annuel
+		dataType: decimal
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		sourceProviderType: decimal(9, 4)
+		lineageTag: 53562ff4-c31a-482b-bfeb-a070a123f370
+		sourceLineageTag: rendement_cible_annuel
+		summarizeBy: none
+		sourceColumn: rendement_cible_annuel
+
+		changedProperty = SummarizeBy
+
+		annotation SummarizationSetBy = User
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	column montant_minimum_investissement
+		dataType: double
+		sourceProviderType: decimal(18, 2)
+		lineageTag: 4673ddbd-3f14-4e55-ba0c-ebe6739f105f
+		sourceLineageTag: montant_minimum_investissement
+		summarizeBy: none
+		sourceColumn: montant_minimum_investissement
+
+		changedProperty = SummarizeBy
+
+		annotation SummarizationSetBy = User
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column frais_entree
+		dataType: decimal
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		sourceProviderType: decimal(9, 4)
+		lineageTag: 8ca5d475-f22e-4146-82bb-ae1937602a0f
+		sourceLineageTag: frais_entree
+		summarizeBy: none
+		sourceColumn: frais_entree
+
+		changedProperty = SummarizeBy
+
+		annotation SummarizationSetBy = User
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	column frais_gestion_annuels
+		dataType: decimal
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		sourceProviderType: decimal(9, 4)
+		lineageTag: ac40b680-74fe-405b-887c-6184dcde64b2
+		sourceLineageTag: frais_gestion_annuels
+		summarizeBy: none
+		sourceColumn: frais_gestion_annuels
+
+		changedProperty = SummarizeBy
+
+		annotation SummarizationSetBy = User
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	column frais_sortie
+		dataType: decimal
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		sourceProviderType: decimal(9, 4)
+		lineageTag: 7c70f74e-12b0-4316-98d0-58ee18252a6d
+		sourceLineageTag: frais_sortie
+		summarizeBy: none
+		sourceColumn: frais_sortie
+
+		changedProperty = SummarizeBy
+
+		annotation SummarizationSetBy = User
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	column societe_gestion_id
+		dataType: string
+		sourceProviderType: varchar(50)
+		lineageTag: 16bfe250-70e7-450d-af3f-0c133d2687fe
+		sourceLineageTag: societe_gestion_id
+		summarizeBy: none
+		sourceColumn: societe_gestion_id
+
+		changedProperty = SummarizeBy
+
+		annotation SummarizationSetBy = User
+
+	column promoteur_id
+		dataType: string
+		sourceProviderType: varchar(50)
+		lineageTag: 7399be00-22bf-4e27-8aff-c8a3b9f35d1d
+		sourceLineageTag: promoteur_id
+		summarizeBy: none
+		sourceColumn: promoteur_id
+
+		changedProperty = SummarizeBy
+
+		annotation SummarizationSetBy = User
+
+	column statut_commercialisation
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: dcb243e8-1cc0-446f-8fb8-446059bbc81f
+		sourceLineageTag: statut_commercialisation
+		summarizeBy: none
+		sourceColumn: statut_commercialisation
+
+		changedProperty = SummarizeBy
+
+		annotation SummarizationSetBy = User
+
+	column date_debut_commercialisation
+		dataType: dateTime
+		formatString: General Date
+		sourceProviderType: date
+		lineageTag: ce1c7faa-f099-43e1-ace9-828e941b408d
+		sourceLineageTag: date_debut_commercialisation
+		summarizeBy: none
+		sourceColumn: date_debut_commercialisation
+
+		changedProperty = SummarizeBy
+
+		annotation SummarizationSetBy = User
+
+	column date_fin_commercialisation
+		dataType: dateTime
+		formatString: General Date
+		sourceProviderType: date
+		lineageTag: b1865b63-c7af-4bfb-88f2-c71d0cc3bb03
+		sourceLineageTag: date_fin_commercialisation
+		summarizeBy: none
+		sourceColumn: date_fin_commercialisation
+
+		changedProperty = SummarizeBy
+
+		annotation SummarizationSetBy = User
+
+	column is_active
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		sourceProviderType: bit
+		lineageTag: cd91b3b2-b07d-49c7-813e-7b08b7856272
+		sourceLineageTag: is_active
+		summarizeBy: none
+		sourceColumn: is_active
+
+		changedProperty = SummarizeBy
+
+		annotation SummarizationSetBy = User
+
+	column created_at
+		dataType: dateTime
+		formatString: General Date
+		sourceProviderType: datetime2
+		lineageTag: 34203535-f2e6-4c69-9715-1674b7787ed5
+		sourceLineageTag: created_at
+		summarizeBy: none
+		sourceColumn: created_at
+
+		changedProperty = SummarizeBy
+
+		annotation SummarizationSetBy = User
+
+	column updated_at
+		dataType: dateTime
+		formatString: General Date
+		sourceProviderType: datetime2
+		lineageTag: ba81df63-13bb-4db8-960a-0152be5cea5a
+		sourceLineageTag: updated_at
+		summarizeBy: none
+		sourceColumn: updated_at
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_produit_investissement = entity
+		mode: directLake
+		source
+			entityName: dim_produit_investissement
+			schemaName: gold
+			expressionSource: DatabaseQuery
+
+	annotation PBI_ResultType = Table
+

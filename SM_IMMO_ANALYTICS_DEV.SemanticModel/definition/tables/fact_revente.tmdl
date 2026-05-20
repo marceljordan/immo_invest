@@ -1,0 +1,315 @@
+table fact_revente
+	lineageTag: 127f955f-a888-49b6-8f0c-35495f2ea09a
+	sourceLineageTag: [gold].[fact_revente]
+
+	column revente_key
+		dataType: string
+		sourceProviderType: varchar(400)
+		lineageTag: c60ad0ef-cf09-44c8-98bb-b35d880e80f4
+		sourceLineageTag: revente_key
+		summarizeBy: none
+		sourceColumn: revente_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column revente_id
+		dataType: string
+		sourceProviderType: varchar(50)
+		lineageTag: 59085e79-650e-4377-bba4-264d602991e7
+		sourceLineageTag: revente_id
+		summarizeBy: none
+		sourceColumn: revente_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column vente_id
+		dataType: string
+		sourceProviderType: varchar(50)
+		lineageTag: d6ba5354-2336-4742-87f3-054dd37dc09f
+		sourceLineageTag: vente_id
+		summarizeBy: none
+		sourceColumn: vente_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column date_demande_revente_key
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: d33cf538-7b1c-4002-805c-d36bf9e349c3
+		sourceLineageTag: date_demande_revente_key
+		summarizeBy: none
+		sourceColumn: date_demande_revente_key
+
+		changedProperty = SummarizeBy
+
+		annotation SummarizationSetBy = User
+
+	column date_mise_en_marche_key
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: 379de0e2-11f6-4245-b2d1-3008efe25933
+		sourceLineageTag: date_mise_en_marche_key
+		summarizeBy: none
+		sourceColumn: date_mise_en_marche_key
+
+		changedProperty = SummarizeBy
+
+		annotation SummarizationSetBy = User
+
+	column date_revente_key
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: 44080f85-f8eb-4e1d-a27e-5d03106b92b9
+		sourceLineageTag: date_revente_key
+		summarizeBy: none
+		sourceColumn: date_revente_key
+
+		changedProperty = SummarizeBy
+
+		annotation SummarizationSetBy = User
+
+	column investisseur_key
+		dataType: string
+		sourceProviderType: varchar(400)
+		lineageTag: 4b2fd545-8b10-491a-afe0-c2fef4b96f35
+		sourceLineageTag: investisseur_key
+		summarizeBy: none
+		sourceColumn: investisseur_key
+
+		changedProperty = SummarizeBy
+
+		annotation SummarizationSetBy = User
+
+	column programme_key
+		dataType: string
+		sourceProviderType: varchar(400)
+		lineageTag: b9ce449a-1a30-4ea9-a27a-9ac7dc3567e8
+		sourceLineageTag: programme_key
+		summarizeBy: none
+		sourceColumn: programme_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column lot_key
+		dataType: string
+		sourceProviderType: varchar(400)
+		lineageTag: 7f1b760c-66a2-402e-8ea1-482c21ae9915
+		sourceLineageTag: lot_key
+		summarizeBy: none
+		sourceColumn: lot_key
+
+		changedProperty = SummarizeBy
+
+		annotation SummarizationSetBy = User
+
+	column statut_key
+		dataType: string
+		sourceProviderType: varchar(400)
+		lineageTag: d25480cc-bf45-41bf-9251-d7c1cf7e6973
+		sourceLineageTag: statut_key
+		summarizeBy: none
+		sourceColumn: statut_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column investisseur_id
+		dataType: string
+		sourceProviderType: varchar(50)
+		lineageTag: 57c57319-0f08-48c4-9bc4-63a15f415e7b
+		sourceLineageTag: investisseur_id
+		summarizeBy: none
+		sourceColumn: investisseur_id
+
+		changedProperty = SummarizeBy
+
+		annotation SummarizationSetBy = User
+
+	column programme_id
+		dataType: string
+		sourceProviderType: varchar(50)
+		lineageTag: 42d7b59c-c8c5-4a8d-a1d1-7c59a126a688
+		sourceLineageTag: programme_id
+		summarizeBy: none
+		sourceColumn: programme_id
+
+		changedProperty = SummarizeBy
+
+		annotation SummarizationSetBy = User
+
+	column lot_id
+		dataType: string
+		sourceProviderType: varchar(50)
+		lineageTag: 880fe65a-f5b3-48e4-8c05-c8d48437b42c
+		sourceLineageTag: lot_id
+		summarizeBy: none
+		sourceColumn: lot_id
+
+		changedProperty = SummarizeBy
+
+		annotation SummarizationSetBy = User
+
+	column conseiller_revente_id
+		dataType: string
+		sourceProviderType: varchar(50)
+		lineageTag: 86655867-85cc-4652-8f13-8b0bc6a92d48
+		sourceLineageTag: conseiller_revente_id
+		summarizeBy: none
+		sourceColumn: conseiller_revente_id
+
+		changedProperty = SummarizeBy
+
+		annotation SummarizationSetBy = User
+
+	column prix_achat_initial
+		dataType: double
+		sourceProviderType: decimal(18, 2)
+		lineageTag: eccd803b-265e-4b57-a7fb-41c53b259c6b
+		sourceLineageTag: prix_achat_initial
+		summarizeBy: none
+		sourceColumn: prix_achat_initial
+
+		changedProperty = SummarizeBy
+
+		annotation SummarizationSetBy = User
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column prix_revente_estime
+		dataType: double
+		sourceProviderType: decimal(18, 2)
+		lineageTag: 7f35afcb-3f28-4cc3-bafe-a283fca7d75f
+		sourceLineageTag: prix_revente_estime
+		summarizeBy: none
+		sourceColumn: prix_revente_estime
+
+		changedProperty = SummarizeBy
+
+		annotation SummarizationSetBy = User
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column prix_revente_final
+		dataType: double
+		sourceProviderType: decimal(18, 2)
+		lineageTag: 7086f3e5-e3ac-434f-a0dd-ca191f237ace
+		sourceLineageTag: prix_revente_final
+		summarizeBy: none
+		sourceColumn: prix_revente_final
+
+		changedProperty = SummarizeBy
+
+		annotation SummarizationSetBy = User
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column plus_value_brute
+		dataType: double
+		sourceProviderType: decimal(18, 2)
+		lineageTag: 8cb9b5b3-9e81-44fd-a98e-bad68ca85e02
+		sourceLineageTag: plus_value_brute
+		summarizeBy: none
+		sourceColumn: plus_value_brute
+
+		changedProperty = SummarizeBy
+
+		annotation SummarizationSetBy = User
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column plus_value_nette
+		dataType: double
+		sourceProviderType: decimal(18, 2)
+		lineageTag: 9f27a95b-a5b7-466f-a82d-d321d10eaa10
+		sourceLineageTag: plus_value_nette
+		summarizeBy: none
+		sourceColumn: plus_value_nette
+
+		changedProperty = SummarizeBy
+
+		annotation SummarizationSetBy = User
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column nombre_visites
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: 3abacf3a-7925-485f-b139-577ebd2453d0
+		sourceLineageTag: nombre_visites
+		summarizeBy: none
+		sourceColumn: nombre_visites
+
+		changedProperty = SummarizeBy
+
+		annotation SummarizationSetBy = User
+
+	column statut_revente
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: 186bee09-c96d-4960-9822-7f315f68ae01
+		sourceLineageTag: statut_revente
+		summarizeBy: none
+		sourceColumn: statut_revente
+
+		annotation SummarizationSetBy = Automatic
+
+	column motif_revente
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: 5b6e44b7-793b-4a2b-a45b-b24b7ef32da7
+		sourceLineageTag: motif_revente
+		summarizeBy: none
+		sourceColumn: motif_revente
+
+		changedProperty = SummarizeBy
+
+		annotation SummarizationSetBy = User
+
+	column mandat_revente
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: eb0d85b2-b6f0-417f-9bc8-da9982b942f0
+		sourceLineageTag: mandat_revente
+		summarizeBy: none
+		sourceColumn: mandat_revente
+
+		changedProperty = SummarizeBy
+
+		annotation SummarizationSetBy = User
+
+	column created_at
+		dataType: dateTime
+		formatString: General Date
+		sourceProviderType: datetime2
+		lineageTag: 73a44e0c-1476-4a4b-b276-bf62f7104630
+		sourceLineageTag: created_at
+		summarizeBy: none
+		sourceColumn: created_at
+
+		changedProperty = SummarizeBy
+
+		annotation SummarizationSetBy = User
+
+	column updated_at
+		dataType: dateTime
+		formatString: General Date
+		sourceProviderType: datetime2
+		lineageTag: 0f92670f-7091-4fba-a7ed-e2d85a1d3f28
+		sourceLineageTag: updated_at
+		summarizeBy: none
+		sourceColumn: updated_at
+
+		annotation SummarizationSetBy = Automatic
+
+	partition fact_revente = entity
+		mode: directLake
+		source
+			entityName: fact_revente
+			schemaName: gold
+			expressionSource: DatabaseQuery
+
+	annotation PBI_ResultType = Table
+

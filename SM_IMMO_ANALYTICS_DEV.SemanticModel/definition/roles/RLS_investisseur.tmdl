@@ -1,0 +1,50 @@
+role RLS_investisseur
+	modelPermission: read
+
+	tablePermission dim_conseiller
+
+	tablePermission dim_investisseur =
+			VAR CurrentUser =
+			    LOWER(USERPRINCIPALNAME())
+			
+			VAR UserAccess =
+			    FILTER(
+			        ALL(security_user_access),
+			        LOWER(security_user_access[user_email]) = CurrentUser
+			            && security_user_access[is_active] = TRUE()
+			    )
+			
+			VAR HasAllAccess =
+			    COUNTROWS(
+			        FILTER(UserAccess, security_user_access[access_level] = "ALL")
+			    ) > 0
+			
+			VAR HasADVAccess =
+			    COUNTROWS(
+			        FILTER(UserAccess, security_user_access[access_level] = "ADV")
+			    ) > 0
+			
+			RETURN
+			    HasAllAccess
+			    || HasADVAccess
+			    ||
+			    dim_investisseur[agence_id]
+			        IN SELECTCOLUMNS(
+			            FILTER(UserAccess, NOT ISBLANK(security_user_access[agence_id])),
+			            "agence_id", security_user_access[agence_id]
+			        )
+			    ||
+			    dim_investisseur[conseiller_id]
+			        IN SELECTCOLUMNS(
+			            FILTER(UserAccess, NOT ISBLANK(security_user_access[conseiller_id])),
+			            "conseiller_id", security_user_access[conseiller_id]
+			        )
+			    ||
+			    dim_investisseur[partenaire_id]
+			        IN SELECTCOLUMNS(
+			            FILTER(UserAccess, NOT ISBLANK(security_user_access[partenaire_id])),
+			            "partenaire_id", security_user_access[partenaire_id]
+			        )
+
+	annotation PBI_Id = 26af4e81043441a2b4a236a1e922cb9e
+

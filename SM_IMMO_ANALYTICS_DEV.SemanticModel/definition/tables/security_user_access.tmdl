@@ -1,0 +1,212 @@
+table security_user_access
+	lineageTag: 174ba28c-e55d-4947-84b9-e2665b28cca5
+	sourceLineageTag: [gold].[security_user_access]
+
+	column security_access_key
+		dataType: string
+		sourceProviderType: varchar(400)
+		lineageTag: ba453044-55f9-42fe-8740-2f1d0244f9b5
+		sourceLineageTag: security_access_key
+		summarizeBy: none
+		sourceColumn: security_access_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column user_access_id
+		dataType: string
+		sourceProviderType: varchar(50)
+		lineageTag: ab8b0d8d-e951-489e-8c40-1c26b15abdd7
+		sourceLineageTag: user_access_id
+		summarizeBy: none
+		sourceColumn: user_access_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column user_email
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: a350edc1-02ab-410b-b6c6-81de1fa1beb0
+		sourceLineageTag: user_email
+		summarizeBy: none
+		sourceColumn: user_email
+
+		annotation SummarizationSetBy = Automatic
+
+	column user_name
+		dataType: string
+		sourceProviderType: varchar(255)
+		lineageTag: 67ae8426-79fc-4a6a-ae12-c276603d2ca5
+		sourceLineageTag: user_name
+		summarizeBy: none
+		sourceColumn: user_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column role_metier
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: 74ac699e-19b6-4c1b-8152-46121712b2b9
+		sourceLineageTag: role_metier
+		summarizeBy: none
+		sourceColumn: role_metier
+
+		annotation SummarizationSetBy = Automatic
+
+	column access_level
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: e6f881e6-d4ec-4bb0-a15d-7e8f2308b98f
+		sourceLineageTag: access_level
+		summarizeBy: none
+		sourceColumn: access_level
+
+		annotation SummarizationSetBy = Automatic
+
+	column region_id
+		dataType: string
+		sourceProviderType: varchar(50)
+		lineageTag: c24e5f45-f9bf-439f-ac6b-f88a7ebc6514
+		sourceLineageTag: region_id
+		summarizeBy: none
+		sourceColumn: region_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column agence_id
+		dataType: string
+		sourceProviderType: varchar(50)
+		lineageTag: a20af65c-b7f9-4bc8-a040-efbd6028b8c3
+		sourceLineageTag: agence_id
+		summarizeBy: none
+		sourceColumn: agence_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column conseiller_id
+		dataType: string
+		sourceProviderType: varchar(50)
+		lineageTag: be09fc94-3122-4bbc-87bb-7ab390dc9bee
+		sourceLineageTag: conseiller_id
+		summarizeBy: none
+		sourceColumn: conseiller_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column partenaire_id
+		dataType: string
+		sourceProviderType: varchar(50)
+		lineageTag: d95dd24b-667a-42dc-b575-19aee7a8632f
+		sourceLineageTag: partenaire_id
+		summarizeBy: none
+		sourceColumn: partenaire_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column can_view_commissions
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		sourceProviderType: bit
+		lineageTag: 611594ed-794d-429e-8326-5bb6bd21bd2a
+		sourceLineageTag: can_view_commissions
+		summarizeBy: none
+		sourceColumn: can_view_commissions
+
+		annotation SummarizationSetBy = Automatic
+
+	column can_view_margin
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		sourceProviderType: bit
+		lineageTag: e70fface-2a1d-4153-bce6-f6d6c63c416d
+		sourceLineageTag: can_view_margin
+		summarizeBy: none
+		sourceColumn: can_view_margin
+
+		annotation SummarizationSetBy = Automatic
+
+	column can_view_personal_data
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		sourceProviderType: bit
+		lineageTag: a0c42d88-4f9e-4968-bd07-20e604fbbc43
+		sourceLineageTag: can_view_personal_data
+		summarizeBy: none
+		sourceColumn: can_view_personal_data
+
+		annotation SummarizationSetBy = Automatic
+
+	column can_export_data
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		sourceProviderType: bit
+		lineageTag: a54dfdc8-ef23-44e9-beee-9968224396f2
+		sourceLineageTag: can_export_data
+		summarizeBy: none
+		sourceColumn: can_export_data
+
+		annotation SummarizationSetBy = Automatic
+
+	column start_date
+		dataType: dateTime
+		formatString: General Date
+		sourceProviderType: date
+		lineageTag: 459c8d7f-8e86-409b-b562-dc752b08a051
+		sourceLineageTag: start_date
+		summarizeBy: none
+		sourceColumn: start_date
+
+		annotation SummarizationSetBy = Automatic
+
+	column end_date
+		dataType: dateTime
+		formatString: General Date
+		sourceProviderType: date
+		lineageTag: 115b1234-291c-4e3e-ad18-e7a9c8bafb9c
+		sourceLineageTag: end_date
+		summarizeBy: none
+		sourceColumn: end_date
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_active
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		sourceProviderType: bit
+		lineageTag: 6385154f-e53e-4feb-9598-23ed4d735dcf
+		sourceLineageTag: is_active
+		summarizeBy: none
+		sourceColumn: is_active
+
+		annotation SummarizationSetBy = Automatic
+
+	column created_at
+		dataType: dateTime
+		formatString: General Date
+		sourceProviderType: datetime2
+		lineageTag: 36a760d2-d916-4148-9d2d-3e02c732c9d0
+		sourceLineageTag: created_at
+		summarizeBy: none
+		sourceColumn: created_at
+
+		annotation SummarizationSetBy = Automatic
+
+	column updated_at
+		dataType: dateTime
+		formatString: General Date
+		sourceProviderType: datetime2
+		lineageTag: f8c419fb-5073-4315-8ee3-36da85f9500a
+		sourceLineageTag: updated_at
+		summarizeBy: none
+		sourceColumn: updated_at
+
+		annotation SummarizationSetBy = Automatic
+
+	partition security_user_access = entity
+		mode: directLake
+		source
+			entityName: security_user_access
+			schemaName: gold
+			expressionSource: DatabaseQuery
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,338 @@
+table fact_dossier_adv
+	lineageTag: 62fdd2b9-7dc5-44d9-b535-c6bd72303adc
+	sourceLineageTag: [gold].[fact_dossier_adv]
+
+	column dossier_adv_key
+		dataType: string
+		sourceProviderType: varchar(400)
+		lineageTag: b5e22415-67be-4504-acb8-8075e83bcb7e
+		sourceLineageTag: dossier_adv_key
+		summarizeBy: none
+		sourceColumn: dossier_adv_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column dossier_adv_id
+		dataType: string
+		sourceProviderType: varchar(50)
+		lineageTag: f1b9fb5c-42d1-4168-b156-e262888078b5
+		sourceLineageTag: dossier_adv_id
+		summarizeBy: none
+		sourceColumn: dossier_adv_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column vente_id
+		dataType: string
+		sourceProviderType: varchar(50)
+		lineageTag: aaa2c1fe-f32b-4f29-859e-3098b0a74acb
+		sourceLineageTag: vente_id
+		summarizeBy: none
+		sourceColumn: vente_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column reservation_id
+		dataType: string
+		sourceProviderType: varchar(50)
+		lineageTag: ee55bf17-9ac0-475c-a24e-0ac84b293ff4
+		sourceLineageTag: reservation_id
+		summarizeBy: none
+		sourceColumn: reservation_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column date_ouverture_dossier_key
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: 609bc954-afe2-4305-a0ac-6bcd70e84b83
+		sourceLineageTag: date_ouverture_dossier_key
+		summarizeBy: none
+		sourceColumn: date_ouverture_dossier_key
+
+		changedProperty = SummarizeBy
+
+		annotation SummarizationSetBy = User
+
+	column date_reception_pieces_key
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: 8cb5aafd-9060-4de5-ab8d-c17ad41bf9ff
+		sourceLineageTag: date_reception_pieces_key
+		summarizeBy: none
+		sourceColumn: date_reception_pieces_key
+
+		changedProperty = SummarizeBy
+
+		annotation SummarizationSetBy = User
+
+	column date_validation_dossier_key
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: d42a9c48-a5ee-4f16-80ff-1ce37258e39a
+		sourceLineageTag: date_validation_dossier_key
+		summarizeBy: none
+		sourceColumn: date_validation_dossier_key
+
+		changedProperty = SummarizeBy
+
+		annotation SummarizationSetBy = User
+
+	column date_envoi_notaire_key
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: 02c29535-dcd0-44d6-83f5-6bd300c03738
+		sourceLineageTag: date_envoi_notaire_key
+		summarizeBy: none
+		sourceColumn: date_envoi_notaire_key
+
+		changedProperty = SummarizeBy
+
+		annotation SummarizationSetBy = User
+
+	column date_signature_acte_key
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: 6291af18-beae-4bda-ad59-61d21c13b97a
+		sourceLineageTag: date_signature_acte_key
+		summarizeBy: none
+		sourceColumn: date_signature_acte_key
+
+		changedProperty = SummarizeBy
+
+		annotation SummarizationSetBy = User
+
+	column investisseur_key
+		dataType: string
+		sourceProviderType: varchar(400)
+		lineageTag: 6ad01f88-0714-4476-990b-bba41b8fd5d8
+		sourceLineageTag: investisseur_key
+		summarizeBy: none
+		sourceColumn: investisseur_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column partenaire_key
+		dataType: string
+		sourceProviderType: varchar(400)
+		lineageTag: 5a27c632-4812-4f39-8b6c-d250dbfa3844
+		sourceLineageTag: partenaire_key
+		summarizeBy: none
+		sourceColumn: partenaire_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column conseiller_key
+		dataType: string
+		sourceProviderType: varchar(400)
+		lineageTag: 77fb313b-20bd-4ea5-85ef-a1ef9e6e19ce
+		sourceLineageTag: conseiller_key
+		summarizeBy: none
+		sourceColumn: conseiller_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column programme_key
+		dataType: string
+		sourceProviderType: varchar(400)
+		lineageTag: 50ff2d5f-d781-40de-aca7-2a563eaf2683
+		sourceLineageTag: programme_key
+		summarizeBy: none
+		sourceColumn: programme_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column lot_key
+		dataType: string
+		sourceProviderType: varchar(400)
+		lineageTag: 61527543-439d-4978-9e37-d4d229aa1f5b
+		sourceLineageTag: lot_key
+		summarizeBy: none
+		sourceColumn: lot_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column statut_key
+		dataType: string
+		sourceProviderType: varchar(400)
+		lineageTag: 1007740a-1999-4a65-b07f-50e96f51099d
+		sourceLineageTag: statut_key
+		summarizeBy: none
+		sourceColumn: statut_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column investisseur_id
+		dataType: string
+		sourceProviderType: varchar(50)
+		lineageTag: e8e14458-2d22-4f0b-98a7-78189f0892f3
+		sourceLineageTag: investisseur_id
+		summarizeBy: none
+		sourceColumn: investisseur_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column partenaire_id
+		dataType: string
+		sourceProviderType: varchar(50)
+		lineageTag: a800fe91-6961-4248-9eb6-9b149d235024
+		sourceLineageTag: partenaire_id
+		summarizeBy: none
+		sourceColumn: partenaire_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column conseiller_id
+		dataType: string
+		sourceProviderType: varchar(50)
+		lineageTag: 905671af-c3d7-47d4-9422-1be894257b53
+		sourceLineageTag: conseiller_id
+		summarizeBy: none
+		sourceColumn: conseiller_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column programme_id
+		dataType: string
+		sourceProviderType: varchar(50)
+		lineageTag: 1e4912bf-b769-4150-9100-266cc5956d8a
+		sourceLineageTag: programme_id
+		summarizeBy: none
+		sourceColumn: programme_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column lot_id
+		dataType: string
+		sourceProviderType: varchar(50)
+		lineageTag: f5e902e9-3033-4dd5-bc4d-4e58f8fb3236
+		sourceLineageTag: lot_id
+		summarizeBy: none
+		sourceColumn: lot_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column responsable_adv_id
+		dataType: string
+		sourceProviderType: varchar(50)
+		lineageTag: 812452d4-694b-4465-b68c-f00b7cfc92fb
+		sourceLineageTag: responsable_adv_id
+		summarizeBy: none
+		sourceColumn: responsable_adv_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column statut_dossier
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: db7e2dd7-8867-4ff0-9cf1-b04a7a35dbd8
+		sourceLineageTag: statut_dossier
+		summarizeBy: none
+		sourceColumn: statut_dossier
+
+		annotation SummarizationSetBy = Automatic
+
+	column delai_traitement_jours
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: 734a6a0f-24bf-4b54-9dc9-59eab8b803ef
+		sourceLineageTag: delai_traitement_jours
+		summarizeBy: none
+		sourceColumn: delai_traitement_jours
+
+		changedProperty = SummarizeBy
+
+		annotation SummarizationSetBy = User
+
+	column pieces_manquantes
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		sourceProviderType: bit
+		lineageTag: d5a55d08-e995-41ee-84e0-26ff3173e246
+		sourceLineageTag: pieces_manquantes
+		summarizeBy: none
+		sourceColumn: pieces_manquantes
+
+		annotation SummarizationSetBy = Automatic
+
+	column nombre_relances
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: 2fcff31d-60f8-49c6-90b2-4a1675dad31a
+		sourceLineageTag: nombre_relances
+		summarizeBy: none
+		sourceColumn: nombre_relances
+
+		changedProperty = SummarizeBy
+
+		annotation SummarizationSetBy = User
+
+	column blocage_adv
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		sourceProviderType: bit
+		lineageTag: f359daf3-e69e-482c-bc8b-8f54fd65c9be
+		sourceLineageTag: blocage_adv
+		summarizeBy: none
+		sourceColumn: blocage_adv
+
+		annotation SummarizationSetBy = Automatic
+
+	column motif_blocage
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: 087e7ceb-3c9a-48bd-bdb8-951c67b90217
+		sourceLineageTag: motif_blocage
+		summarizeBy: none
+		sourceColumn: motif_blocage
+
+		annotation SummarizationSetBy = Automatic
+
+	column commentaire_adv
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: 3bd6e72a-ed97-42eb-9fb8-b4ede3a630f7
+		sourceLineageTag: commentaire_adv
+		summarizeBy: none
+		sourceColumn: commentaire_adv
+
+		annotation SummarizationSetBy = Automatic
+
+	column created_at
+		dataType: dateTime
+		formatString: General Date
+		sourceProviderType: datetime2
+		lineageTag: b042e74d-27e9-482b-a61d-25ed202d000d
+		sourceLineageTag: created_at
+		summarizeBy: none
+		sourceColumn: created_at
+
+		annotation SummarizationSetBy = Automatic
+
+	column updated_at
+		dataType: dateTime
+		formatString: General Date
+		sourceProviderType: datetime2
+		lineageTag: 1cbdf6a9-ffd4-45f1-85bd-3a19d06347e5
+		sourceLineageTag: updated_at
+		summarizeBy: none
+		sourceColumn: updated_at
+
+		annotation SummarizationSetBy = Automatic
+
+	partition fact_dossier_adv = entity
+		mode: directLake
+		source
+			entityName: fact_dossier_adv
+			schemaName: gold
+			expressionSource: DatabaseQuery
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,372 @@
+table dim_partenaire
+	lineageTag: d699ac01-86b3-4705-9ae6-7a2fc3d2923d
+	sourceLineageTag: [gold].[dim_partenaire]
+
+	column partenaire_key
+		dataType: string
+		sourceProviderType: varchar(400)
+		lineageTag: 789fd182-f9bd-4947-94a2-07810f8e0f44
+		sourceLineageTag: partenaire_key
+		summarizeBy: none
+		sourceColumn: partenaire_key
+
+		changedProperty = SummarizeBy
+
+		annotation SummarizationSetBy = User
+
+	column partenaire_id
+		dataType: string
+		sourceProviderType: varchar(50)
+		lineageTag: 7faf4d95-24a7-44a7-9c00-3bba351aa00d
+		sourceLineageTag: partenaire_id
+		summarizeBy: none
+		sourceColumn: partenaire_id
+
+		changedProperty = SummarizeBy
+
+		annotation SummarizationSetBy = User
+
+	column raison_sociale
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: 3eab0fdd-b179-48b8-ab0b-02467aef8e39
+		sourceLineageTag: raison_sociale
+		summarizeBy: none
+		sourceColumn: raison_sociale
+
+		changedProperty = SummarizeBy
+
+		annotation SummarizationSetBy = User
+
+	column siret
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: b5e0c74d-1e30-40af-b6c6-9c2e5b78814f
+		sourceLineageTag: siret
+		summarizeBy: none
+		sourceColumn: siret
+
+		changedProperty = SummarizeBy
+
+		annotation SummarizationSetBy = User
+
+	column type_partenaire
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: 6ed88916-fbc0-4845-9659-9f0735ed368a
+		sourceLineageTag: type_partenaire
+		summarizeBy: none
+		sourceColumn: type_partenaire
+
+		changedProperty = SummarizeBy
+
+		annotation SummarizationSetBy = User
+
+	column statut_partenaire
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: 67b8f2ea-18cb-4438-b08b-d31f19267ac2
+		sourceLineageTag: statut_partenaire
+		summarizeBy: none
+		sourceColumn: statut_partenaire
+
+		changedProperty = SummarizeBy
+
+		annotation SummarizationSetBy = User
+
+	column nom_contact_principal
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: fc1f4c7c-3732-48e1-adc7-fb0bedb37c7f
+		sourceLineageTag: nom_contact_principal
+		summarizeBy: none
+		sourceColumn: nom_contact_principal
+
+		changedProperty = SummarizeBy
+
+		annotation SummarizationSetBy = User
+
+	column prenom_contact_principal
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: 65d762a1-f992-4059-94d8-467acf3887ef
+		sourceLineageTag: prenom_contact_principal
+		summarizeBy: none
+		sourceColumn: prenom_contact_principal
+
+		changedProperty = SummarizeBy
+
+		annotation SummarizationSetBy = User
+
+	column contact_principal
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: 5efe06ff-0299-4cf8-b677-3526d4f20610
+		sourceLineageTag: contact_principal
+		summarizeBy: none
+		sourceColumn: contact_principal
+
+		changedProperty = SummarizeBy
+
+		annotation SummarizationSetBy = User
+
+	column email_contact
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: f62664e3-d2cb-4cb0-81bf-a65aa196c462
+		sourceLineageTag: email_contact
+		summarizeBy: none
+		sourceColumn: email_contact
+
+		changedProperty = SummarizeBy
+
+		annotation SummarizationSetBy = User
+
+	column telephone_contact
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: c805d27d-dbeb-42af-8405-8c6d68a7a4fc
+		sourceLineageTag: telephone_contact
+		summarizeBy: none
+		sourceColumn: telephone_contact
+
+		changedProperty = SummarizeBy
+
+		annotation SummarizationSetBy = User
+
+	column adresse
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: 3c9ce014-be8a-41d4-98da-e779531aaf3b
+		sourceLineageTag: adresse
+		summarizeBy: none
+		sourceColumn: adresse
+
+		changedProperty = SummarizeBy
+
+		annotation SummarizationSetBy = User
+
+	column ville
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: f59fdfe9-c63d-4516-b305-450533b4afc8
+		sourceLineageTag: ville
+		summarizeBy: none
+		sourceColumn: ville
+
+		changedProperty = SummarizeBy
+
+		annotation SummarizationSetBy = User
+
+	column code_postal
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: 0ff3bd5d-f954-4977-af63-351a0d84983e
+		sourceLineageTag: code_postal
+		summarizeBy: none
+		sourceColumn: code_postal
+
+		changedProperty = SummarizeBy
+
+		annotation SummarizationSetBy = User
+
+	column region
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: 68d30248-f860-48f3-90f0-17569ac186a5
+		sourceLineageTag: region
+		summarizeBy: none
+		sourceColumn: region
+
+		changedProperty = SummarizeBy
+
+		annotation SummarizationSetBy = User
+
+	column pays
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: 40b5c458-c9ce-43b2-b2fa-afadf45a6c89
+		sourceLineageTag: pays
+		summarizeBy: none
+		sourceColumn: pays
+
+		changedProperty = SummarizeBy
+
+		annotation SummarizationSetBy = User
+
+	column date_signature_convention
+		dataType: dateTime
+		formatString: General Date
+		sourceProviderType: date
+		lineageTag: 0efdd7a7-4dc6-4297-bf94-52c36b51945a
+		sourceLineageTag: date_signature_convention
+		summarizeBy: none
+		sourceColumn: date_signature_convention
+
+		changedProperty = SummarizeBy
+
+		annotation SummarizationSetBy = User
+
+	column niveau_partenaire
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: 6fc007bd-be45-4acf-8202-a5de856b47ef
+		sourceLineageTag: niveau_partenaire
+		summarizeBy: none
+		sourceColumn: niveau_partenaire
+
+		changedProperty = SummarizeBy
+
+		annotation SummarizationSetBy = User
+
+	column segment_partenaire
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: 42bf1d11-becb-4740-aec5-dc346b6abad3
+		sourceLineageTag: segment_partenaire
+		summarizeBy: none
+		sourceColumn: segment_partenaire
+
+		changedProperty = SummarizeBy
+
+		annotation SummarizationSetBy = User
+
+	column nombre_clients_actifs
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: e960115a-5b58-427b-aade-8a2d68a5859b
+		sourceLineageTag: nombre_clients_actifs
+		summarizeBy: none
+		sourceColumn: nombre_clients_actifs
+
+		changedProperty = SummarizeBy
+
+		annotation SummarizationSetBy = User
+
+	column encours_total_apporte
+		dataType: double
+		sourceProviderType: decimal(18, 2)
+		lineageTag: d0bf8fff-1953-4578-9ec3-6173bf089740
+		sourceLineageTag: encours_total_apporte
+		summarizeBy: none
+		sourceColumn: encours_total_apporte
+
+		changedProperty = SummarizeBy
+
+		annotation SummarizationSetBy = User
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column commission_rate_default
+		dataType: decimal
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		sourceProviderType: decimal(9, 4)
+		lineageTag: 75797366-4bc7-49bb-90ed-d781d5b1e5ed
+		sourceLineageTag: commission_rate_default
+		summarizeBy: none
+		sourceColumn: commission_rate_default
+
+		changedProperty = SummarizeBy
+
+		annotation SummarizationSetBy = User
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	column manager_interne_id
+		dataType: string
+		sourceProviderType: varchar(50)
+		lineageTag: dca57296-5ddf-42f0-a919-55e03774ae2a
+		sourceLineageTag: manager_interne_id
+		summarizeBy: none
+		sourceColumn: manager_interne_id
+
+		changedProperty = SummarizeBy
+
+		annotation SummarizationSetBy = User
+
+	column conseiller_referent_id
+		dataType: string
+		sourceProviderType: varchar(50)
+		lineageTag: d94f8899-3a5d-48cc-8067-efe1935899e7
+		sourceLineageTag: conseiller_referent_id
+		summarizeBy: none
+		sourceColumn: conseiller_referent_id
+
+		changedProperty = SummarizeBy
+
+		annotation SummarizationSetBy = User
+
+	column statut_convention
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: 1c51fdbd-41ac-4318-8903-139e805525b4
+		sourceLineageTag: statut_convention
+		summarizeBy: none
+		sourceColumn: statut_convention
+
+		changedProperty = SummarizeBy
+
+		annotation SummarizationSetBy = User
+
+	column date_derniere_activite
+		dataType: dateTime
+		formatString: General Date
+		sourceProviderType: date
+		lineageTag: f548a9fe-e5ed-44c2-8442-686bb9e7c7d4
+		sourceLineageTag: date_derniere_activite
+		summarizeBy: none
+		sourceColumn: date_derniere_activite
+
+		changedProperty = SummarizeBy
+
+		annotation SummarizationSetBy = User
+
+	column is_active
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		sourceProviderType: bit
+		lineageTag: df7c447a-5b73-4461-9eb4-2a3f42b77274
+		sourceLineageTag: is_active
+		summarizeBy: none
+		sourceColumn: is_active
+
+		changedProperty = SummarizeBy
+
+		annotation SummarizationSetBy = User
+
+	column created_at
+		dataType: dateTime
+		formatString: General Date
+		sourceProviderType: datetime2
+		lineageTag: cea9b2cf-75eb-4f67-bd98-54cdfe367d54
+		sourceLineageTag: created_at
+		summarizeBy: none
+		sourceColumn: created_at
+
+		changedProperty = SummarizeBy
+
+		annotation SummarizationSetBy = User
+
+	column updated_at
+		dataType: dateTime
+		formatString: General Date
+		sourceProviderType: datetime2
+		lineageTag: b604e94c-69f9-4c1a-bf4a-e12cd2874def
+		sourceLineageTag: updated_at
+		summarizeBy: none
+		sourceColumn: updated_at
+
+		changedProperty = SummarizeBy
+
+		annotation SummarizationSetBy = User
+
+	partition dim_partenaire = entity
+		mode: directLake
+		source
+			entityName: dim_partenaire
+			schemaName: gold
+			expressionSource: DatabaseQuery
+
+	annotation PBI_ResultType = Table
+
