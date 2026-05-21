@@ -1,18 +1,22 @@
 name: Deploy Fabric to TEST
-
 on:
   push:
     branches:
       - test
   workflow_dispatch:
-
 jobs:
   deploy-test:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+
+      - name: Replace connection IDs (dev → test)
+        run: |
+          find . -name "*.json" | xargs sed -i \
+            -e "s/ec7aa1ee-16a6-43ef-a54d-cdcc1cb90693/c73a035a-8d64-4422-927c-bc9087c1176f/g" \
+            -e "s/66841f6d-142d-4f8a-98ff-9b81fed41000/ff9a675e-9109-40a6-918c-d73603f1817b/g" \
+            -e "s/54ddc0d6-5131-448a-92a3-e4c2f25bc0dd/ae06833d-ca01-4987-b3d9-29b04c2b29a0/g"
 
       - name: Setup Python
         uses: actions/setup-python@v5
@@ -32,4 +36,4 @@ jobs:
         run: |
           python cicd/deploy.py \
             --environment TEST \
-            --workspace-id "${{ secrets.FABRIC_WORKSPACE_TEST_ID }}"
+            --workspace-id "c73a035a-8d64-4422-927c-bc9087c1176f"
