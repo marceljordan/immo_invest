@@ -2,24 +2,39 @@ import argparse
 import os
 import sys
 from pathlib import Path
-
 from azure.identity import ClientSecretCredential
 from fabric_cicd import FabricWorkspace, publish_all_items
 
-
 ITEM_TYPES = [
-     "SemanticModel",
+    "SemanticModel",
     "Report",
-     "DataPipeline",
+    "DataPipeline",
 ]
 
+EXISTING_ITEMS = {
+    "TEST": {
+        "Lakehouse": [
+            {"name": "LH_Immo_Test", "id": "ff9a675e-9109-40a6-918c-d73603f1817b"}
+        ],
+        "Warehouse": [
+            {"name": "WH_Immo_Test", "id": "ae06833d-ca01-4987-b3d9-29b04c2b29a0"}
+        ],
+    },
+    "PROD": {
+        "Lakehouse": [
+            {"name": "LH_Immo_Prod", "id": "376ce754-158f-4705-8e15-cfa1215b2667"}
+        ],
+        "Warehouse": [
+            {"name": "WH_Immo_Prod", "id": "ff295195-4e19-44ec-93f8-60da368f1689"}
+        ],
+    },
+}
 
 def required_env(name: str) -> str:
     value = os.getenv(name)
     if not value:
         raise RuntimeError(f"Missing required environment variable: {name}")
     return value
-
 
 def main() -> int:
     parser = argparse.ArgumentParser()
@@ -50,13 +65,12 @@ def main() -> int:
         repository_directory=str(repository_directory),
         item_type_in_scope=ITEM_TYPES,
         token_credential=token_credential,
+        existing_items=EXISTING_ITEMS[args.environment],
     )
 
     publish_all_items(target_workspace)
-
     print(f"Deployment to {args.environment} completed.")
     return 0
-
 
 if __name__ == "__main__":
     sys.exit(main())
