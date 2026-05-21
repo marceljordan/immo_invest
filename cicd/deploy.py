@@ -11,7 +11,6 @@ ITEM_TYPES = [
      "SemanticModel",
     "Report",
      "DataPipeline",
-     "Lakehouse",
 ]
 
 
