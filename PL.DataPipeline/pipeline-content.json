@@ -1,5 +1,11 @@
 {
   "properties": {
+    "variables": {
+      "lakehouse_id": {
+        "type": "String",
+        "defaultValue": "66841f6d-142d-4f8a-98ff-9b81fed41000"
+      }
+    },
     "activities": [
       {
         "type": "GetMetadata",
