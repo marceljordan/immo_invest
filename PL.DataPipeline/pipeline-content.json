@@ -16,7 +16,7 @@
               "properties": {
                 "type": "Lakehouse",
                 "typeProperties": {
-                  "artifactId": "fed41000-9b81-98ff-4f8a-142d66841f6d",
+                  "artifactId": "@variables('lakehouse_id')",
                   "workspaceId": "00000000-0000-0000-0000-000000000000",
                   "rootFolder": "Files"
                 },
@@ -84,7 +84,7 @@
                       "properties": {
                         "type": "Lakehouse",
                         "typeProperties": {
-                          "artifactId": "fed41000-9b81-98ff-4f8a-142d66841f6d",
+                          "artifactId": "@variables('lakehouse_id')",
                           "workspaceId": "00000000-0000-0000-0000-000000000000",
                           "rootFolder": "Files"
                         },
@@ -114,7 +114,7 @@
                       "properties": {
                         "type": "Lakehouse",
                         "typeProperties": {
-                          "artifactId": "fed41000-9b81-98ff-4f8a-142d66841f6d",
+                          "artifactId": "@variables('lakehouse_id')",
                           "workspaceId": "00000000-0000-0000-0000-000000000000",
                           "rootFolder": "Tables"
                         },
