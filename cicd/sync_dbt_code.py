@@ -1,0 +1,52 @@
+name: Deploy Fabric to TEST
+on:
+  push:
+    branches:
+      - test
+  workflow_dispatch:
+jobs:
+  deploy-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install fabric-cicd azure-identity azure-storage-file-datalake
+
+      - name: Deploy to Fabric TEST
+        env:
+          AZURE_TENANT_ID: ${{ secrets.FABRIC_TENANT_ID }}
+          AZURE_CLIENT_ID: ${{ secrets.FABRIC_CLIENT_ID }}
+          AZURE_CLIENT_SECRET: ${{ secrets.FABRIC_CLIENT_SECRET }}
+        run: |
+          python cicd/deploy.py \
+            --environment TEST \
+            --workspace-id "${{ secrets.FABRIC_WORKSPACE_TEST_ID }}"
+
+      - name: Sync dbt code to TEST
+        env:
+          AZURE_TENANT_ID: ${{ secrets.FABRIC_TENANT_ID }}
+          AZURE_CLIENT_ID: ${{ secrets.FABRIC_CLIENT_ID }}
+          AZURE_CLIENT_SECRET: ${{ secrets.FABRIC_CLIENT_SECRET }}
+        run: |
+          python cicd/sync_dbt_code.py \
+            --environment TEST \
+            --dbt-path "Code/dbt"
+
+      - name: Deploy dbt job to TEST
+        env:
+          AZURE_TENANT_ID: ${{ secrets.FABRIC_TENANT_ID }}
+          AZURE_CLIENT_ID: ${{ secrets.FABRIC_CLIENT_ID }}
+          AZURE_CLIENT_SECRET: ${{ secrets.FABRIC_CLIENT_SECRET }}
+        run: |
+          python cicd/deploy_dbt.py \
+            --environment TEST \
+            --workspace-id "${{ secrets.FABRIC_WORKSPACE_TEST_ID }}"
