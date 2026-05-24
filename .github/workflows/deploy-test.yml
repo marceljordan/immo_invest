@@ -21,11 +21,6 @@ jobs:
           python -m pip install --upgrade pip
           pip install fabric-cicd azure-identity
 
-      - name: Debug fabric-cicd
-        run: |
-          pip show fabric-cicd
-          python -c "import fabric_cicd; help(fabric_cicd.FabricWorkspace.__init__)"
-
       - name: Deploy to Fabric TEST
         env:
           AZURE_TENANT_ID: ${{ secrets.FABRIC_TENANT_ID }}
@@ -33,5 +28,15 @@ jobs:
           AZURE_CLIENT_SECRET: ${{ secrets.FABRIC_CLIENT_SECRET }}
         run: |
           python cicd/deploy.py \
+            --environment TEST \
+            --workspace-id "${{ secrets.FABRIC_WORKSPACE_TEST_ID }}"
+
+      - name: Deploy dbt job to TEST
+        env:
+          AZURE_TENANT_ID: ${{ secrets.FABRIC_TENANT_ID }}
+          AZURE_CLIENT_ID: ${{ secrets.FABRIC_CLIENT_ID }}
+          AZURE_CLIENT_SECRET: ${{ secrets.FABRIC_CLIENT_SECRET }}
+        run: |
+          python cicd/deploy_dbt.py \
             --environment TEST \
             --workspace-id "${{ secrets.FABRIC_WORKSPACE_TEST_ID }}"
