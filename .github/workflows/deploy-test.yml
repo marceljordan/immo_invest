@@ -40,3 +40,14 @@ jobs:
           python cicd/deploy_dbt.py \
             --environment TEST \
             --workspace-id "${{ secrets.FABRIC_WORKSPACE_TEST_ID }}"
+
+      - name: Sync dbt code to TEST
+        env:
+          AZURE_TENANT_ID: ${{ secrets.FABRIC_TENANT_ID }}
+          AZURE_CLIENT_ID: ${{ secrets.FABRIC_CLIENT_ID }}
+          AZURE_CLIENT_SECRET: ${{ secrets.FABRIC_CLIENT_SECRET }}
+        run: |
+          pip install azure-storage-file-datalake
+          python cicd/sync_dbt_code.py \
+            --environment TEST \
+            --dbt-path "Code/dbt"
