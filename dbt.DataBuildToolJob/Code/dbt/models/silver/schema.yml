@@ -1,0 +1,618 @@
+version: 2
+
+models:
+
+  - name: agences_regions
+    description: >
+      Table Silver des agences et régions. Nettoie et type les données brutes
+      de src_agences_regions. Référentiel agence/région pour les dimensions Gold.
+    columns:
+      - name: agence_id
+        description: Identifiant unique de l'agence.
+        tests:
+          - not_null
+          - unique
+      - name: nom_agence
+        description: Nom de l'agence (nettoyé).
+      - name: code_agence
+        description: Code interne de l'agence (normalisé en majuscules).
+      - name: region_id
+        description: Identifiant de la région de rattachement.
+      - name: nom_region
+        description: Nom de la région.
+      - name: directeur_region_id
+        description: Identifiant du directeur régional.
+      - name: responsable_agence_id
+        description: Identifiant du responsable d'agence.
+      - name: statut_agence
+        description: Statut de l'agence (normalisé en majuscules).
+      - name: date_ouverture
+        description: Date d'ouverture de l'agence.
+      - name: date_fermeture
+        description: Date de fermeture de l'agence si applicable.
+      - name: is_active
+        description: Indicateur d'agence active (0/1).
+        tests:
+          - not_null
+
+  - name: commissions
+    description: >
+      Table Silver des commissions. Nettoie et type les données brutes
+      de src_commissions. Source pour fact_commission en Gold.
+    columns:
+      - name: commission_id
+        description: Identifiant unique de la commission.
+        tests:
+          - not_null
+          - unique
+      - name: type_operation
+        description: Type d'opération (normalisé en majuscules).
+        tests:
+          - not_null
+      - name: investisseur_id
+        description: Identifiant de l'investisseur.
+      - name: partenaire_id
+        description: Identifiant du partenaire apporteur.
+      - name: conseiller_id
+        description: Identifiant du conseiller.
+      - name: montant_commission_brut
+        description: Montant brut de la commission en euros.
+      - name: montant_commission_net
+        description: Montant net de la commission en euros.
+      - name: statut_commission
+        description: Statut de la commission (normalisé en majuscules).
+      - name: is_deleted
+        description: Indicateur de suppression logique.
+        tests:
+          - not_null
+
+  - name: conseillers
+    description: >
+      Table Silver des conseillers commerciaux. Nettoie et type les données
+      de src_conseillers. Référentiel conseiller pour dim_conseiller en Gold.
+    columns:
+      - name: conseiller_id
+        description: Identifiant unique du conseiller.
+        tests:
+          - not_null
+          - unique
+      - name: matricule
+        description: Matricule RH (normalisé en majuscules).
+      - name: email
+        description: Email professionnel (normalisé en minuscules).
+      - name: agence_id
+        description: Identifiant de l'agence de rattachement.
+      - name: statut_collaborateur
+        description: Statut RH du collaborateur (normalisé en majuscules).
+      - name: objectif_annuel
+        description: Objectif commercial annuel en euros.
+      - name: objectif_mensuel_moyen
+        description: Objectif mensuel moyen en euros.
+      - name: is_active
+        description: Indicateur de conseiller actif.
+        tests:
+          - not_null
+
+  - name: crm_investisseurs
+    description: >
+      Table Silver des investisseurs CRM. Nettoie et type les données
+      de src_crm_investisseurs. Source pour dim_investisseur en Gold.
+    columns:
+      - name: investisseur_id
+        description: Identifiant unique de l'investisseur.
+        tests:
+          - not_null
+          - unique
+      - name: prospect_id
+        description: Identifiant du prospect CRM associé.
+      - name: email
+        description: Email (normalisé en minuscules).
+      - name: statut_kyc
+        description: Statut KYC (normalisé en majuscules).
+      - name: statut_lcbft
+        description: Statut LCB-FT (normalisé en majuscules).
+      - name: revenu_annuel
+        description: Revenu annuel en euros.
+      - name: patrimoine_financier
+        description: Patrimoine financier en euros.
+      - name: patrimoine_immobilier
+        description: Patrimoine immobilier en euros.
+      - name: profil_investisseur
+        description: Profil de risque (normalisé en majuscules).
+      - name: statut_client
+        description: Statut commercial (normalisé en majuscules).
+      - name: is_deleted
+        description: Indicateur de suppression logique.
+        tests:
+          - not_null
+
+  - name: crm_prospects
+    description: >
+      Table Silver des prospects CRM. Nettoie et type les données
+      de src_crm_prospects. Permet d'analyser le tunnel prospect → investisseur.
+    columns:
+      - name: prospect_id
+        description: Identifiant unique du prospect.
+        tests:
+          - not_null
+          - unique
+      - name: email
+        description: Email (normalisé en minuscules).
+      - name: statut_prospect
+        description: Statut du prospect (normalisé en majuscules).
+      - name: canal_acquisition
+        description: Canal d'acquisition (normalisé en majuscules).
+      - name: score_qualification
+        description: Score de qualification du prospect.
+      - name: revenu_annuel_estime
+        description: Revenu annuel estimé en euros.
+      - name: capacite_investissement
+        description: Capacité d'investissement estimée en euros.
+      - name: is_deleted
+        description: Indicateur de suppression logique.
+        tests:
+          - not_null
+
+  - name: dossiers_adv
+    description: >
+      Table Silver des dossiers ADV (Administration des Ventes). Nettoie
+      et type les données de src_dossiers_adv. Source pour fact_dossier_adv en Gold.
+    columns:
+      - name: dossier_adv_id
+        description: Identifiant unique du dossier ADV.
+        tests:
+          - not_null
+          - unique
+      - name: vente_id
+        description: Identifiant de la vente associée.
+      - name: statut_dossier
+        description: Statut du dossier (normalisé en majuscules).
+      - name: delai_traitement_jours
+        description: Délai de traitement en jours.
+      - name: pieces_manquantes
+        description: Indicateur de pièces manquantes (0/1).
+      - name: nombre_relances
+        description: Nombre de relances effectuées.
+      - name: blocage_adv
+        description: Indicateur de blocage ADV (0/1).
+      - name: is_deleted
+        description: Indicateur de suppression logique.
+        tests:
+          - not_null
+
+  - name: evenements_clients
+    description: >
+      Table Silver des événements clients : appels, emails, rendez-vous, relances.
+      Source pour analyser l'activité relationnelle et commerciale.
+    columns:
+      - name: evenement_id
+        description: Identifiant unique de l'événement.
+        tests:
+          - not_null
+          - unique
+      - name: type_evenement
+        description: Type d'événement (normalisé en majuscules).
+      - name: canal_evenement
+        description: Canal de l'événement (normalisé en majuscules).
+      - name: statut_evenement
+        description: Statut de l'événement (normalisé en majuscules).
+      - name: priorite
+        description: Niveau de priorité (normalisé en majuscules).
+      - name: is_deleted
+        description: Indicateur de suppression logique.
+        tests:
+          - not_null
+
+  - name: expertise_comptable_lmnp
+    description: >
+      Table Silver des dossiers d'expertise comptable LMNP. Nettoie et type
+      les données de src_expertise_comptable_lmnp.
+    columns:
+      - name: dossier_comptable_id
+        description: Identifiant unique du dossier comptable.
+        tests:
+          - not_null
+          - unique
+      - name: investisseur_id
+        description: Identifiant de l'investisseur.
+      - name: annee_fiscale
+        description: Année fiscale concernée.
+      - name: regime_fiscal
+        description: Régime fiscal (normalisé en majuscules).
+      - name: statut_dossier_comptable
+        description: Statut du dossier (normalisé en majuscules).
+      - name: recettes_locatives
+        description: Recettes locatives de l'année en euros.
+      - name: charges_deductibles
+        description: Charges déductibles en euros.
+      - name: amortissements
+        description: Amortissements comptabilisés en euros.
+      - name: resultat_fiscal
+        description: Résultat fiscal en euros.
+      - name: impot_estime
+        description: Impôt estimé en euros.
+      - name: pieces_manquantes
+        description: Indicateur de pièces manquantes (0/1).
+      - name: is_deleted
+        description: Indicateur de suppression logique.
+        tests:
+          - not_null
+
+  - name: financements
+    description: >
+      Table Silver des financements immobiliers. Nettoie et type les données
+      de src_financements. Source pour fact_financement en Gold.
+    columns:
+      - name: financement_id
+        description: Identifiant unique du financement.
+        tests:
+          - not_null
+          - unique
+      - name: vente_id
+        description: Identifiant de la vente associée.
+      - name: banque
+        description: Nom de la banque (normalisé en majuscules).
+      - name: montant_demande
+        description: Montant de financement demandé en euros.
+      - name: montant_accorde
+        description: Montant accordé par la banque en euros.
+      - name: taux_credit
+        description: Taux du crédit (ex. 0.0350 = 3.5%).
+      - name: statut_financement
+        description: Statut du financement (normalisé en majuscules).
+      - name: is_deleted
+        description: Indicateur de suppression logique.
+        tests:
+          - not_null
+
+  - name: gestion_locative
+    description: >
+      Table Silver de gestion locative. Nettoie et type les données
+      de src_gestion_locative. Source pour fact_gestion_locative en Gold.
+    columns:
+      - name: gestion_id
+        description: Identifiant unique du dossier de gestion.
+        tests:
+          - not_null
+          - unique
+      - name: statut_gestion
+        description: Statut de gestion (normalisé en majuscules).
+      - name: loyer_mensuel_prevu
+        description: Loyer mensuel prévu en euros.
+      - name: loyer_mensuel_reel
+        description: Loyer mensuel réel encaissé en euros.
+      - name: taux_occupation
+        description: Taux d'occupation (0 à 1).
+      - name: incident_locatif
+        description: Indicateur d'incident locatif (0/1).
+      - name: montant_impayes
+        description: Montant des impayés en euros.
+      - name: rendement_reel_annuel
+        description: Rendement locatif réel annuel.
+      - name: is_active
+        description: Indicateur de dossier actif.
+        tests:
+          - not_null
+
+  - name: lots_immobiliers
+    description: >
+      Table Silver des lots immobiliers. Nettoie et type les données
+      de src_lots_immobiliers. Source pour dim_lot_immobilier en Gold.
+    columns:
+      - name: lot_id
+        description: Identifiant unique du lot.
+        tests:
+          - not_null
+          - unique
+      - name: programme_id
+        description: Identifiant du programme parent.
+      - name: type_lot
+        description: Type de lot (normalisé en majuscules).
+      - name: typologie
+        description: Typologie du lot (T1, T2... normalisé en majuscules).
+      - name: surface_m2
+        description: Surface en m².
+      - name: prix_catalogue
+        description: Prix catalogue en euros.
+      - name: prix_final
+        description: Prix final après remise en euros.
+      - name: statut_lot
+        description: Statut du lot (normalisé en majuscules).
+      - name: is_active
+        description: Indicateur de lot actif.
+        tests:
+          - not_null
+
+  - name: objectifs_commerciaux
+    description: >
+      Table Silver des objectifs commerciaux. Nettoie et type les données
+      de src_objectifs_commerciaux. Source pour fact_objectif_commercial en Gold.
+    columns:
+      - name: objectif_id
+        description: Identifiant unique de l'objectif.
+        tests:
+          - not_null
+          - unique
+      - name: annee
+        description: Année de l'objectif.
+        tests:
+          - not_null
+      - name: mois
+        description: Mois de l'objectif.
+        tests:
+          - not_null
+      - name: niveau_objectif
+        description: Niveau de l'objectif (normalisé en majuscules).
+      - name: famille_produit
+        description: Famille de produit concernée.
+      - name: objectif_ca
+        description: Objectif de chiffre d'affaires en euros.
+      - name: objectif_commissions
+        description: Objectif de commissions en euros.
+      - name: is_active
+        description: Indicateur d'objectif actif.
+        tests:
+          - not_null
+
+  - name: operations_crowdfunding
+    description: >
+      Table Silver des opérations de crowdfunding immobilier. Nettoie et type
+      les données de src_operations_crowdfunding. Source pour fact_operation_crowdfunding en Gold.
+    columns:
+      - name: operation_crowdfunding_id
+        description: Identifiant unique de l'opération.
+        tests:
+          - not_null
+          - unique
+      - name: statut_operation
+        description: Statut de l'opération (normalisé en majuscules).
+      - name: montant_investi
+        description: Montant investi en euros.
+      - name: taux_rendement_annuel_prevu
+        description: Taux de rendement annuel prévu.
+      - name: incident_paiement
+        description: Indicateur d'incident de paiement (0/1).
+      - name: is_deleted
+        description: Indicateur de suppression logique.
+        tests:
+          - not_null
+
+  - name: partenaires_patrimoine
+    description: >
+      Table Silver des partenaires professionnels du patrimoine. Nettoie et type
+      les données de src_partenaires_patrimoine. Source pour dim_partenaire en Gold.
+    columns:
+      - name: partenaire_id
+        description: Identifiant unique du partenaire.
+        tests:
+          - not_null
+          - unique
+      - name: type_partenaire
+        description: Type de partenaire (normalisé en majuscules).
+      - name: statut_partenaire
+        description: Statut du partenaire (normalisé en majuscules).
+      - name: email_contact
+        description: Email du contact (normalisé en minuscules).
+      - name: niveau_partenaire
+        description: Niveau de partenariat (normalisé en majuscules).
+      - name: encours_total_apporte
+        description: Encours total apporté en euros.
+      - name: commission_rate_default
+        description: Taux de commission par défaut.
+      - name: is_active
+        description: Indicateur de partenaire actif.
+        tests:
+          - not_null
+
+  - name: produits_investissement
+    description: >
+      Table Silver des produits d'investissement. Nettoie et type les données
+      de src_produits_investissement. Source pour dim_produit_investissement en Gold.
+    columns:
+      - name: produit_id
+        description: Identifiant unique du produit.
+        tests:
+          - not_null
+          - unique
+      - name: famille_produit
+        description: Famille de produit (normalisé en majuscules).
+      - name: type_produit
+        description: Type de produit (normalisé en majuscules).
+      - name: fiscalite
+        description: Régime fiscal (normalisé en majuscules).
+      - name: niveau_risque
+        description: Niveau de risque (normalisé en majuscules).
+      - name: rendement_cible_annuel
+        description: Rendement cible annuel (ex. 0.045 = 4.5%).
+      - name: statut_commercialisation
+        description: Statut de commercialisation (normalisé en majuscules).
+      - name: is_active
+        description: Indicateur de produit actif.
+        tests:
+          - not_null
+
+  - name: programmes_immobiliers
+    description: >
+      Table Silver des programmes immobiliers. Nettoie et type les données
+      de src_programmes_immobiliers. Source pour dim_programme_immobilier en Gold.
+    columns:
+      - name: programme_id
+        description: Identifiant unique du programme.
+        tests:
+          - not_null
+          - unique
+      - name: nom_programme
+        description: Nom commercial du programme.
+      - name: type_programme
+        description: Type de programme (normalisé en majuscules).
+      - name: statut_programme
+        description: Statut du programme (normalisé en majuscules).
+      - name: dispositif_fiscal
+        description: Dispositif fiscal (Pinel, LMNP... normalisé en majuscules).
+      - name: label_energetique
+        description: Label énergétique (normalisé en majuscules).
+      - name: is_active
+        description: Indicateur de programme actif.
+        tests:
+          - not_null
+
+  - name: reclamations_incidents
+    description: >
+      Table Silver des réclamations et incidents clients. Nettoie et type
+      les données de src_reclamations_incidents.
+    columns:
+      - name: reclamation_id
+        description: Identifiant unique de la réclamation.
+        tests:
+          - not_null
+          - unique
+      - name: type_reclamation
+        description: Type de réclamation (normalisé en majuscules).
+      - name: categorie_reclamation
+        description: Catégorie de réclamation (normalisé en majuscules).
+      - name: niveau_urgence
+        description: Niveau d'urgence (normalisé en majuscules).
+      - name: statut_reclamation
+        description: Statut de la réclamation (normalisé en majuscules).
+      - name: delai_resolution_jours
+        description: Délai de résolution en jours.
+      - name: impact_financier_estime
+        description: Impact financier estimé en euros.
+      - name: is_deleted
+        description: Indicateur de suppression logique.
+        tests:
+          - not_null
+
+  - name: reservations_immobilieres
+    description: >
+      Table Silver des réservations immobilières. Nettoie et type les données
+      de src_reservations_immobilieres. Source pour fact_reservation en Gold.
+    columns:
+      - name: reservation_id
+        description: Identifiant unique de la réservation.
+        tests:
+          - not_null
+          - unique
+      - name: lot_id
+        description: Identifiant du lot réservé.
+      - name: statut_reservation
+        description: Statut de la réservation (normalisé en majuscules).
+      - name: canal_reservation
+        description: Canal de réservation (normalisé en majuscules).
+      - name: montant_reservation
+        description: Montant du dépôt de réservation en euros.
+      - name: prix_reserve
+        description: Prix du lot au moment de la réservation en euros.
+      - name: is_deleted
+        description: Indicateur de suppression logique.
+        tests:
+          - not_null
+
+  - name: revente_biens
+    description: >
+      Table Silver des reventes de biens immobiliers. Nettoie et type les données
+      de src_revente_biens. Source pour fact_revente en Gold.
+    columns:
+      - name: revente_id
+        description: Identifiant unique de la revente.
+        tests:
+          - not_null
+          - unique
+      - name: statut_revente
+        description: Statut de la revente (normalisé en majuscules).
+      - name: prix_achat_initial
+        description: Prix d'achat initial en euros.
+      - name: prix_revente_final
+        description: Prix de revente final en euros.
+      - name: plus_value_brute
+        description: Plus-value brute en euros.
+      - name: plus_value_nette
+        description: Plus-value nette après fiscalité en euros.
+      - name: is_deleted
+        description: Indicateur de suppression logique.
+        tests:
+          - not_null
+
+  - name: silver_security_user_access
+    description: >
+      Table Silver de sécurité utilisateur. Nettoie et type les données
+      de src_security_user_access. Source pour gold.security_user_access et le RLS Power BI.
+    columns:
+      - name: user_access_id
+        description: Identifiant unique de l'accès.
+        tests:
+          - not_null
+      - name: user_email
+        description: Email de l'utilisateur (normalisé en minuscules).
+        tests:
+          - not_null
+      - name: role_metier
+        description: Rôle métier (normalisé en majuscules).
+        tests:
+          - not_null
+      - name: access_level
+        description: Niveau d'accès (normalisé en majuscules).
+      - name: can_view_commissions
+        description: Droit de voir les commissions (0/1).
+      - name: can_view_margin
+        description: Droit de voir les marges (0/1).
+      - name: can_view_personal_data
+        description: Droit de voir les données personnelles (0/1).
+      - name: can_export_data
+        description: Droit d'exporter les données (0/1).
+      - name: is_active
+        description: Indicateur d'accès actif (0/1).
+        tests:
+          - not_null
+
+  - name: souscriptions_pierre_papier
+    description: >
+      Table Silver des souscriptions pierre-papier (SCPI, OPCI...). Nettoie et type
+      les données de src_souscriptions_pierre_papier. Source pour fact_souscription_pierre_papier en Gold.
+    columns:
+      - name: souscription_id
+        description: Identifiant unique de la souscription.
+        tests:
+          - not_null
+          - unique
+      - name: type_support
+        description: Type de support (normalisé en majuscules).
+      - name: montant_souscrit
+        description: Montant souscrit en euros.
+      - name: nombre_parts
+        description: Nombre de parts souscrites.
+      - name: prix_part
+        description: Prix unitaire d'une part en euros.
+      - name: statut_souscription
+        description: Statut de la souscription (normalisé en majuscules).
+      - name: mode_paiement
+        description: Mode de paiement (normalisé en majuscules).
+      - name: is_deleted
+        description: Indicateur de suppression logique.
+        tests:
+          - not_null
+
+  - name: ventes_immobilieres
+    description: >
+      Table Silver des ventes immobilières. Nettoie et type les données
+      de src_ventes_immobilieres. Source pour fact_vente en Gold.
+    columns:
+      - name: vente_id
+        description: Identifiant unique de la vente.
+        tests:
+          - not_null
+          - unique
+      - name: reservation_id
+        description: Identifiant de la réservation associée.
+      - name: statut_vente
+        description: Statut de la vente (normalisé en majuscules).
+      - name: prix_vente_ttc
+        description: Prix de vente TTC en euros.
+      - name: montant_total_operation
+        description: Montant total de l'opération en euros.
+      - name: mode_financement
+        description: Mode de financement (normalisé en majuscules).
+      - name: is_deleted
+        description: Indicateur de suppression logique.
+        tests:
+          - not_null

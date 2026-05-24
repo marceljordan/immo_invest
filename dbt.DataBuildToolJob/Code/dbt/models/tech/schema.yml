@@ -1,0 +1,105 @@
+version: 2
+
+models:
+
+  - name: data_freshness
+    description: >
+      Monitoring de la fraîcheur des données. Calcule la date de dernière mise à jour
+      et le nombre de lignes par table silver et gold. Alimenté à chaque run dbt.
+      Dépend de tous les modèles silver et gold via depends_on explicites.
+    columns:
+      - name: table_schema
+        description: Schéma de la table (silver ou gold).
+        tests:
+          - not_null
+      - name: table_name
+        description: Nom de la table.
+        tests:
+          - not_null
+      - name: last_load_time
+        description: Date et heure de la dernière mise à jour dans la table.
+      - name: row_count
+        description: Nombre de lignes dans la table.
+      - name: checked_at
+        description: Date et heure du contrôle.
+        tests:
+          - not_null
+
+  - name: data_quality_log
+    description: >
+      Log des contrôles qualité sur les tables gold. Vérifie les nulls sur les clés primaires,
+      les valeurs négatives sur les montants critiques, et les doublons sur les clés métier.
+      Résultat : pass / warn (< 5% d'échecs) / fail.
+    columns:
+      - name: checked_at
+        description: Date et heure du contrôle.
+        tests:
+          - not_null
+      - name: table_schema
+        description: Schéma de la table contrôlée.
+        tests:
+          - not_null
+      - name: table_name
+        description: Nom de la table contrôlée.
+        tests:
+          - not_null
+      - name: column_name
+        description: Colonne contrôlée.
+        tests:
+          - not_null
+      - name: check_type
+        description: Type de contrôle effectué.
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['null_check', 'range_check', 'duplicate_check']
+      - name: records_checked
+        description: Nombre total de lignes contrôlées.
+        tests:
+          - not_null
+      - name: records_failed
+        description: Nombre de lignes en échec.
+        tests:
+          - not_null
+      - name: pass_rate
+        description: Taux de réussite en pourcentage (0 à 100).
+      - name: status
+        description: Résultat du contrôle.
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['pass', 'warn', 'fail']
+
+  - name: pipeline_run_log
+    description: >
+      Historique des exécutions sur le warehouse sur les 7 derniers jours.
+      Alimenté depuis queryinsights.exec_requests_history. Exclut les requêtes
+      internes dbt (COND WITH QUERY, USE).
+    columns:
+      - name: run_id
+        description: Identifiant unique de l'exécution (distributed_statement_id).
+        tests:
+          - not_null
+          - unique
+      - name: pipeline_name
+        description: Login ayant exécuté la requête.
+      - name: environment
+        description: Environnement d'exécution (DEV / TEST / PROD).
+        tests:
+          - not_null
+      - name: status
+        description: Statut de l'exécution (Succeeded, Failed...).
+      - name: start_time
+        description: Date et heure de début d'exécution.
+      - name: end_time
+        description: Date et heure de fin d'exécution.
+      - name: duration_seconds
+        description: Durée d'exécution en secondes.
+      - name: rows_processed
+        description: Nombre de lignes traitées.
+      - name: error_message
+        description: Code d'erreur si applicable, NULL si succès.
+      - name: inserted_at
+        description: Date et heure d'insertion dans la table de monitoring.
+        tests:
+          - not_null

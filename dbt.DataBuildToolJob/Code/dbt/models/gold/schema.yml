@@ -1,0 +1,860 @@
+version: 2
+
+models:
+
+  # ============================================================
+  # DIMENSIONS
+  # ============================================================
+
+  - name: dim_date
+    description: >
+      Dimension date du modèle Kimball. Centralise toutes les dates utiles
+      issues des tables Silver. Fournit les attributs calendaires pour
+      toutes les tables de faits.
+    columns:
+      - name: date_key
+        description: Clé date au format YYYYMMDD.
+        tests:
+          - not_null
+          - unique
+      - name: full_date
+        description: Date complète au format DATE.
+        tests:
+          - not_null
+      - name: annee
+        description: Année (ex. 2024).
+      - name: trimestre
+        description: Numéro de trimestre (1 à 4).
+      - name: mois
+        description: Numéro de mois (1 à 12).
+      - name: jour
+        description: Numéro de jour du mois.
+      - name: nom_mois
+        description: Nom du mois en toutes lettres.
+      - name: nom_jour
+        description: Nom du jour de la semaine.
+      - name: numero_jour_semaine
+        description: Numéro du jour de la semaine (1=Dimanche).
+      - name: annee_mois_key
+        description: Clé année-mois au format YYYYMM.
+      - name: annee_mois
+        description: Année-mois au format YYYY-MM.
+
+  - name: dim_investisseur
+    description: >
+      Dimension investisseur. Dédupliquée par investisseur_id avec row_number.
+      Rattachée aux dimensions partenaire, conseiller et agence.
+      Inclut une ligne UNKNOWN pour les faits sans investisseur valide.
+    columns:
+      - name: investisseur_key
+        description: Clé surrogate (SHA256 sur investisseur_id).
+        tests:
+          - not_null
+          - unique
+      - name: investisseur_id
+        description: Identifiant métier de l'investisseur.
+        tests:
+          - not_null
+          - unique
+      - name: prospect_id
+        description: Identifiant du prospect CRM associé.
+      - name: civilite
+        description: Civilité de l'investisseur.
+      - name: nom
+        description: Nom de famille.
+      - name: prenom
+        description: Prénom.
+      - name: nom_complet
+        description: Prénom + Nom concatenés.
+      - name: email
+        description: Adresse email (masquée DDM pour les rôles non autorisés).
+      - name: telephone
+        description: Téléphone (masqué DDM pour les rôles non autorisés).
+      - name: adresse
+        description: Adresse postale (masquée DDM pour les rôles non autorisés).
+      - name: ville
+        description: Ville de résidence.
+      - name: code_postal
+        description: Code postal.
+      - name: pays
+        description: Pays de résidence.
+      - name: profession
+        description: Profession de l'investisseur.
+      - name: situation_familiale
+        description: Situation familiale.
+      - name: revenu_annuel
+        description: Revenu annuel en euros (masqué DDM sauf DIRECTION).
+      - name: patrimoine_financier
+        description: Patrimoine financier en euros (masqué DDM sauf DIRECTION).
+      - name: patrimoine_immobilier
+        description: Patrimoine immobilier en euros (masqué DDM sauf DIRECTION).
+      - name: profil_investisseur
+        description: Profil de risque investisseur.
+      - name: objectif_principal
+        description: Objectif principal d'investissement.
+      - name: horizon_placement
+        description: Horizon de placement souhaité.
+      - name: niveau_experience
+        description: Niveau d'expérience en investissement.
+      - name: statut_kyc
+        description: Statut KYC (Know Your Customer).
+      - name: statut_lcbft
+        description: Statut LCB-FT (Lutte contre le blanchiment).
+      - name: date_entree_relation
+        description: Date d'entrée en relation commerciale.
+      - name: partenaire_id
+        description: Identifiant du partenaire apporteur.
+      - name: partenaire_key
+        description: Clé surrogate vers dim_partenaire. UNKNOWN si absent.
+        tests:
+          - not_null
+      - name: conseiller_id
+        description: Identifiant du conseiller référent.
+      - name: conseiller_key
+        description: Clé surrogate vers dim_conseiller. UNKNOWN si absent.
+        tests:
+          - not_null
+      - name: agence_id
+        description: Identifiant de l'agence.
+      - name: agence_region_key
+        description: Clé surrogate vers dim_agence_region. UNKNOWN si absent.
+        tests:
+          - not_null
+      - name: statut_client
+        description: Statut commercial du client.
+      - name: is_deleted
+        description: Indicateur de suppression logique.
+
+  - name: dim_agence_region
+    description: >
+      Dimension agence et région. Dédupliquée par agence_id.
+      Inclut une ligne UNKNOWN pour les faits sans agence valide.
+    columns:
+      - name: agence_region_key
+        description: Clé surrogate (SHA256 sur agence_id).
+        tests:
+          - not_null
+          - unique
+      - name: agence_id
+        description: Identifiant métier de l'agence.
+        tests:
+          - not_null
+          - unique
+      - name: nom_agence
+        description: Nom de l'agence.
+      - name: code_agence
+        description: Code interne de l'agence.
+      - name: region_id
+        description: Identifiant de la région.
+      - name: nom_region
+        description: Nom de la région.
+      - name: directeur_region_id
+        description: Identifiant du directeur régional.
+      - name: responsable_agence_id
+        description: Identifiant du responsable d'agence.
+      - name: ville
+        description: Ville de l'agence.
+      - name: zone_commerciale
+        description: Zone commerciale de rattachement.
+      - name: statut_agence
+        description: Statut de l'agence (ACTIVE, FERMEE...).
+      - name: is_active
+        description: Indicateur d'agence active.
+
+  - name: dim_conseiller
+    description: >
+      Dimension conseiller commercial. Dédupliquée par conseiller_id.
+      Rattachée à dim_agence_region. Inclut une ligne UNKNOWN.
+    columns:
+      - name: conseiller_key
+        description: Clé surrogate (SHA256 sur conseiller_id).
+        tests:
+          - not_null
+          - unique
+      - name: conseiller_id
+        description: Identifiant métier du conseiller.
+        tests:
+          - not_null
+          - unique
+      - name: matricule
+        description: Matricule RH du conseiller.
+      - name: nom
+        description: Nom de famille.
+      - name: prenom
+        description: Prénom.
+      - name: nom_complet
+        description: Prénom + Nom concatenés.
+      - name: email
+        description: Email professionnel (masqué DDM).
+      - name: telephone
+        description: Téléphone professionnel (masqué DDM).
+      - name: poste
+        description: Intitulé de poste.
+      - name: agence_id
+        description: Identifiant de l'agence de rattachement.
+      - name: agence_region_key
+        description: Clé surrogate vers dim_agence_region. UNKNOWN si absent.
+        tests:
+          - not_null
+      - name: region_id
+        description: Identifiant de la région.
+      - name: manager_id
+        description: Identifiant du manager direct.
+      - name: objectif_annuel
+        description: Objectif commercial annuel en euros (masqué DDM).
+      - name: objectif_mensuel_moyen
+        description: Objectif mensuel moyen en euros (masqué DDM).
+      - name: statut_collaborateur
+        description: Statut RH du collaborateur.
+      - name: specialite_produit
+        description: Spécialité produit du conseiller.
+      - name: is_active
+        description: Indicateur de conseiller actif.
+
+  - name: dim_partenaire
+    description: >
+      Dimension partenaire professionnel du patrimoine. Dédupliquée par partenaire_id.
+      Inclut une ligne UNKNOWN.
+    columns:
+      - name: partenaire_key
+        description: Clé surrogate (SHA256 sur partenaire_id).
+        tests:
+          - not_null
+          - unique
+      - name: partenaire_id
+        description: Identifiant métier du partenaire.
+        tests:
+          - not_null
+          - unique
+      - name: raison_sociale
+        description: Raison sociale du partenaire.
+      - name: siret
+        description: Numéro SIRET.
+      - name: type_partenaire
+        description: Type de partenaire (CGP, Notaire, Banque...).
+      - name: statut_partenaire
+        description: Statut du partenaire.
+      - name: contact_principal
+        description: Prénom + Nom du contact principal.
+      - name: email_contact
+        description: Email du contact (masqué DDM).
+      - name: telephone_contact
+        description: Téléphone du contact (masqué DDM).
+      - name: niveau_partenaire
+        description: Niveau de partenariat (Gold, Silver, Bronze...).
+      - name: encours_total_apporte
+        description: Encours total apporté en euros (masqué DDM).
+      - name: commission_rate_default
+        description: Taux de commission par défaut (masqué DDM).
+      - name: is_active
+        description: Indicateur de partenaire actif.
+
+  - name: dim_programme_immobilier
+    description: >
+      Dimension programme immobilier. Dédupliquée par programme_id.
+      Inclut une ligne UNKNOWN.
+    columns:
+      - name: programme_key
+        description: Clé surrogate (SHA256 sur programme_id).
+        tests:
+          - not_null
+          - unique
+      - name: programme_id
+        description: Identifiant métier du programme.
+        tests:
+          - not_null
+          - unique
+      - name: nom_programme
+        description: Nom commercial du programme.
+      - name: type_programme
+        description: Type de programme (Résidentiel, Commercial...).
+      - name: ville
+        description: Ville du programme.
+      - name: region
+        description: Région du programme.
+      - name: type_actif
+        description: Type d'actif immobilier.
+      - name: segment_marche
+        description: Segment de marché ciblé.
+      - name: statut_programme
+        description: Statut commercial du programme.
+      - name: dispositif_fiscal
+        description: Dispositif fiscal applicable (Pinel, LMNP...).
+      - name: label_energetique
+        description: Label énergétique du programme.
+      - name: is_active
+        description: Indicateur de programme actif.
+
+  - name: dim_lot_immobilier
+    description: >
+      Dimension lot immobilier. Dédupliquée par lot_id. Rattachée à
+      dim_programme_immobilier. Inclut une ligne UNKNOWN.
+    columns:
+      - name: lot_key
+        description: Clé surrogate (SHA256 sur lot_id).
+        tests:
+          - not_null
+          - unique
+      - name: lot_id
+        description: Identifiant métier du lot.
+        tests:
+          - not_null
+          - unique
+      - name: programme_id
+        description: Identifiant du programme parent.
+      - name: programme_key
+        description: Clé surrogate vers dim_programme_immobilier. UNKNOWN si absent.
+        tests:
+          - not_null
+      - name: numero_lot
+        description: Numéro du lot dans le programme.
+      - name: type_lot
+        description: Type de lot (Appartement, Studio...).
+      - name: typologie
+        description: Typologie (T1, T2, T3...).
+      - name: surface_m2
+        description: Surface en m².
+      - name: prix_catalogue
+        description: Prix catalogue en euros.
+      - name: prix_final
+        description: Prix final après remise en euros.
+      - name: statut_lot
+        description: Statut du lot (Disponible, Réservé, Vendu...).
+
+  - name: dim_produit_investissement
+    description: >
+      Dimension produit d'investissement pierre-papier. Dédupliquée par produit_id.
+      Inclut une ligne UNKNOWN.
+    columns:
+      - name: produit_key
+        description: Clé surrogate (SHA256 sur produit_id).
+        tests:
+          - not_null
+          - unique
+      - name: produit_id
+        description: Identifiant métier du produit.
+        tests:
+          - not_null
+          - unique
+      - name: nom_produit
+        description: Nom commercial du produit.
+      - name: famille_produit
+        description: Famille de produit (SCPI, OPCI, SCI...).
+      - name: type_produit
+        description: Type de produit.
+      - name: fiscalite
+        description: Régime fiscal applicable.
+      - name: niveau_risque
+        description: Niveau de risque du produit.
+      - name: rendement_cible_annuel
+        description: Rendement cible annuel (ex. 0.045 = 4.5%).
+      - name: statut_commercialisation
+        description: Statut de commercialisation du produit.
+      - name: is_active
+        description: Indicateur de produit actif.
+
+  - name: dim_statut
+    description: >
+      Dimension statut transverse. Centralise tous les statuts métier par domaine.
+      Inclut une ligne UNKNOWN par domaine pour les faits sans statut valide.
+      Domaines couverts : RESERVATION, VENTE, COMMISSION, SOUSCRIPTION,
+      CROWDFUNDING, FINANCEMENT, GESTION_LOCATIVE, REVENTE, DOSSIER_ADV, RECLAMATION.
+    columns:
+      - name: statut_key
+        description: Clé surrogate composite (SHA256 sur domaine_statut + statut_value).
+        tests:
+          - not_null
+          - unique
+      - name: domaine_statut
+        description: Domaine métier du statut.
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['RESERVATION', 'VENTE', 'COMMISSION', 'SOUSCRIPTION',
+                       'CROWDFUNDING', 'FINANCEMENT', 'GESTION_LOCATIVE',
+                       'REVENTE', 'DOSSIER_ADV', 'RECLAMATION']
+      - name: statut_value
+        description: Valeur du statut normalisée en majuscules.
+        tests:
+          - not_null
+
+  - name: security_user_access
+    description: >
+      Table de sécurité pour le RLS Power BI. Définit les droits d'accès
+      par utilisateur, rôle métier et périmètre (région, agence, conseiller, partenaire).
+      Dédupliquée par combinaison email + rôle + périmètre.
+    columns:
+      - name: security_access_key
+        description: Clé surrogate composite sur email + rôle + périmètre.
+        tests:
+          - not_null
+          - unique
+      - name: user_access_id
+        description: Identifiant technique de l'accès.
+      - name: user_email
+        description: Email de l'utilisateur (en minuscules).
+        tests:
+          - not_null
+      - name: user_name
+        description: Nom d'affichage de l'utilisateur.
+      - name: role_metier
+        description: Rôle métier de l'utilisateur (DIRECTION, REGION, AGENCE, CONSEILLER, ADV...).
+        tests:
+          - not_null
+      - name: access_level
+        description: Niveau d'accès aux données.
+      - name: region_id
+        description: Périmètre région si applicable.
+      - name: agence_id
+        description: Périmètre agence si applicable.
+      - name: conseiller_id
+        description: Périmètre conseiller si applicable.
+      - name: partenaire_id
+        description: Périmètre partenaire si applicable.
+      - name: can_view_commissions
+        description: Droit de voir les commissions.
+      - name: can_view_margin
+        description: Droit de voir les marges.
+      - name: can_view_personal_data
+        description: Droit de voir les données personnelles.
+      - name: can_export_data
+        description: Droit d'exporter les données.
+      - name: is_active
+        description: Indicateur d'accès actif.
+
+  # ============================================================
+  # FAITS
+  # ============================================================
+
+  - name: fact_vente
+    description: >
+      Table de faits des ventes immobilières. Grain : 1 ligne = 1 vente.
+      Référence toutes les dimensions Gold. Les dimensions absentes pointent vers UNKNOWN.
+    columns:
+      - name: vente_key
+        description: Clé surrogate (SHA256 sur vente_id).
+        tests:
+          - not_null
+          - unique
+      - name: vente_id
+        description: Identifiant métier de la vente.
+        tests:
+          - not_null
+          - unique
+      - name: reservation_id
+        description: Identifiant de la réservation associée.
+      - name: date_signature_contrat_key
+        description: Clé date de signature du contrat (YYYYMMDD).
+      - name: date_signature_acte_key
+        description: Clé date de signature de l'acte notarié (YYYYMMDD).
+      - name: date_livraison_prevue_key
+        description: Clé date de livraison prévue (YYYYMMDD).
+      - name: date_livraison_reelle_key
+        description: Clé date de livraison réelle (YYYYMMDD).
+      - name: investisseur_key
+        description: Clé vers dim_investisseur. UNKNOWN si absent.
+        tests:
+          - not_null
+      - name: partenaire_key
+        description: Clé vers dim_partenaire. UNKNOWN si absent.
+        tests:
+          - not_null
+      - name: conseiller_key
+        description: Clé vers dim_conseiller. UNKNOWN si absent.
+        tests:
+          - not_null
+      - name: agence_region_key
+        description: Clé vers dim_agence_region. UNKNOWN si absent.
+        tests:
+          - not_null
+      - name: programme_key
+        description: Clé vers dim_programme_immobilier. UNKNOWN si absent.
+        tests:
+          - not_null
+      - name: lot_key
+        description: Clé vers dim_lot_immobilier. UNKNOWN si absent.
+        tests:
+          - not_null
+      - name: statut_key
+        description: Clé vers dim_statut domaine VENTE. UNKNOWN si absent.
+        tests:
+          - not_null
+      - name: prix_vente_ht
+        description: Prix de vente hors taxes en euros.
+      - name: prix_vente_ttc
+        description: Prix de vente TTC en euros.
+        tests:
+          - not_null
+      - name: tva
+        description: Montant de TVA en euros.
+      - name: frais_notaire
+        description: Frais de notaire en euros.
+      - name: montant_total_operation
+        description: Montant total de l'opération en euros.
+      - name: montant_apport
+        description: Apport personnel de l'investisseur.
+      - name: montant_credit
+        description: Montant du crédit immobilier.
+      - name: mode_financement
+        description: Mode de financement (Comptant, Crédit...).
+      - name: statut_vente
+        description: Statut métier de la vente.
+      - name: motif_echec
+        description: Motif d'échec si la vente n'a pas abouti.
+
+  - name: fact_reservation
+    description: >
+      Table de faits des réservations immobilières. Grain : 1 ligne = 1 réservation.
+    columns:
+      - name: reservation_key
+        description: Clé surrogate (SHA256 sur reservation_id).
+        tests:
+          - not_null
+          - unique
+      - name: reservation_id
+        description: Identifiant métier de la réservation.
+        tests:
+          - not_null
+          - unique
+      - name: investisseur_key
+        tests:
+          - not_null
+      - name: partenaire_key
+        tests:
+          - not_null
+      - name: conseiller_key
+        tests:
+          - not_null
+      - name: agence_region_key
+        tests:
+          - not_null
+      - name: programme_key
+        tests:
+          - not_null
+      - name: lot_key
+        tests:
+          - not_null
+      - name: statut_key
+        tests:
+          - not_null
+      - name: montant_reservation
+        description: Montant du dépôt de réservation en euros.
+      - name: prix_reserve
+        description: Prix du lot au moment de la réservation.
+      - name: canal_reservation
+        description: Canal de réservation (Web, Agence, Partenaire...).
+      - name: statut_reservation
+        description: Statut de la réservation.
+      - name: motif_annulation
+        description: Motif d'annulation si applicable.
+
+  - name: fact_commission
+    description: >
+      Table de faits des commissions. Grain : 1 ligne = 1 commission calculée.
+    columns:
+      - name: commission_key
+        description: Clé surrogate (SHA256 sur commission_id).
+        tests:
+          - not_null
+          - unique
+      - name: commission_id
+        description: Identifiant métier de la commission.
+        tests:
+          - not_null
+          - unique
+      - name: investisseur_key
+        tests:
+          - not_null
+      - name: partenaire_key
+        tests:
+          - not_null
+      - name: conseiller_key
+        tests:
+          - not_null
+      - name: agence_region_key
+        tests:
+          - not_null
+      - name: produit_key
+        tests:
+          - not_null
+      - name: programme_key
+        tests:
+          - not_null
+      - name: statut_key
+        tests:
+          - not_null
+      - name: type_operation
+        description: Type d'opération liée à la commission.
+      - name: montant_commission_brut
+        description: Montant brut de la commission en euros.
+      - name: montant_commission_net
+        description: Montant net de la commission en euros.
+      - name: part_commission_partenaire
+        description: Part reversée au partenaire en euros.
+      - name: part_commission_interne
+        description: Part conservée en interne en euros.
+      - name: statut_commission
+        description: Statut de la commission.
+
+  - name: fact_souscription_pierre_papier
+    description: >
+      Table de faits des souscriptions pierre-papier. Grain : 1 ligne = 1 souscription.
+    columns:
+      - name: souscription_key
+        description: Clé surrogate (SHA256 sur souscription_id).
+        tests:
+          - not_null
+          - unique
+      - name: souscription_id
+        description: Identifiant métier de la souscription.
+        tests:
+          - not_null
+          - unique
+      - name: investisseur_key
+        tests:
+          - not_null
+      - name: partenaire_key
+        tests:
+          - not_null
+      - name: conseiller_key
+        tests:
+          - not_null
+      - name: agence_region_key
+        tests:
+          - not_null
+      - name: produit_key
+        tests:
+          - not_null
+      - name: statut_key
+        tests:
+          - not_null
+      - name: montant_souscrit
+        description: Montant total souscrit en euros.
+        tests:
+          - not_null
+      - name: type_support
+        description: Type de support (SCPI, OPCI, SCI...).
+      - name: statut_souscription
+        description: Statut de la souscription.
+
+  - name: fact_operation_crowdfunding
+    description: >
+      Table de faits des opérations de crowdfunding immobilier.
+      Grain : 1 ligne = 1 investissement crowdfunding.
+    columns:
+      - name: crowdfunding_key
+        description: Clé surrogate (SHA256 sur operation_crowdfunding_id).
+        tests:
+          - not_null
+          - unique
+      - name: operation_crowdfunding_id
+        description: Identifiant métier de l'opération.
+        tests:
+          - not_null
+          - unique
+      - name: investisseur_key
+        tests:
+          - not_null
+      - name: partenaire_key
+        tests:
+          - not_null
+      - name: conseiller_key
+        tests:
+          - not_null
+      - name: agence_region_key
+        tests:
+          - not_null
+      - name: statut_key
+        tests:
+          - not_null
+      - name: montant_investi
+        description: Montant investi en euros.
+      - name: taux_rendement_annuel_prevu
+        description: Taux de rendement annuel prévu (ex. 0.08 = 8%).
+      - name: interets_bruts
+        description: Intérêts bruts perçus en euros.
+      - name: statut_operation
+        description: Statut de l'opération crowdfunding.
+
+  - name: fact_financement
+    description: >
+      Table de faits des financements. Grain : 1 ligne = 1 dossier de financement.
+    columns:
+      - name: financement_key
+        description: Clé surrogate (SHA256 sur financement_id).
+        tests:
+          - not_null
+          - unique
+      - name: financement_id
+        description: Identifiant métier du financement.
+        tests:
+          - not_null
+          - unique
+      - name: investisseur_key
+        tests:
+          - not_null
+      - name: statut_key
+        tests:
+          - not_null
+      - name: montant_demande
+        description: Montant de financement demandé en euros.
+      - name: montant_accorde
+        description: Montant accordé par la banque en euros.
+      - name: taux_credit
+        description: Taux du crédit immobilier.
+      - name: statut_financement
+        description: Statut du dossier de financement.
+
+  - name: fact_dossier_adv
+    description: >
+      Table de faits des dossiers ADV. Grain : 1 ligne = 1 dossier d'administration des ventes.
+    columns:
+      - name: dossier_adv_key
+        description: Clé surrogate (SHA256 sur dossier_adv_id).
+        tests:
+          - not_null
+          - unique
+      - name: dossier_adv_id
+        description: Identifiant métier du dossier.
+        tests:
+          - not_null
+          - unique
+      - name: investisseur_key
+        tests:
+          - not_null
+      - name: partenaire_key
+        tests:
+          - not_null
+      - name: conseiller_key
+        tests:
+          - not_null
+      - name: programme_key
+        tests:
+          - not_null
+      - name: lot_key
+        tests:
+          - not_null
+      - name: statut_key
+        tests:
+          - not_null
+      - name: delai_traitement_jours
+        description: Délai de traitement du dossier en jours.
+      - name: pieces_manquantes
+        description: Indicateur de pièces manquantes.
+      - name: nombre_relances
+        description: Nombre de relances effectuées.
+      - name: blocage_adv
+        description: Indicateur de blocage ADV.
+      - name: statut_dossier
+        description: Statut du dossier ADV.
+
+  - name: fact_gestion_locative
+    description: >
+      Table de faits de gestion locative. Grain : 1 ligne = 1 dossier de gestion locative.
+    columns:
+      - name: gestion_locative_key
+        description: Clé surrogate (SHA256 sur gestion_id).
+        tests:
+          - not_null
+          - unique
+      - name: gestion_id
+        description: Identifiant métier du dossier de gestion.
+        tests:
+          - not_null
+          - unique
+      - name: investisseur_key
+        tests:
+          - not_null
+      - name: programme_key
+        tests:
+          - not_null
+      - name: lot_key
+        tests:
+          - not_null
+      - name: statut_key
+        tests:
+          - not_null
+      - name: loyer_mensuel_prevu
+        description: Loyer mensuel prévu en euros.
+      - name: loyer_mensuel_reel
+        description: Loyer mensuel réel encaissé en euros.
+      - name: taux_occupation
+        description: Taux d'occupation du bien (0 à 1).
+      - name: rendement_reel_annuel
+        description: Rendement locatif réel annuel.
+      - name: statut_gestion
+        description: Statut du dossier de gestion locative.
+
+  - name: fact_revente
+    description: >
+      Table de faits des reventes de biens. Grain : 1 ligne = 1 opération de revente.
+    columns:
+      - name: revente_key
+        description: Clé surrogate (SHA256 sur revente_id).
+        tests:
+          - not_null
+          - unique
+      - name: revente_id
+        description: Identifiant métier de la revente.
+        tests:
+          - not_null
+          - unique
+      - name: investisseur_key
+        tests:
+          - not_null
+      - name: programme_key
+        tests:
+          - not_null
+      - name: lot_key
+        tests:
+          - not_null
+      - name: statut_key
+        tests:
+          - not_null
+      - name: prix_achat_initial
+        description: Prix d'achat initial du bien en euros.
+      - name: prix_revente_final
+        description: Prix de revente final en euros.
+      - name: plus_value_brute
+        description: Plus-value brute réalisée en euros.
+      - name: plus_value_nette
+        description: Plus-value nette après fiscalité en euros.
+      - name: statut_revente
+        description: Statut de la revente.
+
+  - name: fact_objectif_commercial
+    description: >
+      Table de faits des objectifs commerciaux. Grain : 1 ligne = 1 objectif
+      par période, niveau, entité et type produit.
+    columns:
+      - name: objectif_key
+        description: Clé surrogate (SHA256 sur objectif_id).
+        tests:
+          - not_null
+          - unique
+      - name: objectif_id
+        description: Identifiant métier de l'objectif.
+        tests:
+          - not_null
+          - unique
+      - name: agence_region_key
+        tests:
+          - not_null
+      - name: conseiller_key
+        tests:
+          - not_null
+      - name: partenaire_key
+        tests:
+          - not_null
+      - name: annee
+        description: Année de l'objectif.
+      - name: mois
+        description: Mois de l'objectif.
+      - name: niveau_objectif
+        description: Niveau de l'objectif (Conseiller, Agence, Région...).
+      - name: objectif_ca
+        description: Objectif de chiffre d'affaires en euros.
+      - name: objectif_nombre_ventes
+        description: Objectif nombre de ventes.
+      - name: objectif_commissions
+        description: Objectif de commissions en euros.
