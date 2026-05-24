@@ -9,7 +9,6 @@ ITEM_TYPES = [
     "SemanticModel",
     "Report",
     "DataPipeline",
-    "DataBuildToolJob",
 ]
 
 EXISTING_ITEMS = {
