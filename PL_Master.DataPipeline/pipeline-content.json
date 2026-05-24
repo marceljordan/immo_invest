@@ -40,7 +40,7 @@
           "secureInput": false,
           "secureOutput": false
         },
-        "name": "dbt job transform",
+        "name": "dbt_job_transform",
         "dependsOn": [
           {
             "activity": "Invoke_pipeline_ingest",
@@ -73,7 +73,7 @@
         "name": "Semantic model refresh",
         "dependsOn": [
           {
-            "activity": "dbt job transform",
+            "activity": "dbt_job_transform",
             "dependencyConditions": [
               "Succeeded"
             ]
