@@ -20,7 +20,7 @@
           "secureInput": false,
           "secureOutput": false
         },
-        "name": "Invoke pipeline ingest",
+        "name": "Invoke_pipeline_ingest",
         "dependsOn": []
       },
       {
@@ -43,7 +43,7 @@
         "name": "dbt job transform",
         "dependsOn": [
           {
-            "activity": "Invoke pipeline ingest",
+            "activity": "Invoke_pipeline_ingest",
             "dependencyConditions": [
               "Succeeded"
             ]
