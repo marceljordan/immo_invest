@@ -79,33 +79,6 @@
             ]
           }
         ]
-      },
-      {
-        "type": "Office365Email",
-        "typeProperties": {
-          "body": "@concat(\n  '<b>Pipeline Data Immo - Exécution réussie</b><br><br>',\n  '📅 Date : ', formatDateTime(utcNow(), 'dd/MM/yyyy HH:mm'), '<br>',\n  '✅ Ingestion (PL) : Succès<br>',\n  '✅ Transformation (dbt) : Succès<br>',\n  '✅ Refresh Semantic Model : Succès<br><br>',\n  'Les données sont à jour et disponibles dans les rapports.'\n)",
-          "to": "njiwoua2@gmail.com",
-          "subject": "@concat('✅ Pipeline Immo - Succès - ', formatDateTime(utcNow(), 'dd/MM/yyyy HH:mm'))"
-        },
-        "externalReferences": {
-          "connection": "4d5234a1-6cd5-468d-9b78-763c57f66ac7"
-        },
-        "policy": {
-          "timeout": "0.12:00:00",
-          "retry": 0,
-          "retryIntervalInSeconds": 30,
-          "secureInput": false,
-          "secureOutput": false
-        },
-        "name": "Office365Email1",
-        "dependsOn": [
-          {
-            "activity": "Semantic model refresh",
-            "dependencyConditions": [
-              "Succeeded"
-            ]
-          }
-        ]
       }
     ]
   }
