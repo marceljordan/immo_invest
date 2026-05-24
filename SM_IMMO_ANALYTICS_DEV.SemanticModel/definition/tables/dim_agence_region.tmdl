@@ -1,0 +1,208 @@
+table dim_agence_region
+	lineageTag: adf47895-876b-47db-8730-8a10ce90b9a5
+	sourceLineageTag: [gold].[dim_agence_region]
+
+	column agence_region_key
+		dataType: string
+		sourceProviderType: varchar(400)
+		lineageTag: 3f77cd69-a95b-4bc5-b5ec-9a3e765ebf98
+		sourceLineageTag: agence_region_key
+		summarizeBy: none
+		sourceColumn: agence_region_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column agence_id
+		dataType: string
+		sourceProviderType: varchar(50)
+		lineageTag: 798b0d44-e447-4dac-b11b-078a5dfb02a6
+		sourceLineageTag: agence_id
+		summarizeBy: none
+		sourceColumn: agence_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column nom_agence
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: 1e0be635-062b-487c-a4f2-eedbd3c6d87c
+		sourceLineageTag: nom_agence
+		summarizeBy: none
+		sourceColumn: nom_agence
+
+		annotation SummarizationSetBy = Automatic
+
+	column code_agence
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: fbdb1047-5f9c-41c1-b6c2-f5ced469a244
+		sourceLineageTag: code_agence
+		summarizeBy: none
+		sourceColumn: code_agence
+
+		annotation SummarizationSetBy = Automatic
+
+	column region_id
+		dataType: string
+		sourceProviderType: varchar(50)
+		lineageTag: 3ee85f55-f475-41cc-8801-1cb630028ece
+		sourceLineageTag: region_id
+		summarizeBy: none
+		sourceColumn: region_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column nom_region
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: 1968bb85-33bf-45ee-90e2-49ca3d4950d5
+		sourceLineageTag: nom_region
+		summarizeBy: none
+		sourceColumn: nom_region
+
+		annotation SummarizationSetBy = Automatic
+
+	column directeur_region_id
+		dataType: string
+		sourceProviderType: varchar(50)
+		lineageTag: 49304aef-824e-4936-84e8-506d96acaa2f
+		sourceLineageTag: directeur_region_id
+		summarizeBy: none
+		sourceColumn: directeur_region_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column responsable_agence_id
+		dataType: string
+		sourceProviderType: varchar(50)
+		lineageTag: 0ffcc013-1b97-4861-8249-c6a52a6b3d72
+		sourceLineageTag: responsable_agence_id
+		summarizeBy: none
+		sourceColumn: responsable_agence_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column ville
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: ff1a1a2a-bcf3-4cc0-8681-3c2ed81142bb
+		sourceLineageTag: ville
+		summarizeBy: none
+		sourceColumn: ville
+
+		annotation SummarizationSetBy = Automatic
+
+	column code_postal
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: b43862c8-5ae7-47e0-8b1b-38c17f011b63
+		sourceLineageTag: code_postal
+		summarizeBy: none
+		sourceColumn: code_postal
+
+		annotation SummarizationSetBy = Automatic
+
+	column adresse
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: 2f3400bb-8de0-4543-8675-a3351f3d88ac
+		sourceLineageTag: adresse
+		summarizeBy: none
+		sourceColumn: adresse
+
+		annotation SummarizationSetBy = Automatic
+
+	column pays
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: 3f9c7b05-c5bf-4c5e-91cb-e87b6b546e52
+		sourceLineageTag: pays
+		summarizeBy: none
+		sourceColumn: pays
+
+		annotation SummarizationSetBy = Automatic
+
+	column zone_commerciale
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: d5114298-2243-40a3-b1fc-7497c6df2c2c
+		sourceLineageTag: zone_commerciale
+		summarizeBy: none
+		sourceColumn: zone_commerciale
+
+		annotation SummarizationSetBy = Automatic
+
+	column statut_agence
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: f2e2905c-3a52-44ca-9d97-2450151d013b
+		sourceLineageTag: statut_agence
+		summarizeBy: none
+		sourceColumn: statut_agence
+
+		annotation SummarizationSetBy = Automatic
+
+	column date_ouverture
+		dataType: dateTime
+		formatString: General Date
+		sourceProviderType: date
+		lineageTag: 86a9219b-163f-4b08-9d5e-2d326eda835c
+		sourceLineageTag: date_ouverture
+		summarizeBy: none
+		sourceColumn: date_ouverture
+
+		annotation SummarizationSetBy = Automatic
+
+	column date_fermeture
+		dataType: dateTime
+		formatString: General Date
+		sourceProviderType: date
+		lineageTag: 8d4ae232-4b1a-45c2-94e6-2c70cac651d9
+		sourceLineageTag: date_fermeture
+		summarizeBy: none
+		sourceColumn: date_fermeture
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_active
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		sourceProviderType: bit
+		lineageTag: 3736e879-41d0-4faf-bbcd-e209bc7cced7
+		sourceLineageTag: is_active
+		summarizeBy: none
+		sourceColumn: is_active
+
+		annotation SummarizationSetBy = Automatic
+
+	column created_at
+		dataType: dateTime
+		formatString: General Date
+		sourceProviderType: datetime2
+		lineageTag: 0b596bfd-1bf7-4ac2-b45f-396eb8324075
+		sourceLineageTag: created_at
+		summarizeBy: none
+		sourceColumn: created_at
+
+		annotation SummarizationSetBy = Automatic
+
+	column updated_at
+		dataType: dateTime
+		formatString: General Date
+		sourceProviderType: datetime2
+		lineageTag: 2c0bbd5e-97ce-4c32-8115-e7bc479f28f6
+		sourceLineageTag: updated_at
+		summarizeBy: none
+		sourceColumn: updated_at
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_agence_region = entity
+		mode: directLake
+		source
+			entityName: dim_agence_region
+			schemaName: gold
+			expressionSource: DatabaseQuery
+
+	annotation PBI_ResultType = Table
+

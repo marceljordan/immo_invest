@@ -1,0 +1,85 @@
+{
+  "properties": {
+    "activities": [
+      {
+        "type": "InvokePipeline",
+        "typeProperties": {
+          "parameters": {},
+          "waitOnCompletion": true,
+          "workspaceId": "00000000-0000-0000-0000-000000000000",
+          "pipelineId": "72db229e-d3ff-b603-4650-45ee7667b7c3",
+          "operationType": "InvokeFabricPipeline"
+        },
+        "externalReferences": {
+          "connection": "d9dde602-b20b-4e3b-aa30-c1949436a1e2"
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Invoke pipeline ingest",
+        "dependsOn": []
+      },
+      {
+        "type": "InvokeDataBuildToolJob",
+        "typeProperties": {
+          "dataBuildToolJobId": "3652d049-07bb-9b4c-4230-7905aafe1900",
+          "workspaceId": "00000000-0000-0000-0000-000000000000",
+          "threads": 4
+        },
+        "externalReferences": {
+          "connection": "e52e8721-542a-4ced-a220-d74b97b5ea96"
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "dbt job transform",
+        "dependsOn": [
+          {
+            "activity": "Invoke pipeline ingest",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "PBISemanticModelRefresh",
+        "typeProperties": {
+          "method": "POST",
+          "groupId": "ec7aa1ee-16a6-43ef-a54d-cdcc1cb90693",
+          "datasetId": "47ac6192-d68f-4aa6-8209-29248715898c",
+          "commitMode": "Transactional",
+          "waitOnCompletion": true,
+          "operationType": "SemanticModelRefresh"
+        },
+        "externalReferences": {
+          "connection": "22c47972-1280-4e14-9f1b-d55fa4719bef"
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "Semantic model refresh",
+        "dependsOn": [
+          {
+            "activity": "dbt job transform",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

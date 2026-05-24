@@ -1,0 +1,54 @@
+{
+  "config": "{\"version\":\"5.73\",\"themeCollection\":{\"baseTheme\":{\"name\":\"CY26SU05\",\"type\":2,\"version\":{\"visual\":\"2.9.0\",\"report\":\"3.3.0\",\"page\":\"2.3.1\"}}},\"activeSectionIndex\":2,\"defaultDrillFilterOtherVisuals\":true,\"linguisticSchemaSyncVersion\":0,\"settings\":{\"useNewFilterPaneExperience\":true,\"allowChangeFilterTypes\":true,\"useStylableVisualContainerHeader\":true,\"queryLimitOption\":6,\"useEnhancedTooltips\":true,\"exportDataMode\":1,\"useDefaultAggregateDisplayName\":true},\"objects\":{\"section\":[{\"properties\":{\"verticalAlignment\":{\"expr\":{\"Literal\":{\"Value\":\"'Top'\"}}}}}]}}",
+  "layoutOptimization": 0,
+  "resourcePackages": [
+    {
+      "resourcePackage": {
+        "disabled": false,
+        "items": [
+          {
+            "name": "CY26SU05",
+            "path": "BaseThemes/CY26SU05.json",
+            "type": 202
+          }
+        ],
+        "name": "SharedResources",
+        "type": 2
+      }
+    }
+  ],
+  "sections": [
+    {
+      "config": "{}",
+      "displayName": "Financement & gestion locative",
+      "displayOption": 1,
+      "filters": "[]",
+      "height": 720.00,
+      "name": "15472736061037c97cf5",
+      "ordinal": 2,
+      "visualContainers": [],
+      "width": 1280.00
+    },
+    {
+      "config": "{}",
+      "displayName": "Commissions & partenaires",
+      "displayOption": 1,
+      "filters": "[]",
+      "height": 720.00,
+      "name": "a2cb81c3b78696b98b82",
+      "visualContainers": [],
+      "width": 1280.00
+    },
+    {
+      "config": "{}",
+      "displayName": " Suivi ADV",
+      "displayOption": 1,
+      "filters": "[]",
+      "height": 720.00,
+      "name": "c75fae69c479bb50c212",
+      "ordinal": 1,
+      "visualContainers": [],
+      "width": 1280.00
+    }
+  ]
+}

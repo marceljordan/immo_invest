@@ -1,0 +1,24 @@
+CREATE TABLE [silver].[produits_investissement] (
+
+	[produit_id] varchar(50) NULL, 
+	[nom_produit] varchar(8000) NULL, 
+	[famille_produit] varchar(8000) NULL, 
+	[type_produit] varchar(8000) NULL, 
+	[sous_type_produit] varchar(8000) NULL, 
+	[fiscalite] varchar(8000) NULL, 
+	[niveau_risque] varchar(8000) NULL, 
+	[duree_recommandee] varchar(8000) NULL, 
+	[rendement_cible_annuel] decimal(9,4) NULL, 
+	[montant_minimum_investissement] decimal(18,2) NULL, 
+	[frais_entree] decimal(9,4) NULL, 
+	[frais_gestion_annuels] decimal(9,4) NULL, 
+	[frais_sortie] decimal(9,4) NULL, 
+	[societe_gestion_id] varchar(50) NULL, 
+	[promoteur_id] varchar(50) NULL, 
+	[statut_commercialisation] varchar(8000) NULL, 
+	[date_debut_commercialisation] date NULL, 
+	[date_fin_commercialisation] date NULL, 
+	[created_at] datetime2(6) NULL, 
+	[updated_at] datetime2(6) NULL, 
+	[is_active] bit NULL
+);

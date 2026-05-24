@@ -1,0 +1,335 @@
+table fact_operation_crowdfunding
+	lineageTag: 8fd51fae-8213-4906-bcee-be15d400bdda
+	sourceLineageTag: [gold].[fact_operation_crowdfunding]
+
+	column crowdfunding_key
+		dataType: string
+		sourceProviderType: varchar(400)
+		lineageTag: a90de0d9-fe4e-4e82-875b-5db654a304ae
+		sourceLineageTag: crowdfunding_key
+		summarizeBy: none
+		sourceColumn: crowdfunding_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column operation_crowdfunding_id
+		dataType: string
+		sourceProviderType: varchar(50)
+		lineageTag: 3c736fbb-2d09-4ead-9faa-2c5621432425
+		sourceLineageTag: operation_crowdfunding_id
+		summarizeBy: none
+		sourceColumn: operation_crowdfunding_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column projet_id
+		dataType: string
+		sourceProviderType: varchar(50)
+		lineageTag: de6e9c6b-447c-4404-ba38-a0e568b94060
+		sourceLineageTag: projet_id
+		summarizeBy: none
+		sourceColumn: projet_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column date_investissement_key
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: fb5907f9-2b3f-40d8-99dd-d247bc654847
+		sourceLineageTag: date_investissement_key
+		summarizeBy: none
+		sourceColumn: date_investissement_key
+
+		changedProperty = SummarizeBy
+
+		annotation SummarizationSetBy = User
+
+	column date_remboursement_prevue_key
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: 3197f38a-d902-4863-b095-00f06607cefa
+		sourceLineageTag: date_remboursement_prevue_key
+		summarizeBy: none
+		sourceColumn: date_remboursement_prevue_key
+
+		changedProperty = SummarizeBy
+
+		annotation SummarizationSetBy = User
+
+	column date_remboursement_reelle_key
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: 60455ccd-fbbc-4da6-9e80-83a6d05b7c77
+		sourceLineageTag: date_remboursement_reelle_key
+		summarizeBy: none
+		sourceColumn: date_remboursement_reelle_key
+
+		changedProperty = SummarizeBy
+
+		annotation SummarizationSetBy = User
+
+	column investisseur_key
+		dataType: string
+		sourceProviderType: varchar(400)
+		lineageTag: 4a94c599-fd81-4829-b2b9-364f54bef463
+		sourceLineageTag: investisseur_key
+		summarizeBy: none
+		sourceColumn: investisseur_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column partenaire_key
+		dataType: string
+		sourceProviderType: varchar(400)
+		lineageTag: 3c3f370c-5044-46ea-b0ec-cfc31cafdd30
+		sourceLineageTag: partenaire_key
+		summarizeBy: none
+		sourceColumn: partenaire_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column conseiller_key
+		dataType: string
+		sourceProviderType: varchar(400)
+		lineageTag: 5bb613f7-78dd-443e-91dd-cca76aefb12e
+		sourceLineageTag: conseiller_key
+		summarizeBy: none
+		sourceColumn: conseiller_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column agence_region_key
+		dataType: string
+		sourceProviderType: varchar(400)
+		lineageTag: 401382d0-9ab6-4fcd-b54b-710c05a1283b
+		sourceLineageTag: agence_region_key
+		summarizeBy: none
+		sourceColumn: agence_region_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column statut_key
+		dataType: string
+		sourceProviderType: varchar(400)
+		lineageTag: 8e7c4047-c18c-421d-b213-4c1ee5b1e74b
+		sourceLineageTag: statut_key
+		summarizeBy: none
+		sourceColumn: statut_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column investisseur_id
+		dataType: string
+		sourceProviderType: varchar(50)
+		lineageTag: 0856b5af-e627-4c45-9900-ddc5d4a032d9
+		sourceLineageTag: investisseur_id
+		summarizeBy: none
+		sourceColumn: investisseur_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column partenaire_id
+		dataType: string
+		sourceProviderType: varchar(50)
+		lineageTag: eea50c47-3b58-4413-955f-d6b4ac0b0fcd
+		sourceLineageTag: partenaire_id
+		summarizeBy: none
+		sourceColumn: partenaire_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column conseiller_id
+		dataType: string
+		sourceProviderType: varchar(50)
+		lineageTag: 9cd9ba7c-9e60-4009-8b08-dfa64abd3466
+		sourceLineageTag: conseiller_id
+		summarizeBy: none
+		sourceColumn: conseiller_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column agence_id
+		dataType: string
+		sourceProviderType: varchar(50)
+		lineageTag: 08e8efef-0ad7-43ee-b57e-54f63d7222d5
+		sourceLineageTag: agence_id
+		summarizeBy: none
+		sourceColumn: agence_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column promoteur_id
+		dataType: string
+		sourceProviderType: varchar(50)
+		lineageTag: 09b66f09-118c-49e0-91d8-4a6de8603cd9
+		sourceLineageTag: promoteur_id
+		summarizeBy: none
+		sourceColumn: promoteur_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column nom_projet
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: d44596db-ee0a-470d-96a2-7b11ae7716a9
+		sourceLineageTag: nom_projet
+		summarizeBy: none
+		sourceColumn: nom_projet
+
+		annotation SummarizationSetBy = Automatic
+
+	column ville
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: aef16977-e2d3-4460-96b7-acfceabba9f8
+		sourceLineageTag: ville
+		summarizeBy: none
+		sourceColumn: ville
+
+		annotation SummarizationSetBy = Automatic
+
+	column region
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: 6ecbcf17-61cd-49b5-b2b2-2c4895f3d4e5
+		sourceLineageTag: region
+		summarizeBy: none
+		sourceColumn: region
+
+		annotation SummarizationSetBy = Automatic
+
+	column montant_investi
+		dataType: double
+		sourceProviderType: decimal(18, 2)
+		lineageTag: 52c94337-284f-474a-8d5d-64b623f9df34
+		sourceLineageTag: montant_investi
+		summarizeBy: none
+		sourceColumn: montant_investi
+
+		changedProperty = SummarizeBy
+
+		annotation SummarizationSetBy = User
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column taux_rendement_annuel_prevu
+		dataType: decimal
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		sourceProviderType: decimal(9, 4)
+		lineageTag: 2b82b4ab-3f7f-4d57-9813-d91ac55258c0
+		sourceLineageTag: taux_rendement_annuel_prevu
+		summarizeBy: none
+		sourceColumn: taux_rendement_annuel_prevu
+
+		changedProperty = SummarizeBy
+
+		annotation SummarizationSetBy = User
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	column duree_mois
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: 153691aa-5a6e-4399-8262-2d7389e7fe7b
+		sourceLineageTag: duree_mois
+		summarizeBy: none
+		sourceColumn: duree_mois
+
+		changedProperty = SummarizeBy
+
+		annotation SummarizationSetBy = User
+
+	column montant_rembourse
+		dataType: double
+		sourceProviderType: decimal(18, 2)
+		lineageTag: 3ddc2376-1905-4a86-88f8-176ec9567e38
+		sourceLineageTag: montant_rembourse
+		summarizeBy: none
+		sourceColumn: montant_rembourse
+
+		changedProperty = SummarizeBy
+
+		annotation SummarizationSetBy = User
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column interets_bruts
+		dataType: double
+		sourceProviderType: decimal(18, 2)
+		lineageTag: 77752441-8a14-44aa-b99f-713653a024ce
+		sourceLineageTag: interets_bruts
+		summarizeBy: none
+		sourceColumn: interets_bruts
+
+		changedProperty = SummarizeBy
+
+		annotation SummarizationSetBy = User
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column fiscalite_appliquee
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: 67efbbce-eece-4312-abf8-9168b67083cb
+		sourceLineageTag: fiscalite_appliquee
+		summarizeBy: none
+		sourceColumn: fiscalite_appliquee
+
+		annotation SummarizationSetBy = Automatic
+
+	column incident_paiement
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		sourceProviderType: bit
+		lineageTag: abbaf2a0-bccf-4632-b3f1-22576e78a9db
+		sourceLineageTag: incident_paiement
+		summarizeBy: none
+		sourceColumn: incident_paiement
+
+		annotation SummarizationSetBy = Automatic
+
+	column statut_operation
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: 530643d9-58e4-4dd8-ba46-8aaea050cfac
+		sourceLineageTag: statut_operation
+		summarizeBy: none
+		sourceColumn: statut_operation
+
+		annotation SummarizationSetBy = Automatic
+
+	column created_at
+		dataType: dateTime
+		formatString: General Date
+		sourceProviderType: datetime2
+		lineageTag: a0848a96-cff9-4d2c-8b82-0f5c0287c1f1
+		sourceLineageTag: created_at
+		summarizeBy: none
+		sourceColumn: created_at
+
+		annotation SummarizationSetBy = Automatic
+
+	column updated_at
+		dataType: dateTime
+		formatString: General Date
+		sourceProviderType: datetime2
+		lineageTag: b7bc675d-cb1f-4809-a6a5-8d66957e6fcc
+		sourceLineageTag: updated_at
+		summarizeBy: none
+		sourceColumn: updated_at
+
+		annotation SummarizationSetBy = Automatic
+
+	partition fact_operation_crowdfunding = entity
+		mode: directLake
+		source
+			entityName: fact_operation_crowdfunding
+			schemaName: gold
+			expressionSource: DatabaseQuery
+
+	annotation PBI_ResultType = Table
+

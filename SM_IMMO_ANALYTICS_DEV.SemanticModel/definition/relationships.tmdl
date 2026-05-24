@@ -1,0 +1,244 @@
+relationship acfc4794-6323-69b7-5bef-1f2d4fbec88d
+	fromColumn: fact_vente.partenaire_key
+	toColumn: dim_partenaire.partenaire_key
+
+relationship 7018bf0b-0ebd-c9f9-4cc8-a84edfa2a075
+	fromColumn: fact_vente.conseiller_key
+	toColumn: dim_conseiller.conseiller_key
+
+relationship e4be01ff-e2d8-b0bc-2a5b-4f5608fd63c7
+	fromColumn: fact_vente.agence_region_key
+	toColumn: dim_agence_region.agence_region_key
+
+relationship 201f225b-7cf2-82da-5a59-7341399ade65
+	fromColumn: fact_vente.programme_key
+	toColumn: dim_programme_immobilier.programme_key
+
+relationship 2d13370e-1c4b-9238-aac8-fb1d5b926e80
+	fromColumn: fact_vente.lot_key
+	toColumn: dim_lot_immobilier.lot_key
+
+relationship 18ab2822-2ec1-ccd9-ffbf-4fb836c735ed
+	fromColumn: fact_vente.statut_key
+	toColumn: dim_statut.statut_key
+
+relationship dbb1e097-fd94-ccd4-11bd-e4e7826e908a
+	fromColumn: fact_vente.date_signature_acte_key
+	toColumn: dim_date.date_key
+
+relationship f0ac55f0-5552-8451-9322-95931b45a3ef
+	fromColumn: fact_vente.investisseur_key
+	toColumn: dim_investisseur.investisseur_key
+
+relationship 171843bb-cb6c-64c2-73d6-773b8ca4bdbd
+	fromColumn: fact_reservation.date_reservation_key
+	toColumn: dim_date.date_key
+
+relationship a065cfbf-b0f7-e919-46fd-7583f6ec5d7d
+	fromColumn: fact_reservation.partenaire_key
+	toColumn: dim_partenaire.partenaire_key
+
+relationship 02aa8a22-1166-d8b5-a4e3-5f0da8428058
+	fromColumn: fact_reservation.conseiller_key
+	toColumn: dim_conseiller.conseiller_key
+
+relationship a405285a-66aa-cbca-2ec8-2684085e1a0f
+	fromColumn: fact_reservation.agence_region_key
+	toColumn: dim_agence_region.agence_region_key
+
+relationship 029e236f-4f00-82be-4fb4-c527c1adeb2c
+	fromColumn: fact_reservation.programme_key
+	toColumn: dim_programme_immobilier.programme_key
+
+relationship fb8c3b11-dae6-4e98-601f-0304fbf3c76f
+	fromColumn: fact_reservation.lot_key
+	toColumn: dim_lot_immobilier.lot_key
+
+relationship 70335ff2-b8b6-a7b5-f6cb-795060fda5f3
+	fromColumn: fact_reservation.statut_key
+	toColumn: dim_statut.statut_key
+
+relationship 0f99b461-68da-e884-ba96-d12dd17e5629
+	fromColumn: fact_reservation.investisseur_key
+	toColumn: dim_investisseur.investisseur_key
+
+relationship 7e8c8804-f0d2-1581-3368-933f698122a3
+	fromColumn: fact_commission.date_calcul_key
+	toColumn: dim_date.date_key
+
+relationship 48414283-4208-d9a6-de65-26a2abbce37f
+	fromColumn: fact_commission.investisseur_key
+	toColumn: dim_investisseur.investisseur_key
+
+relationship ed14a365-1d1b-a6ea-f2c3-3f995f1db3b4
+	fromColumn: fact_commission.partenaire_key
+	toColumn: dim_partenaire.partenaire_key
+
+relationship d58e5636-a7e4-0428-0e54-da9a04114d0d
+	fromColumn: fact_commission.conseiller_key
+	toColumn: dim_conseiller.conseiller_key
+
+relationship fa61a695-9c41-50c8-7cc1-1c6940e22614
+	fromColumn: fact_commission.agence_region_key
+	toColumn: dim_agence_region.agence_region_key
+
+relationship d7f4f498-e3fb-6689-1fdd-ccb63352833f
+	fromColumn: fact_commission.produit_key
+	toColumn: dim_produit_investissement.produit_key
+
+relationship 522853fb-3005-a241-eb70-1e820c85c6b2
+	fromColumn: fact_commission.programme_key
+	toColumn: dim_programme_immobilier.programme_key
+
+relationship c6d251aa-a0d1-b9a1-d563-f784695bac05
+	fromColumn: fact_commission.statut_key
+	toColumn: dim_statut.statut_key
+
+relationship cd277290-131a-8911-df50-a4db180d1352
+	fromColumn: fact_objectif_commercial.date_objectif_key
+	toColumn: dim_date.date_key
+
+relationship e20cb7de-2210-bcd9-33d9-e80a40f2fb65
+	fromColumn: fact_objectif_commercial.agence_region_key
+	toColumn: dim_agence_region.agence_region_key
+
+relationship ad94f077-a091-354e-c85b-4e8ef60b04d5
+	fromColumn: fact_objectif_commercial.conseiller_key
+	toColumn: dim_conseiller.conseiller_key
+
+relationship 6ced7439-0d7a-bb28-d83d-afed3f178eca
+	fromColumn: fact_objectif_commercial.partenaire_key
+	toColumn: dim_partenaire.partenaire_key
+
+relationship 4a62d120-0da0-2412-47f0-3226bac4fdc3
+	fromColumn: fact_souscription_pierre_papier.date_souscription_key
+	toColumn: dim_date.date_key
+
+relationship f0d7b149-0a34-46b5-9279-ef8f5937f673
+	fromColumn: fact_souscription_pierre_papier.investisseur_key
+	toColumn: dim_investisseur.investisseur_key
+
+relationship b9e0adba-4f18-e71e-c361-c411a007b8cb
+	fromColumn: fact_souscription_pierre_papier.partenaire_key
+	toColumn: dim_partenaire.partenaire_key
+
+relationship b3f615d7-46ea-8d3d-fde8-580970cbb4e0
+	fromColumn: fact_souscription_pierre_papier.conseiller_key
+	toColumn: dim_conseiller.conseiller_key
+
+relationship f7a986c8-3746-5d38-491d-9a979eab5c34
+	fromColumn: fact_souscription_pierre_papier.agence_region_key
+	toColumn: dim_agence_region.agence_region_key
+
+relationship 5ba2c155-5274-582a-fa66-a1bcfb219b9c
+	fromColumn: fact_souscription_pierre_papier.produit_key
+	toColumn: dim_produit_investissement.produit_key
+
+relationship ce161673-157d-efc9-9bda-0dc00fb78411
+	fromColumn: fact_souscription_pierre_papier.statut_key
+	toColumn: dim_statut.statut_key
+
+relationship 4765414c-d9e2-5c6d-0091-7965c5bd53fc
+	fromColumn: fact_operation_crowdfunding.date_investissement_key
+	toColumn: dim_date.date_key
+
+relationship 98e4032d-cee1-0296-4f4d-03a1aaa572ca
+	fromColumn: fact_operation_crowdfunding.investisseur_key
+	toColumn: dim_investisseur.investisseur_key
+
+relationship 4b7b7f1a-d1cb-4710-3f93-6fd65f3300cc
+	fromColumn: fact_operation_crowdfunding.partenaire_key
+	toColumn: dim_partenaire.partenaire_key
+
+relationship 0198ce54-519f-175b-5be7-e09a03f30d93
+	fromColumn: fact_operation_crowdfunding.conseiller_key
+	toColumn: dim_conseiller.conseiller_key
+
+relationship 6a6882ae-4ef6-f679-2533-74ea4a5360db
+	fromColumn: fact_operation_crowdfunding.agence_region_key
+	toColumn: dim_agence_region.agence_region_key
+
+relationship f6cdde36-3efc-8180-16c3-529d17f8cda0
+	fromColumn: fact_operation_crowdfunding.statut_key
+	toColumn: dim_statut.statut_key
+
+relationship 6900d16f-37b4-da49-6e54-7444f2673b2d
+	fromColumn: fact_financement.date_demande_key
+	toColumn: dim_date.date_key
+
+relationship ea5dcb11-55aa-11d2-fb17-ec8a35ad8516
+	fromColumn: fact_financement.investisseur_key
+	toColumn: dim_investisseur.investisseur_key
+
+relationship 82516577-c71c-c349-67b1-4187b62ff783
+	fromColumn: fact_financement.statut_key
+	toColumn: dim_statut.statut_key
+
+relationship 5af59391-67f8-71d9-f725-100acea86c62
+	fromColumn: fact_gestion_locative.date_debut_gestion_key
+	toColumn: dim_date.date_key
+
+relationship 22006710-91a0-760c-3f35-426fbedd14ee
+	fromColumn: fact_gestion_locative.investisseur_key
+	toColumn: dim_investisseur.investisseur_key
+
+relationship a20dac00-383f-ce35-e567-95894895afb5
+	fromColumn: fact_gestion_locative.programme_key
+	toColumn: dim_programme_immobilier.programme_key
+
+relationship 2ee0099e-d3f1-8011-c599-ca1b1ad48b20
+	fromColumn: fact_gestion_locative.lot_key
+	toColumn: dim_lot_immobilier.lot_key
+
+relationship 104011c6-8a51-9521-4cc7-f36f740ec9eb
+	fromColumn: fact_gestion_locative.statut_key
+	toColumn: dim_statut.statut_key
+
+relationship fe19616f-68e5-01d6-cc80-78dfac9cddfc
+	fromColumn: fact_revente.date_demande_revente_key
+	toColumn: dim_date.date_key
+
+relationship 8868eb51-1513-1f5e-e2bf-8fefa1d163fe
+	fromColumn: fact_revente.investisseur_key
+	toColumn: dim_investisseur.investisseur_key
+
+relationship 97743197-ba9c-ae3e-f5fe-6298ae701b87
+	fromColumn: fact_revente.programme_key
+	toColumn: dim_programme_immobilier.programme_key
+
+relationship 0010b8de-7528-a427-1c01-8f5311807aef
+	fromColumn: fact_revente.lot_key
+	toColumn: dim_lot_immobilier.lot_key
+
+relationship 90937f37-67ce-939d-c89e-17e531550edc
+	fromColumn: fact_revente.statut_key
+	toColumn: dim_statut.statut_key
+
+relationship cc045551-478b-beec-4198-fcb69837f430
+	fromColumn: fact_dossier_adv.date_ouverture_dossier_key
+	toColumn: dim_date.date_key
+
+relationship 08424cd1-46c6-4253-2ee4-e2cd9ba5fccb
+	fromColumn: fact_dossier_adv.investisseur_key
+	toColumn: dim_investisseur.investisseur_key
+
+relationship 0623f431-e2fe-4f48-03f4-b72b392d91c8
+	fromColumn: fact_dossier_adv.partenaire_key
+	toColumn: dim_partenaire.partenaire_key
+
+relationship 6939bb63-5228-fd2e-87a6-74a4caf8af56
+	fromColumn: fact_dossier_adv.conseiller_key
+	toColumn: dim_conseiller.conseiller_key
+
+relationship 2e6e52ef-5cfe-3052-b8f5-033004f110db
+	fromColumn: fact_dossier_adv.programme_key
+	toColumn: dim_programme_immobilier.programme_key
+
+relationship 2fd60130-43ec-3831-2162-f4f27d970115
+	fromColumn: fact_dossier_adv.lot_key
+	toColumn: dim_lot_immobilier.lot_key
+
+relationship 553eac89-1295-d1bb-6306-f2de487d86a5
+	fromColumn: fact_dossier_adv.statut_key
+	toColumn: dim_statut.statut_key
+

@@ -1,0 +1,54 @@
+{
+  "config": "{\"version\":\"5.73\",\"themeCollection\":{\"baseTheme\":{\"name\":\"CY26SU05\",\"type\":2,\"version\":{\"visual\":\"2.9.0\",\"report\":\"3.3.0\",\"page\":\"2.3.1\"}}},\"activeSectionIndex\":2,\"defaultDrillFilterOtherVisuals\":true,\"linguisticSchemaSyncVersion\":0,\"settings\":{\"useNewFilterPaneExperience\":true,\"allowChangeFilterTypes\":true,\"useStylableVisualContainerHeader\":true,\"queryLimitOption\":6,\"useEnhancedTooltips\":true,\"exportDataMode\":1,\"useDefaultAggregateDisplayName\":true},\"objects\":{\"section\":[{\"properties\":{\"verticalAlignment\":{\"expr\":{\"Literal\":{\"Value\":\"'Top'\"}}}}}]}}",
+  "layoutOptimization": 0,
+  "resourcePackages": [
+    {
+      "resourcePackage": {
+        "disabled": false,
+        "items": [
+          {
+            "name": "CY26SU05",
+            "path": "BaseThemes/CY26SU05.json",
+            "type": 202
+          }
+        ],
+        "name": "SharedResources",
+        "type": 2
+      }
+    }
+  ],
+  "sections": [
+    {
+      "config": "{}",
+      "displayName": "Programmes immobiliers",
+      "displayOption": 1,
+      "filters": "[]",
+      "height": 720.00,
+      "name": "53b41ef2bce359449cb8",
+      "visualContainers": [],
+      "width": 1280.00
+    },
+    {
+      "config": "{}",
+      "displayName": "Lots immobiliers",
+      "displayOption": 1,
+      "filters": "[]",
+      "height": 720.00,
+      "name": "ab6ab799e103c4cd5421",
+      "ordinal": 1,
+      "visualContainers": [],
+      "width": 1280.00
+    },
+    {
+      "config": "{}",
+      "displayName": "Investisseurs",
+      "displayOption": 1,
+      "filters": "[]",
+      "height": 720.00,
+      "name": "b0b75efbf39af07b52ce",
+      "ordinal": 2,
+      "visualContainers": [],
+      "width": 1280.00
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Report",
+    "displayName": "Programmes & Investissements"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "25b874c2-7219-b6d1-4547-7ffaa29cdd81"
+  }
+}

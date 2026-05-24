@@ -1,0 +1,26 @@
+CREATE TABLE [silver].[reservations_immobilieres] (
+
+	[reservation_id] varchar(50) NULL, 
+	[lot_id] varchar(50) NULL, 
+	[programme_id] varchar(50) NULL, 
+	[investisseur_id] varchar(50) NULL, 
+	[partenaire_id] varchar(50) NULL, 
+	[conseiller_id] varchar(50) NULL, 
+	[agence_id] varchar(50) NULL, 
+	[date_reservation] date NULL, 
+	[montant_reservation] decimal(18,2) NULL, 
+	[prix_reserve] decimal(18,2) NULL, 
+	[remise_appliquee] decimal(18,2) NULL, 
+	[statut_reservation] varchar(8000) NULL, 
+	[motif_annulation] varchar(8000) NULL, 
+	[date_annulation] date NULL, 
+	[date_expiration_reservation] date NULL, 
+	[canal_reservation] varchar(8000) NULL, 
+	[mode_financement_prevu] varchar(8000) NULL, 
+	[apport_prevu] decimal(18,2) NULL, 
+	[montant_credit_prevu] decimal(18,2) NULL, 
+	[commentaire_commercial] varchar(8000) NULL, 
+	[created_at] datetime2(6) NULL, 
+	[updated_at] datetime2(6) NULL, 
+	[is_deleted] bit NULL
+);

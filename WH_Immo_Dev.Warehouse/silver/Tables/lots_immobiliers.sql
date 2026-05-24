@@ -1,0 +1,26 @@
+CREATE TABLE [silver].[lots_immobiliers] (
+
+	[lot_id] varchar(50) NULL, 
+	[programme_id] varchar(50) NULL, 
+	[numero_lot] varchar(8000) NULL, 
+	[type_lot] varchar(8000) NULL, 
+	[typologie] varchar(8000) NULL, 
+	[surface_m2] decimal(10,2) NULL, 
+	[etage] int NULL, 
+	[orientation] varchar(8000) NULL, 
+	[parking_inclus] bit NULL, 
+	[prix_catalogue] decimal(18,2) NULL, 
+	[prix_remise] decimal(18,2) NULL, 
+	[prix_final] decimal(18,2) NULL, 
+	[loyer_estime_mensuel] decimal(18,2) NULL, 
+	[rentabilite_brute_estimee] decimal(9,4) NULL, 
+	[statut_lot] varchar(8000) NULL, 
+	[date_disponibilite] date NULL, 
+	[date_reservation] date NULL, 
+	[date_vente] date NULL, 
+	[investisseur_id] varchar(50) NULL, 
+	[partenaire_id] varchar(50) NULL, 
+	[created_at] datetime2(6) NULL, 
+	[updated_at] datetime2(6) NULL, 
+	[is_active] bit NULL
+);

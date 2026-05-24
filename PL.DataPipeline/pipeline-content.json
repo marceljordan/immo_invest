@@ -1,0 +1,173 @@
+{
+  "properties": {
+    "variables": {
+      "lakehouse_id": {
+        "type": "String",
+        "defaultValue": "66841f6d-142d-4f8a-98ff-9b81fed41000"
+      }
+    },
+    "activities": [
+      {
+        "type": "GetMetadata",
+        "typeProperties": {
+          "datasetSettings": {
+            "type": "Binary",
+            "typeProperties": {
+              "location": {
+                "type": "LakehouseLocation"
+              }
+            },
+            "linkedService": {
+              "name": "LH_Immo_Dev",
+              "properties": {
+                "type": "Lakehouse",
+                "typeProperties": {
+                  "artifactId": "@variables('lakehouse_id')",
+                  "workspaceId": "00000000-0000-0000-0000-000000000000",
+                  "rootFolder": "Files"
+                },
+                "annotations": []
+              }
+            },
+            "annotations": []
+          },
+          "fieldList": [
+            "childItems"
+          ],
+          "storeSettings": {
+            "type": "AzureBlobStorageReadSettings",
+            "recursive": true,
+            "enablePartitionDiscovery": false
+          },
+          "formatSettings": {
+            "type": "BinaryReadSettings"
+          }
+        },
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureInput": false,
+          "secureOutput": false
+        },
+        "name": "liste_fichiers",
+        "dependsOn": []
+      },
+      {
+        "type": "ForEach",
+        "typeProperties": {
+          "items": {
+            "value": "@activity('liste_fichiers').output.childItems",
+            "type": "Expression"
+          },
+          "activities": [
+            {
+              "type": "Copy",
+              "typeProperties": {
+                "source": {
+                  "type": "ExcelSource",
+                  "storeSettings": {
+                    "type": "AzureBlobStorageReadSettings",
+                    "recursive": true,
+                    "enablePartitionDiscovery": false
+                  },
+                  "datasetSettings": {
+                    "type": "Excel",
+                    "typeProperties": {
+                      "location": {
+                        "type": "LakehouseLocation",
+                        "fileName": {
+                          "value": "@item().name",
+                          "type": "Expression"
+                        }
+                      },
+                      "sheetName": "Sheet1",
+                      "firstRowAsHeader": true
+                    },
+                    "schema": [],
+                    "linkedService": {
+                      "name": "LH_Immo_Dev",
+                      "properties": {
+                        "type": "Lakehouse",
+                        "typeProperties": {
+                          "artifactId": "@variables('lakehouse_id')",
+                          "workspaceId": "00000000-0000-0000-0000-000000000000",
+                          "rootFolder": "Files"
+                        },
+                        "annotations": []
+                      }
+                    },
+                    "annotations": []
+                  }
+                },
+                "sink": {
+                  "type": "LakehouseTableSink",
+                  "tableActionOption": "OverwriteSchema",
+                  "applyVOrder": false,
+                  "partitionOption": "None",
+                  "datasetSettings": {
+                    "type": "LakehouseTable",
+                    "typeProperties": {
+                      "schema": "dbo",
+                      "table": {
+                        "value": "@replace(item().name, '.xlsx', '')",
+                        "type": "Expression"
+                      }
+                    },
+                    "schema": [],
+                    "linkedService": {
+                      "name": "LH_Immo_Dev",
+                      "properties": {
+                        "type": "Lakehouse",
+                        "typeProperties": {
+                          "artifactId": "@variables('lakehouse_id')",
+                          "workspaceId": "00000000-0000-0000-0000-000000000000",
+                          "rootFolder": "Tables"
+                        },
+                        "annotations": []
+                      }
+                    },
+                    "annotations": []
+                  }
+                },
+                "translator": {
+                  "type": "TabularTranslator",
+                  "typeConversion": true,
+                  "typeConversionSettings": {
+                    "allowDataTruncation": true,
+                    "treatBooleanAsNumber": false
+                  }
+                },
+                "enableStaging": false
+              },
+              "policy": {
+                "timeout": "0.12:00:00",
+                "retry": 0,
+                "retryIntervalInSeconds": 30,
+                "secureInput": false,
+                "secureOutput": false
+              },
+              "name": "ingest",
+              "dependsOn": []
+            }
+          ]
+        },
+        "name": "ForEach1",
+        "dependsOn": [
+          {
+            "activity": "liste_fichiers",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ]
+      }
+    ],
+    "variables": {
+      "lakehouse_id": {
+        "type": "String",
+        "defaultValue": "66841f6d-142d-4f8a-98ff-9b81fed41000"
+      }
+    }
+  }
+}

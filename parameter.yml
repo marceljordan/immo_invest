@@ -1,0 +1,33 @@
+find_replace:
+  - find_value: "LH_Immo_Dev"
+    replace_value:
+      TEST: "LH_Immo_Test"
+      PROD: "LH_Immo_Prod"
+  - find_value: "WH_Immo_Dev"
+    replace_value:
+      TEST: "WH_Immo_Test"
+      PROD: "WH_Immo_Prod"
+  - find_value: "SM_IMMO_ANALYTICS_DEV"
+    replace_value:
+      TEST: "SM_IMMO_ANALYTICS"
+      PROD: "SM_IMMO_ANALYTICS"
+  - find_value: "ec7aa1ee-16a6-43ef-a54d-cdcc1cb90693"
+    replace_value:
+      TEST: "c73a035a-8d64-4422-927c-bc9087c1176f"
+      PROD: "1c63902c-2435-4242-821f-08a1e2f019a0"
+  - find_value: "66841f6d-142d-4f8a-98ff-9b81fed41000"
+    replace_value:
+      TEST: "ff9a675e-9109-40a6-918c-d73603f1817b"
+      PROD: "376ce754-158f-4705-8e15-cfa1215b2667"
+  - find_value: "fed41000-9b81-98ff-4f8a-142d66841f6d"
+    replace_value:
+      TEST: "5e679aff-0991-a640-918c-d73603f1817b"
+      PROD: "54ce376c-8f15-0547-8e15-cfa1215b2667"
+  - find_value: "54ddc0d6-5131-448a-92a3-e4c2f25bc0dd"
+    replace_value:
+      TEST: "ae06833d-ca01-4987-b3d9-29b04c2b29a0"
+      PROD: "ff295195-4e19-44ec-93f8-60da368f1689"
+  - find_value: "fri4w75fytzuhcdanfxmnvidla-52qxv3fgc3xuhjknzxgbzoigsm.datawarehouse.fabric.microsoft.com"
+    replace_value:
+      TEST: "fri4w75fytzuhcdanfxmnvidla-libtvr3erurejet4xsiipqixn4.datawarehouse.fabric.microsoft.com"
+      PROD: "fri4w75fytzuhcdanfxmnvidla-fsigghbverbefaq7bcq6f4azua.datawarehouse.fabric.microsoft.com"

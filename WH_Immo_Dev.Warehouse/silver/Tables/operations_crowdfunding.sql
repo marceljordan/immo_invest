@@ -1,0 +1,27 @@
+CREATE TABLE [silver].[operations_crowdfunding] (
+
+	[operation_crowdfunding_id] varchar(50) NULL, 
+	[investisseur_id] varchar(50) NULL, 
+	[partenaire_id] varchar(50) NULL, 
+	[conseiller_id] varchar(50) NULL, 
+	[agence_id] varchar(50) NULL, 
+	[projet_id] varchar(50) NULL, 
+	[nom_projet] varchar(8000) NULL, 
+	[promoteur_id] varchar(50) NULL, 
+	[ville] varchar(8000) NULL, 
+	[region] varchar(8000) NULL, 
+	[date_investissement] date NULL, 
+	[montant_investi] decimal(18,2) NULL, 
+	[taux_rendement_annuel_prevu] decimal(9,4) NULL, 
+	[duree_mois] int NULL, 
+	[statut_operation] varchar(8000) NULL, 
+	[date_remboursement_prevue] date NULL, 
+	[date_remboursement_reelle] date NULL, 
+	[montant_rembourse] decimal(18,2) NULL, 
+	[interets_bruts] decimal(18,2) NULL, 
+	[fiscalite_appliquee] varchar(8000) NULL, 
+	[incident_paiement] bit NULL, 
+	[created_at] datetime2(6) NULL, 
+	[updated_at] datetime2(6) NULL, 
+	[is_deleted] bit NULL
+);
