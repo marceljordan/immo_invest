@@ -24,33 +24,6 @@
         "dependsOn": []
       },
       {
-        "type": "InvokeDataBuildToolJob",
-        "typeProperties": {
-          "dataBuildToolJobId": "3652d049-07bb-9b4c-4230-7905aafe1900",
-          "workspaceId": "00000000-0000-0000-0000-000000000000",
-          "threads": 4
-        },
-        "externalReferences": {
-          "connection": "e52e8721-542a-4ced-a220-d74b97b5ea96"
-        },
-        "policy": {
-          "timeout": "0.12:00:00",
-          "retry": 0,
-          "retryIntervalInSeconds": 30,
-          "secureInput": false,
-          "secureOutput": false
-        },
-        "name": "dbt_job_transform",
-        "dependsOn": [
-          {
-            "activity": "Invoke_pipeline_ingest",
-            "dependencyConditions": [
-              "Succeeded"
-            ]
-          }
-        ]
-      },
-      {
         "type": "PBISemanticModelRefresh",
         "typeProperties": {
           "method": "POST",
@@ -73,7 +46,7 @@
         "name": "Semantic model refresh",
         "dependsOn": [
           {
-            "activity": "dbt_job_transform",
+            "activity": "Invoke_pipeline_ingest",
             "dependencyConditions": [
               "Succeeded"
             ]
