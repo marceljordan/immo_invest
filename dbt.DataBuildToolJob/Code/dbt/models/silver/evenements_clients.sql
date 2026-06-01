@@ -56,4 +56,4 @@ select
         else cast(0 as bit)
     end as is_deleted
 
-from LH_Immo_Dev.dbo.src_evenements_clients
+from {{ get_lakehouse() }}.dbo.src_evenements_clients
