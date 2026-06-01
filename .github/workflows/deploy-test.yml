@@ -31,6 +31,16 @@ jobs:
             --environment TEST \
             --workspace-id "${{ secrets.FABRIC_WORKSPACE_TEST_ID }}"
 
+      - name: Run PL pipeline in TEST
+        env:
+          AZURE_TENANT_ID: ${{ secrets.FABRIC_TENANT_ID }}
+          AZURE_CLIENT_ID: ${{ secrets.FABRIC_CLIENT_ID }}
+          AZURE_CLIENT_SECRET: ${{ secrets.FABRIC_CLIENT_SECRET }}
+        run: |
+          python cicd/run_pipeline.py \
+            --workspace-id "${{ secrets.FABRIC_WORKSPACE_TEST_ID }}" \
+            --pipeline-name "PL"
+
       - name: Install dbt
         run: |
           pip install dbt-core dbt-fabric
