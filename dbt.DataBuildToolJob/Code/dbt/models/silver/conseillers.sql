@@ -6,7 +6,7 @@ Rôle :
 
 Entrée :
 - Lit la table Bronze du Lakehouse :
-  LH_Immo_Dev.dbo.src_conseillers
+  {{ get_lakehouse() }}.dbo.src_conseillers
 
 Sortie :
 - Crée une table dans le Warehouse :
@@ -54,4 +54,4 @@ select
         else cast(0 as bit)
     end as is_active
 
-from LH_Immo_Dev.dbo.src_conseillers
+from {{ get_lakehouse() }}.dbo.src_conseillers

@@ -68,4 +68,4 @@ select
         else cast(0 as bit)
     end as is_active
 
-from LH_Immo_Dev.dbo.src_programmes_immobiliers
+from {{ get_lakehouse() }}.dbo.src_programmes_immobiliers

@@ -71,4 +71,4 @@ select
         else cast(0 as bit)
     end as is_deleted
 
-from LH_Immo_Dev.dbo.src_crm_investisseurs
+from {{ get_lakehouse() }}.dbo.src_crm_investisseurs
