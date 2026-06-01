@@ -18,6 +18,9 @@ clean-targets:
   - "target"
   - "dbt_packages"
 
+vars:
+  lakehouse_name: "LH_Immo_Dev"
+
 models:
   immo_fabric_dbt:
     silver:
