@@ -36,165 +36,155 @@
 -- depends_on: {{ ref('dim_lot_immobilier') }}
 -- depends_on: {{ ref('dim_produit_investissement') }}
 
-
-
-
-
-
-
-
-
--- SILVER
 SELECT 'silver' AS table_schema, 'crm_investisseurs' AS table_name,
        MAX(CAST(last_update_date AS DATETIME2(6))) AS last_load_time,
        COUNT(*) AS row_count, CAST(GETDATE() AS DATETIME2(6)) AS checked_at
-FROM silver.crm_investisseurs
+FROM {{ ref('crm_investisseurs') }}
 
 UNION ALL SELECT 'silver', 'conseillers',
        MAX(CAST(updated_at AS DATETIME2(6))), COUNT(*), CAST(GETDATE() AS DATETIME2(6))
-FROM silver.conseillers
+FROM {{ ref('conseillers') }}
 
 UNION ALL SELECT 'silver', 'agences_regions',
        MAX(CAST(updated_at AS DATETIME2(6))), COUNT(*), CAST(GETDATE() AS DATETIME2(6))
-FROM silver.agences_regions
+FROM {{ ref('agences_regions') }}
 
 UNION ALL SELECT 'silver', 'commissions',
        MAX(CAST(updated_at AS DATETIME2(6))), COUNT(*), CAST(GETDATE() AS DATETIME2(6))
-FROM silver.commissions
+FROM {{ ref('commissions') }}
 
 UNION ALL SELECT 'silver', 'evenements_clients',
        MAX(CAST(updated_at AS DATETIME2(6))), COUNT(*), CAST(GETDATE() AS DATETIME2(6))
-FROM silver.evenements_clients
+FROM {{ ref('evenements_clients') }}
 
 UNION ALL SELECT 'silver', 'dossiers_adv',
        MAX(CAST(updated_at AS DATETIME2(6))), COUNT(*), CAST(GETDATE() AS DATETIME2(6))
-FROM silver.dossiers_adv
+FROM {{ ref('dossiers_adv') }}
 
 UNION ALL SELECT 'silver', 'financements',
        MAX(CAST(updated_at AS DATETIME2(6))), COUNT(*), CAST(GETDATE() AS DATETIME2(6))
-FROM silver.financements
+FROM {{ ref('financements') }}
 
 UNION ALL SELECT 'silver', 'expertise_comptable_lmnp',
        MAX(CAST(updated_at AS DATETIME2(6))), COUNT(*), CAST(GETDATE() AS DATETIME2(6))
-FROM silver.expertise_comptable_lmnp
+FROM {{ ref('expertise_comptable_lmnp') }}
 
 UNION ALL SELECT 'silver', 'gestion_locative',
        MAX(CAST(updated_at AS DATETIME2(6))), COUNT(*), CAST(GETDATE() AS DATETIME2(6))
-FROM silver.gestion_locative
+FROM {{ ref('gestion_locative') }}
 
 UNION ALL SELECT 'silver', 'lots_immobiliers',
        MAX(CAST(updated_at AS DATETIME2(6))), COUNT(*), CAST(GETDATE() AS DATETIME2(6))
-FROM silver.lots_immobiliers
+FROM {{ ref('lots_immobiliers') }}
 
 UNION ALL SELECT 'silver', 'objectifs_commerciaux',
        MAX(CAST(updated_at AS DATETIME2(6))), COUNT(*), CAST(GETDATE() AS DATETIME2(6))
-FROM silver.objectifs_commerciaux
+FROM {{ ref('objectifs_commerciaux') }}
 
 UNION ALL SELECT 'silver', 'operations_crowdfunding',
        MAX(CAST(updated_at AS DATETIME2(6))), COUNT(*), CAST(GETDATE() AS DATETIME2(6))
-FROM silver.operations_crowdfunding
+FROM {{ ref('operations_crowdfunding') }}
 
 UNION ALL SELECT 'silver', 'partenaires_patrimoine',
        MAX(CAST(updated_at AS DATETIME2(6))), COUNT(*), CAST(GETDATE() AS DATETIME2(6))
-FROM silver.partenaires_patrimoine
+FROM {{ ref('partenaires_patrimoine') }}
 
 UNION ALL SELECT 'silver', 'produits_investissement',
        MAX(CAST(updated_at AS DATETIME2(6))), COUNT(*), CAST(GETDATE() AS DATETIME2(6))
-FROM silver.produits_investissement
+FROM {{ ref('produits_investissement') }}
 
 UNION ALL SELECT 'silver', 'programmes_immobiliers',
        MAX(CAST(updated_at AS DATETIME2(6))), COUNT(*), CAST(GETDATE() AS DATETIME2(6))
-FROM silver.programmes_immobiliers
+FROM {{ ref('programmes_immobiliers') }}
 
 UNION ALL SELECT 'silver', 'reclamations_incidents',
        MAX(CAST(updated_at AS DATETIME2(6))), COUNT(*), CAST(GETDATE() AS DATETIME2(6))
-FROM silver.reclamations_incidents
+FROM {{ ref('reclamations_incidents') }}
 
 UNION ALL SELECT 'silver', 'reservations_immobilieres',
        MAX(CAST(updated_at AS DATETIME2(6))), COUNT(*), CAST(GETDATE() AS DATETIME2(6))
-FROM silver.reservations_immobilieres
+FROM {{ ref('reservations_immobilieres') }}
 
 UNION ALL SELECT 'silver', 'revente_biens',
        MAX(CAST(updated_at AS DATETIME2(6))), COUNT(*), CAST(GETDATE() AS DATETIME2(6))
-FROM silver.revente_biens
+FROM {{ ref('revente_biens') }}
 
 UNION ALL SELECT 'silver', 'crm_prospects',
        MAX(CAST(last_update_date AS DATETIME2(6))), COUNT(*), CAST(GETDATE() AS DATETIME2(6))
-FROM silver.crm_prospects
+FROM {{ ref('crm_prospects') }}
 
 UNION ALL SELECT 'silver', 'souscriptions_pierre_papier',
        MAX(CAST(updated_at AS DATETIME2(6))), COUNT(*), CAST(GETDATE() AS DATETIME2(6))
-FROM silver.souscriptions_pierre_papier
+FROM {{ ref('souscriptions_pierre_papier') }}
 
 UNION ALL SELECT 'silver', 'ventes_immobilieres',
        MAX(CAST(updated_at AS DATETIME2(6))), COUNT(*), CAST(GETDATE() AS DATETIME2(6))
-FROM silver.ventes_immobilieres
+FROM {{ ref('ventes_immobilieres') }}
 
--- GOLD
 UNION ALL SELECT 'gold', 'fact_vente',
        MAX(CAST(updated_at AS DATETIME2(6))), COUNT(*), CAST(GETDATE() AS DATETIME2(6))
-FROM gold.fact_vente
+FROM {{ ref('fact_vente') }}
 
 UNION ALL SELECT 'gold', 'fact_reservation',
        MAX(CAST(updated_at AS DATETIME2(6))), COUNT(*), CAST(GETDATE() AS DATETIME2(6))
-FROM gold.fact_reservation
+FROM {{ ref('fact_reservation') }}
 
 UNION ALL SELECT 'gold', 'fact_commission',
        MAX(CAST(updated_at AS DATETIME2(6))), COUNT(*), CAST(GETDATE() AS DATETIME2(6))
-FROM gold.fact_commission
+FROM {{ ref('fact_commission') }}
 
 UNION ALL SELECT 'gold', 'fact_souscription_pierre_papier',
        MAX(CAST(updated_at AS DATETIME2(6))), COUNT(*), CAST(GETDATE() AS DATETIME2(6))
-FROM gold.fact_souscription_pierre_papier
+FROM {{ ref('fact_souscription_pierre_papier') }}
 
 UNION ALL SELECT 'gold', 'fact_operation_crowdfunding',
        MAX(CAST(updated_at AS DATETIME2(6))), COUNT(*), CAST(GETDATE() AS DATETIME2(6))
-FROM gold.fact_operation_crowdfunding
+FROM {{ ref('fact_operation_crowdfunding') }}
 
 UNION ALL SELECT 'gold', 'fact_financement',
        MAX(CAST(updated_at AS DATETIME2(6))), COUNT(*), CAST(GETDATE() AS DATETIME2(6))
-FROM gold.fact_financement
+FROM {{ ref('fact_financement') }}
 
 UNION ALL SELECT 'gold', 'fact_dossier_adv',
        MAX(CAST(updated_at AS DATETIME2(6))), COUNT(*), CAST(GETDATE() AS DATETIME2(6))
-FROM gold.fact_dossier_adv
+FROM {{ ref('fact_dossier_adv') }}
 
 UNION ALL SELECT 'gold', 'fact_gestion_locative',
        MAX(CAST(updated_at AS DATETIME2(6))), COUNT(*), CAST(GETDATE() AS DATETIME2(6))
-FROM gold.fact_gestion_locative
+FROM {{ ref('fact_gestion_locative') }}
 
 UNION ALL SELECT 'gold', 'fact_objectif_commercial',
        MAX(CAST(updated_at AS DATETIME2(6))), COUNT(*), CAST(GETDATE() AS DATETIME2(6))
-FROM gold.fact_objectif_commercial
+FROM {{ ref('fact_objectif_commercial') }}
 
 UNION ALL SELECT 'gold', 'fact_revente',
        MAX(CAST(updated_at AS DATETIME2(6))), COUNT(*), CAST(GETDATE() AS DATETIME2(6))
-FROM gold.fact_revente
+FROM {{ ref('fact_revente') }}
 
 UNION ALL SELECT 'gold', 'dim_investisseur',
        MAX(CAST(last_update_date AS DATETIME2(6))), COUNT(*), CAST(GETDATE() AS DATETIME2(6))
-FROM gold.dim_investisseur
+FROM {{ ref('dim_investisseur') }}
 
 UNION ALL SELECT 'gold', 'dim_conseiller',
        MAX(CAST(updated_at AS DATETIME2(6))), COUNT(*), CAST(GETDATE() AS DATETIME2(6))
-FROM gold.dim_conseiller
+FROM {{ ref('dim_conseiller') }}
 
 UNION ALL SELECT 'gold', 'dim_agence_region',
        MAX(CAST(updated_at AS DATETIME2(6))), COUNT(*), CAST(GETDATE() AS DATETIME2(6))
-FROM gold.dim_agence_region
+FROM {{ ref('dim_agence_region') }}
 
 UNION ALL SELECT 'gold', 'dim_partenaire',
        MAX(CAST(updated_at AS DATETIME2(6))), COUNT(*), CAST(GETDATE() AS DATETIME2(6))
-FROM gold.dim_partenaire
+FROM {{ ref('dim_partenaire') }}
 
 UNION ALL SELECT 'gold', 'dim_programme_immobilier',
        MAX(CAST(updated_at AS DATETIME2(6))), COUNT(*), CAST(GETDATE() AS DATETIME2(6))
-FROM gold.dim_programme_immobilier
+FROM {{ ref('dim_programme_immobilier') }}
 
 UNION ALL SELECT 'gold', 'dim_lot_immobilier',
        MAX(CAST(updated_at AS DATETIME2(6))), COUNT(*), CAST(GETDATE() AS DATETIME2(6))
-FROM gold.dim_lot_immobilier
+FROM {{ ref('dim_lot_immobilier') }}
 
 UNION ALL SELECT 'gold', 'dim_produit_investissement',
        MAX(CAST(updated_at AS DATETIME2(6))), COUNT(*), CAST(GETDATE() AS DATETIME2(6))
-FROM gold.dim_produit_investissement
+FROM {{ ref('dim_produit_investissement') }}
