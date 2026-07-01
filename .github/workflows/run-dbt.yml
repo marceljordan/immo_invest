@@ -1,0 +1,37 @@
+name: Run dbt TEST
+
+on:
+  workflow_dispatch:
+
+jobs:
+  run-dbt:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dbt
+        run: |
+          pip install dbt-core dbt-fabric
+
+      - name: Install ODBC Driver
+        run: |
+          curl https://packages.microsoft.com/keys/microsoft.asc | sudo apt-key add -
+          curl https://packages.microsoft.com/config/ubuntu/22.04/prod.list | sudo tee /etc/apt/sources.list.d/mssql-release.list
+          sudo apt-get update
+          sudo ACCEPT_EULA=Y apt-get install -y msodbcsql18
+
+      - name: Run dbt
+        env:
+          AZURE_TENANT_ID: ${{ secrets.FABRIC_TENANT_ID }}
+          AZURE_CLIENT_ID: ${{ secrets.FABRIC_CLIENT_ID }}
+          AZURE_CLIENT_SECRET: ${{ secrets.FABRIC_CLIENT_SECRET }}
+        run: |
+          cd dbt.DataBuildToolJob/Code/dbt
+          dbt deps
+          dbt build --target test --profiles-dir ../../../
