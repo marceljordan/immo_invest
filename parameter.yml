@@ -27,7 +27,7 @@ find_replace:
     replace_value:
       TEST: "ae06833d-ca01-4987-b3d9-29b04c2b29a0"
       PROD: "ff295195-4e19-44ec-93f8-60da368f1689"
-  - find_value: "fri4w75fytzuhcdanfxmnvidla-52qxv3fgc3xuhjknzxgbzoigsm.datawarehouse.fabric.microsoft.com"
+  - find_value: "FRI4W75FYTZUHCDANFXMNVIDLA-52QXV3FGC3XUHJKNZXGBZOIGSM.datawarehouse.fabric.microsoft.com"
     replace_value:
       TEST: "fri4w75fytzuhcdanfxmnvidla-libtvr3erurejet4xsiipqixn4.datawarehouse.fabric.microsoft.com"
       PROD: "fri4w75fytzuhcdanfxmnvidla-fsigghbverbefaq7bcq6f4azua.datawarehouse.fabric.microsoft.com"
