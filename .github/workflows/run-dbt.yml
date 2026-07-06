@@ -51,3 +51,14 @@ jobs:
           cd dbt.DataBuildToolJob/Code/dbt
           dbt deps
           dbt build --target test --profiles-dir ../../../
+
+      - name: Refresh semantic model
+        env:
+          AZURE_TENANT_ID: ${{ secrets.FABRIC_TENANT_ID }}
+          AZURE_CLIENT_ID: ${{ secrets.FABRIC_CLIENT_ID }}
+          AZURE_CLIENT_SECRET: ${{ secrets.FABRIC_CLIENT_SECRET }}
+        run: |
+          pip install azure-identity requests
+          python cicd/refresh_semantic_model.py \
+            --group-id "${{ secrets.FABRIC_WORKSPACE_TEST_ID }}" \
+            --dataset-id "${{ secrets.SM_IMMO_ANALYTICS_TEST_ID }}"
