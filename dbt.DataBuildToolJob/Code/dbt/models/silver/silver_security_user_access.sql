@@ -71,4 +71,4 @@ select
     try_cast(created_at as datetime2(6)) as created_at,
     try_cast(updated_at as datetime2(6)) as updated_at
 
-from LH_Immo_Dev.dbo.src_security_user_access
+from {{ get_lakehouse() }}.dbo.src_security_user_access
