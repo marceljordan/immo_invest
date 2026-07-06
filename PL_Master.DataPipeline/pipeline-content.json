@@ -22,65 +22,6 @@
         },
         "name": "Invoke_pipeline_ingest",
         "dependsOn": []
-      },
-      {
-        "type": "PBISemanticModelRefresh",
-        "typeProperties": {
-          "method": "POST",
-          "groupId": "ec7aa1ee-16a6-43ef-a54d-cdcc1cb90693",
-          "datasetId": "47ac6192-d68f-4aa6-8209-29248715898c",
-          "commitMode": "Transactional",
-          "waitOnCompletion": true,
-          "operationType": "SemanticModelRefresh"
-        },
-        "externalReferences": {
-          "connection": "22c47972-1280-4e14-9f1b-d55fa4719bef"
-        },
-        "policy": {
-          "timeout": "0.12:00:00",
-          "retry": 0,
-          "retryIntervalInSeconds": 30,
-          "secureInput": false,
-          "secureOutput": false
-        },
-        "name": "Semantic model refresh",
-        "dependsOn": [
-          {
-            "activity": "simulation",
-            "dependencyConditions": [
-              "Succeeded"
-            ]
-          }
-        ]
-      },
-      {
-        "type": "InvokePipeline",
-        "typeProperties": {
-          "parameters": {},
-          "waitOnCompletion": true,
-          "workspaceId": "00000000-0000-0000-0000-000000000000",
-          "pipelineId": "e91d7730-88fd-9e9d-49ba-c03af3b1b355",
-          "operationType": "InvokeFabricPipeline"
-        },
-        "externalReferences": {
-          "connection": "d9dde602-b20b-4e3b-aa30-c1949436a1e2"
-        },
-        "policy": {
-          "timeout": "0.12:00:00",
-          "retry": 0,
-          "retryIntervalInSeconds": 30,
-          "secureInput": false,
-          "secureOutput": false
-        },
-        "name": "simulation",
-        "dependsOn": [
-          {
-            "activity": "Invoke_pipeline_ingest",
-            "dependencyConditions": [
-              "Succeeded"
-            ]
-          }
-        ]
       }
     ]
   }
