@@ -3,7 +3,7 @@ import os
 import sys
 from pathlib import Path
 from azure.identity import ClientSecretCredential
-from fabric_cicd import FabricWorkspace, publish_all_items, change_log_level
+from fabric_cicd import FabricWorkspace, publish_all_items
 
 ITEM_TYPES = [
     "SemanticModel",
@@ -58,8 +58,6 @@ def main() -> int:
     print(f"Target workspace ID: {args.workspace_id}")
     print(f"Repository directory: {repository_directory}")
     print(f"Item types in scope: {ITEM_TYPES}")
-
-    change_log_level("DEBUG")
 
     target_workspace = FabricWorkspace(
         workspace_id=args.workspace_id,
