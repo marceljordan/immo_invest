@@ -51,33 +51,3 @@ jobs:
           cd dbt.DataBuildToolJob/Code/dbt
           dbt deps
           dbt build --target test --profiles-dir ../../../
-
-      - name: Debug dataset lookup
-        env:
-          AZURE_TENANT_ID: ${{ secrets.FABRIC_TENANT_ID }}
-          AZURE_CLIENT_ID: ${{ secrets.FABRIC_CLIENT_ID }}
-          AZURE_CLIENT_SECRET: ${{ secrets.FABRIC_CLIENT_SECRET }}
-        run: |
-          pip install azure-identity requests
-          python3 -c "
-          import os
-          from azure.identity import ClientSecretCredential
-          import requests
-          cred = ClientSecretCredential(os.environ['AZURE_TENANT_ID'], os.environ['AZURE_CLIENT_ID'], os.environ['AZURE_CLIENT_SECRET'])
-          token = cred.get_token('https://analysis.windows.net/powerbi/api/.default').token
-          url = 'https://api.powerbi.com/v1.0/myorg/groups/${{ secrets.FABRIC_WORKSPACE_TEST_ID }}/datasets/${{ secrets.SM_IMMO_ANALYTICS_TEST_ID }}'
-          r = requests.get(url, headers={'Authorization': f'Bearer {token}'})
-          print('Status:', r.status_code)
-          print('Body:', r.text)
-          "
-
-      - name: Refresh semantic model
-        env:
-          AZURE_TENANT_ID: ${{ secrets.FABRIC_TENANT_ID }}
-          AZURE_CLIENT_ID: ${{ secrets.FABRIC_CLIENT_ID }}
-          AZURE_CLIENT_SECRET: ${{ secrets.FABRIC_CLIENT_SECRET }}
-        run: |
-          pip install azure-identity requests
-          python cicd/refresh_semantic_model.py \
-            --group-id "${{ secrets.FABRIC_WORKSPACE_TEST_ID }}" \
-            --dataset-id "${{ secrets.SM_IMMO_ANALYTICS_TEST_ID }}"
