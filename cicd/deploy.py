@@ -68,6 +68,16 @@ def main() -> int:
         existing_items=EXISTING_ITEMS[args.environment],
     )
 
+    semantic_model_binding = target_workspace.environment_parameter.get("semantic_model_binding")
+    if "SemanticModel" in target_workspace.item_type_in_scope and not semantic_model_binding:
+        print(
+            "Warning: no semantic_model_binding found in parameter.yml. "
+            "Skipping SemanticModel deployment to preserve existing Warehouse connection credentials."
+        )
+        target_workspace.item_type_in_scope = [
+            item_type for item_type in target_workspace.item_type_in_scope if item_type != "SemanticModel"
+        ]
+
     publish_all_items(target_workspace)
     print(f"Deployment to {args.environment} completed.")
     return 0
