@@ -7,10 +7,6 @@ find_replace:
     replace_value:
       TEST: "WH_Immo_Test"
       PROD: "WH_Immo_Prod"
-  - find_value: "SM_IMMO_ANALYTICS_DEV"
-    replace_value:
-      TEST: "SM_IMMO_ANALYTICS"
-      PROD: "SM_IMMO_ANALYTICS"
   - find_value: "ec7aa1ee-16a6-43ef-a54d-cdcc1cb90693"
     replace_value:
       TEST: "c73a035a-8d64-4422-927c-bc9087c1176f"

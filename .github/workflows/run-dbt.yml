@@ -60,4 +60,4 @@ jobs:
         run: |
           python cicd/refresh_semantic_model.py \
             --group-id "${{ secrets.FABRIC_WORKSPACE_TEST_ID }}" \
-            --dataset-name "SM_IMMO_ANALYTICS"
+            --dataset-name "SM_IMMO_ANALYTICS_DEV"
