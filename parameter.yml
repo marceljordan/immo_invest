@@ -28,13 +28,7 @@ find_replace:
       TEST: "fri4w75fytzuhcdanfxmnvidla-libtvr3erurejet4xsiipqixn4.datawarehouse.fabric.microsoft.com"
       PROD: "fri4w75fytzuhcdanfxmnvidla-fsigghbverbefaq7bcq6f4azua.datawarehouse.fabric.microsoft.com"
 
-# Optional semantic model connection binding for fabric-cicd.
-# When configured, deployed semantic models are rebound to an existing Fabric connection
-# after publish, which preserves the Warehouse credential settings.
-# semantic_model_binding:
-#   default:
-#     connection_id:
-#       TEST: "<fabric-connection-id-for-warehouse>"
-#       PROD: "<fabric-connection-id-for-warehouse>"
-#
-# Replace <fabric-connection-id-for-warehouse> with the actual connection ID from your Fabric workspace.
+semantic_model_binding:
+  default:
+    connection_id:
+      _ALL_: "6a4ec741-ecb0-492c-bbb1-4946275a6ec6"
