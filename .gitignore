@@ -1,0 +1,15 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# dbt
+dbt.DataBuildToolJob/Code/dbt/target/
+dbt.DataBuildToolJob/Code/dbt/dbt_packages/
+dbt.DataBuildToolJob/Code/dbt/logs/
+
+# OS / editor
+.DS_Store
+Thumbs.db
