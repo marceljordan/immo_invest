@@ -14,7 +14,7 @@
           "secureInput": false,
           "secureOutput": false
         },
-        "name": "Simulateur",
+        "name": "generateur",
         "dependsOn": []
       }
     ]
