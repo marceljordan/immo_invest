@@ -7,6 +7,10 @@
 # META     "name": "synapse_pyspark"
 # META   },
 # META   "dependencies": {
+# META     "environment": {
+# META       "environmentId": "83eb490a-658e-a9c3-4f2a-0c23f7ee1105",
+# META       "workspaceId": "00000000-0000-0000-0000-000000000000"
+# META     },
 # META     "warehouse": {
 # META       "default_warehouse": "04eb4206-5c5f-46fe-94f2-6f8fa4e40981",
 # META       "known_warehouses": [
@@ -17,17 +21,6 @@
 # META       ]
 # META     }
 # META   }
-# META }
-
-# CELL ********************
-
-%pip install faker
-
-# METADATA ********************
-
-# META {
-# META   "language": "python",
-# META   "language_group": "synapse_pyspark"
 # META }
 
 # CELL ********************
@@ -1649,6 +1642,10 @@ if A_TRAITER:
 
 # CELL ********************
 
+from datetime import date, timedelta
+print(date.today())
+print(date.today() - timedelta(days=1))
+print(est_ouvre(date.today() - timedelta(days=1)))
 
 # METADATA ********************
 
