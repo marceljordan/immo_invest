@@ -1,0 +1,65 @@
+name: Validate for PROD
+
+on:
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install fabric-cicd azure-identity
+          pip install dbt-core dbt-fabric
+
+      - name: Install ODBC Driver
+        run: |
+          curl https://packages.microsoft.com/keys/microsoft.asc | sudo apt-key add -
+          curl https://packages.microsoft.com/config/ubuntu/22.04/prod.list | sudo tee /etc/apt/sources.list.d/mssql-release.list
+          sudo apt-get update
+          sudo ACCEPT_EULA=Y apt-get install -y msodbcsql18
+
+      # 1. Le déploiement passe-t-il ? (parameter.yml, bindings, attachements)
+      - name: Deploy to Fabric TEST
+        env:
+          AZURE_TENANT_ID: ${{ secrets.FABRIC_TENANT_ID }}
+          AZURE_CLIENT_ID: ${{ secrets.FABRIC_CLIENT_ID }}
+          AZURE_CLIENT_SECRET: ${{ secrets.FABRIC_CLIENT_SECRET }}
+        run: |
+          python cicd/deploy.py \
+            --environment TEST \
+            --workspace-id "${{ secrets.FABRIC_WORKSPACE_TEST_ID }}"
+
+      # 2. Les modèles construisent-ils et les tests passent-ils ?
+      - name: Run dbt
+        env:
+          AZURE_TENANT_ID: ${{ secrets.FABRIC_TENANT_ID }}
+          AZURE_CLIENT_ID: ${{ secrets.FABRIC_CLIENT_ID }}
+          AZURE_CLIENT_SECRET: ${{ secrets.FABRIC_CLIENT_SECRET }}
+        run: |
+          cd dbt.DataBuildToolJob/Code/dbt
+          dbt deps
+          dbt build --target test --profiles-dir ../../../
+
+      # 3. Le modèle sémantique se rafraîchit-il ? (valide le binding)
+      - name: Refresh semantic model
+        env:
+          AZURE_TENANT_ID: ${{ secrets.FABRIC_TENANT_ID }}
+          AZURE_CLIENT_ID: ${{ secrets.FABRIC_CLIENT_ID }}
+          AZURE_CLIENT_SECRET: ${{ secrets.FABRIC_CLIENT_SECRET }}
+        run: |
+          python cicd/refresh_semantic_model.py \
+            --group-id "${{ secrets.FABRIC_WORKSPACE_TEST_ID }}" \
+            --dataset-name "SM_IMMO_ANALYTICS_DEV"
