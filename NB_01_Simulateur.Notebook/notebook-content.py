@@ -7,18 +7,22 @@
 # META     "name": "synapse_pyspark"
 # META   },
 # META   "dependencies": {
+# META     "lakehouse": {
+# META       "default_lakehouse": "66841f6d-142d-4f8a-98ff-9b81fed41000",
+# META       "default_lakehouse_name": "LH_Immo_Dev",
+# META       "default_lakehouse_workspace_id": "ec7aa1ee-16a6-43ef-a54d-cdcc1cb90693",
+# META       "known_lakehouses": [
+# META         {
+# META           "id": "66841f6d-142d-4f8a-98ff-9b81fed41000"
+# META         }
+# META       ]
+# META     },
 # META     "environment": {
 # META       "environmentId": "83eb490a-658e-a9c3-4f2a-0c23f7ee1105",
 # META       "workspaceId": "00000000-0000-0000-0000-000000000000"
 # META     },
 # META     "warehouse": {
-# META       "default_warehouse": "04eb4206-5c5f-46fe-94f2-6f8fa4e40981",
-# META       "known_warehouses": [
-# META         {
-# META           "id": "04eb4206-5c5f-46fe-94f2-6f8fa4e40981",
-# META           "type": "Lakewarehouse"
-# META         }
-# META       ]
+# META       "known_warehouses": []
 # META     }
 # META   }
 # META }
@@ -86,14 +90,6 @@ fake = Faker("fr_FR")
 # PARAMÈTRES
 # ============================================================
 
-LAKEHOUSE = "LH_Immo_Dev"
-WORKSPACE = "FAB-Immo-Dev"
-
-
-def read_bronze(table):
-    full_name = f"`{WORKSPACE}`.`{LAKEHOUSE}`.`dbo`.`{table}`"
-    print("Lecture :", full_name)
-    return spark.table(full_name).toPandas()
 DATE_DEBUT = None
 DATE_FIN = None
 MODE = "append"            # 'append' | 'dry_run'
@@ -254,7 +250,7 @@ def ts(d):
 
 
 def read_bronze(table):
-    full_name = f"`{WORKSPACE}`.`{LAKEHOUSE}`.`dbo`.`{table}`"
+    full_name = f"dbo.{table}"
     print("Lecture :", full_name)
     return spark.table(full_name).toPandas()
 
@@ -318,7 +314,7 @@ def dates_deja_produites():
         return set()
     try:
         rows = spark.sql(
-            f"SELECT DISTINCT date_cible FROM `{WORKSPACE}`.`{LAKEHOUSE}`.`dbo`.`tech_simulation_run_log`"
+            "SELECT DISTINCT date_cible FROM dbo.tech_simulation_run_log"
         ).collect()
         return {r["date_cible"] for r in rows}
     except Exception:
@@ -1586,7 +1582,7 @@ def ecrire(table, records):
 
     sdf = spark.createDataFrame(data, schema=schema)
     sdf.write.mode("append").format("delta").option("mergeSchema", "true") \
-       .saveAsTable(f"`{WORKSPACE}`.`{LAKEHOUSE}`.`dbo`.`{table}`")
+       .saveAsTable(f"dbo.{table}")
     return len(data)
 
 
@@ -1600,8 +1596,8 @@ if A_TRAITER:
         print(f"   ✅ {table:36s} {n:>8,} versions  ({cles:,} clés distinctes)")
 
     if MODE == "append":
-        spark.sql(f"""
-            CREATE TABLE IF NOT EXISTS `{WORKSPACE}`.`{LAKEHOUSE}`.`dbo`.`tech_simulation_run_log` (
+        spark.sql("""
+            CREATE TABLE IF NOT EXISTS dbo.tech_simulation_run_log (
                 date_cible DATE, table_cible STRING, nb_versions BIGINT,
                 run_timestamp TIMESTAMP, run_mode STRING
             ) USING DELTA
@@ -1617,7 +1613,7 @@ if A_TRAITER:
             StructField("run_mode", StringType()),
         ])
         spark.createDataFrame(rows, schema=log_schema).write.mode("append").format("delta") \
-             .saveAsTable(f"`{WORKSPACE}`.`{LAKEHOUSE}`.`dbo`.`tech_simulation_run_log`")
+             .saveAsTable("dbo.tech_simulation_run_log")
         print(f"   ✅ {'tech_simulation_run_log':36s} {len(rows):>8,} lignes")
 
     print(f"""
@@ -1632,6 +1628,38 @@ if A_TRAITER:
 # METADATA ********************
 
 # META {"language": "python", "language_group": "synapse_pyspark"}
+
+# METADATA ********************
+
+# META {
+# META   "language": "python",
+# META   "language_group": "synapse_pyspark"
+# META }
+
+# CELL ********************
+
+from datetime import date, timedelta
+print(date.today())
+print(date.today() - timedelta(days=1))
+print(est_ouvre(date.today() - timedelta(days=1)))
+
+# METADATA ********************
+
+# META {
+# META   "language": "python",
+# META   "language_group": "synapse_pyspark"
+# META }
+
+# CELL ********************
+
+spark.table("dbo.src_conseillers").count()
+
+# METADATA ********************
+
+# META {
+# META   "language": "python",
+# META   "language_group": "synapse_pyspark"
+# META }
 
 # METADATA ********************
 
