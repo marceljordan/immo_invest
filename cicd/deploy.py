@@ -10,6 +10,7 @@ ITEM_TYPES = [
     "Report",
     "Notebook",
     "DataPipeline",
+    "Environment"
 ]
 
 EXISTING_ITEMS = {
