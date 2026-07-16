@@ -22,7 +22,7 @@
     "operation": "build",
     "arguments": {
       "exclude": "",
-      "threads": 4
+      "threads": 1
     }
   }
 }
