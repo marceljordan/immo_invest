@@ -1681,14 +1681,3 @@ print(est_ouvre(date.today() - timedelta(days=1)))
 # META   "language": "python",
 # META   "language_group": "synapse_pyspark"
 # META }
-
-# CELL ********************
-
-spark.table("`FAB-Immo-Dev`.`LH_Immo_Dev`.`dbo`.`src_conseillers`").count()
-
-# METADATA ********************
-
-# META {
-# META   "language": "python",
-# META   "language_group": "synapse_pyspark"
-# META }
