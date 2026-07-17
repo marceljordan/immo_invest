@@ -1,0 +1,41 @@
+default:
+  target: dev
+  outputs:
+    dev:
+      type: fabric
+      driver: 'ODBC Driver 18 for SQL Server'
+      server: "fri4w75fytzuhcdanfxmnvidla-52qxv3fgc3xuhjknzxgbzoigsm.datawarehouse.fabric.microsoft.com"
+      port: 1433
+      database: "WH_Immo_Dev"
+      schema: silver
+      authentication: ServicePrincipal
+      tenant_id: "{{ env_var('AZURE_TENANT_ID') }}"
+      client_id: "{{ env_var('AZURE_CLIENT_ID') }}"
+      client_secret: "{{ env_var('AZURE_CLIENT_SECRET') }}"
+      threads: 1
+
+    test:
+      type: fabric
+      driver: 'ODBC Driver 18 for SQL Server'
+      server: "fri4w75fytzuhcdanfxmnvidla-libtvr3erurejet4xsiipqixn4.datawarehouse.fabric.microsoft.com"
+      port: 1433
+      database: "WH_Immo_Test"
+      schema: silver
+      authentication: ServicePrincipal
+      tenant_id: "{{ env_var('AZURE_TENANT_ID') }}"
+      client_id: "{{ env_var('AZURE_CLIENT_ID') }}"
+      client_secret: "{{ env_var('AZURE_CLIENT_SECRET') }}"
+      threads: 1
+
+    prod:
+      type: fabric
+      driver: 'ODBC Driver 18 for SQL Server'
+      server: "fri4w75fytzuhcdanfxmnvidla-fsigghbverbefaq7bcq6f4azua.datawarehouse.fabric.microsoft.com"
+      port: 1433
+      database: "WH_Immo_Prod"
+      schema: silver
+      authentication: ServicePrincipal
+      tenant_id: "{{ env_var('AZURE_TENANT_ID') }}"
+      client_id: "{{ env_var('AZURE_CLIENT_ID') }}"
+      client_secret: "{{ env_var('AZURE_CLIENT_SECRET') }}"
+      threads: 1
