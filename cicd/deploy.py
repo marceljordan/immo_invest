@@ -99,13 +99,13 @@ def main() -> int:
         ]
 
     publish_all_items(target_workspace)
-    token = token_credential.get_token("https://api.fabric.microsoft.com/.default").token
-    set_default_environment(
-        workspace_id=args.workspace_id,
-        environment_name="env",
-        runtime_version="1.3",
-        token=token,
-    )
+    # token = token_credential.get_token("https://api.fabric.microsoft.com/.default").token
+    # set_default_environment(
+    #     workspace_id=args.workspace_id,
+    #     environment_name="env",
+    #     runtime_version="1.3",
+    #     token=token,
+    # )
     print(f"Deployment to {args.environment} completed.")
     return 0
 
