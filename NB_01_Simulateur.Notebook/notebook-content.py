@@ -17,10 +17,6 @@
 # META         }
 # META       ]
 # META     },
-# META     "environment": {
-# META       "environmentId": "83eb490a-658e-a9c3-4f2a-0c23f7ee1105",
-# META       "workspaceId": "00000000-0000-0000-0000-000000000000"
-# META     },
 # META     "warehouse": {
 # META       "known_warehouses": []
 # META     }
@@ -29,32 +25,6 @@
 
 # CELL ********************
 
-# Fabric notebook source
-
-# METADATA ********************
-
-# META {
-# META   "kernel_info": {
-# META     "name": "synapse_pyspark"
-# META   },
-# META   "dependencies": {
-# META     "lakehouse": {
-# META       "default_lakehouse": "66841f6d-142d-4f8a-98ff-9b81fed41000",
-# META       "default_lakehouse_name": "LH_Immo_Dev",
-# META       "default_lakehouse_workspace_id": "ec7aa1ee-16a6-43ef-a54d-cdcc1cb90693",
-# META       "known_lakehouses": [
-# META         {
-# META           "id": "66841f6d-142d-4f8a-98ff-9b81fed41000"
-# META         }
-# META       ]
-# META     }, 
-# META     "warehouse": {
-# META       "known_warehouses": []
-# META     }
-# META   }
-# META }
-
-# CELL ********************
 
 # ============================================================
 # NB_01_Simulateur — extract CDC quotidien J-1
