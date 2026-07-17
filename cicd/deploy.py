@@ -37,7 +37,25 @@ def required_env(name: str) -> str:
     if not value:
         raise RuntimeError(f"Missing required environment variable: {name}")
     return value
+import requests
 
+def set_default_environment(workspace_id: str, environment_name: str, runtime_version: str, token: str):
+    """Définit un Environment comme Workspace default via l'API REST Fabric.
+    Doit être appelé APRÈS publish_all_items() : l'item Environment doit déjà exister
+    dans le workspace cible pour que le nom soit résolvable."""
+    url = f"https://api.fabric.microsoft.com/v1/workspaces/{workspace_id}/spark/settings"
+    resp = requests.patch(
+        url,
+        headers={"Authorization": f"Bearer {token}", "Content-Type": "application/json"},
+        json={
+            "environment": {
+                "name": environment_name,
+                "runtimeVersion": runtime_version,
+            }
+        },
+    )
+    resp.raise_for_status()
+    print(f"✅ Environment '{environment_name}' défini comme default sur {workspace_id}")
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--environment", required=True, choices=["TEST", "PROD"])
@@ -81,6 +99,13 @@ def main() -> int:
         ]
 
     publish_all_items(target_workspace)
+    token = token_credential.get_token("https://api.fabric.microsoft.com/.default").token
+    set_default_environment(
+        workspace_id=args.workspace_id,
+        environment_name="env",
+        runtime_version="1.3",
+        token=token,
+    )
     print(f"Deployment to {args.environment} completed.")
     return 0
 
