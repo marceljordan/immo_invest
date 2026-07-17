@@ -48,10 +48,6 @@
 # META         }
 # META       ]
 # META     }, 
-# META     "environment": {
-# META       "environmentId": "83eb490a-658e-a9c3-4f2a-0c23f7ee1105",
-# META       "workspaceId": "00000000-0000-0000-0000-000000000000"
-# META     },
 # META     "warehouse": {
 # META       "known_warehouses": []
 # META     }
