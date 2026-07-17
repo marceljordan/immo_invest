@@ -76,6 +76,10 @@ from datetime import datetime, date, timedelta
 import random
 import uuid
 import warnings
+import notebookutils
+
+
+print(notebookutils.runtime.context)
 
 warnings.filterwarnings("ignore")
 
@@ -249,8 +253,12 @@ def ts(d):
     return cur
 
 
+WORKSPACE = "FAB-Immo-Dev"
+LAKEHOUSE = "LH_Immo_Dev"
+
+
 def read_bronze(table):
-    full_name = f"dbo.{table}"
+    full_name = f"`{WORKSPACE}`.`{LAKEHOUSE}`.`dbo`.`{table}`"
     print("Lecture :", full_name)
     return spark.table(full_name).toPandas()
 
