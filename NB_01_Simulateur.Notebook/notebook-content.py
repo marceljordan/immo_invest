@@ -34,10 +34,26 @@
 # METADATA ********************
 
 # META {
-# META   "kernel_info": {"name": "synapse_pyspark"},
+# META   "kernel_info": {
+# META     "name": "synapse_pyspark"
+# META   },
 # META   "dependencies": {
 # META     "lakehouse": {
-# META       "default_lakehouse_name": "LH_Immo_Dev"
+# META       "default_lakehouse": "66841f6d-142d-4f8a-98ff-9b81fed41000",
+# META       "default_lakehouse_name": "LH_Immo_Dev",
+# META       "default_lakehouse_workspace_id": "ec7aa1ee-16a6-43ef-a54d-cdcc1cb90693",
+# META       "known_lakehouses": [
+# META         {
+# META           "id": "66841f6d-142d-4f8a-98ff-9b81fed41000"
+# META         }
+# META       ]
+# META     },
+# META     "environment": {
+# META       "environmentId": "83eb490a-658e-a9c3-4f2a-0c23f7ee1105",
+# META       "workspaceId": "00000000-0000-0000-0000-000000000000"
+# META     },
+# META     "warehouse": {
+# META       "known_warehouses": []
 # META     }
 # META   }
 # META }
@@ -76,6 +92,7 @@ from datetime import datetime, date, timedelta
 import random
 import uuid
 import warnings
+import notebookutils
 
 warnings.filterwarnings("ignore")
 
@@ -83,6 +100,24 @@ from pyspark.sql import functions as F
 from pyspark.sql.types import StructType, StructField, StringType, DateType, LongType, TimestampType
 
 fake = Faker("fr_FR")
+
+# ============================================================
+# RÉSOLUTION LAKEHOUSE — indépendante de l'attachement Fabric
+# ------------------------------------------------------------
+# WORKSPACE résolu à l'exécution : jamais substitué par fabric-cicd,
+# donc jamais faux, quel que soit l'état du déploiement.
+# LAKEHOUSE reste substitué par parameter.yml (find_value "LH_Immo_Dev"),
+# substitution par nom : moins fragile qu'une substitution de GUID.
+# ============================================================
+
+WORKSPACE = notebookutils.runtime.context["currentWorkspaceName"]
+LAKEHOUSE = "LH_Immo_Dev"  # substitué : LH_Immo_Test / LH_Immo_Prod
+
+def q(table):
+    """Nom pleinement qualifié à 4 parties. Utiliser partout à la place de dbo.{table}."""
+    return f"`{WORKSPACE}`.`{LAKEHOUSE}`.`dbo`.`{table}`"
+
+print(f"🔗 Workspace : {WORKSPACE}  ·  Lakehouse : {LAKEHOUSE}")
 
 # CELL ********************
 
@@ -250,9 +285,9 @@ def ts(d):
 
 
 def read_bronze(table):
-    full_name = f"dbo.{table}"
+    full_name = q(table)
     print("Lecture :", full_name)
-    return spark.table(full_name).toPandas()
+    return spark.sql(f"SELECT * FROM {full_name}").toPandas()
 
 def derniere_version(pdf, cle, horodatage="updated_at"):
     """Dédoublonne un extract CDC : garde la version la plus récente par clé."""
@@ -314,7 +349,7 @@ def dates_deja_produites():
         return set()
     try:
         rows = spark.sql(
-            "SELECT DISTINCT date_cible FROM dbo.tech_simulation_run_log"
+            f"SELECT DISTINCT date_cible FROM {q('tech_simulation_run_log')}"
         ).collect()
         return {r["date_cible"] for r in rows}
     except Exception:
@@ -1581,8 +1616,15 @@ def ecrire(table, records):
         return len(data)
 
     sdf = spark.createDataFrame(data, schema=schema)
+
+    # Chemin principal — à valider sur TEST avant PROD.
     sdf.write.mode("append").format("delta").option("mergeSchema", "true") \
-       .saveAsTable(f"dbo.{table}")
+       .saveAsTable(q(table))
+
+    # Fallback si saveAsTable() rejette le nom à 4 parties (REQUIRES_SINGLE_PART_NAMESPACE) :
+    # sdf.createOrReplaceTempView("_tmp_write")
+    # spark.sql(f"INSERT INTO {q(table)} SELECT * FROM _tmp_write")
+
     return len(data)
 
 
@@ -1596,8 +1638,8 @@ if A_TRAITER:
         print(f"   ✅ {table:36s} {n:>8,} versions  ({cles:,} clés distinctes)")
 
     if MODE == "append":
-        spark.sql("""
-            CREATE TABLE IF NOT EXISTS dbo.tech_simulation_run_log (
+        spark.sql(f"""
+            CREATE TABLE IF NOT EXISTS {q('tech_simulation_run_log')} (
                 date_cible DATE, table_cible STRING, nb_versions BIGINT,
                 run_timestamp TIMESTAMP, run_mode STRING
             ) USING DELTA
@@ -1613,7 +1655,7 @@ if A_TRAITER:
             StructField("run_mode", StringType()),
         ])
         spark.createDataFrame(rows, schema=log_schema).write.mode("append").format("delta") \
-             .saveAsTable("dbo.tech_simulation_run_log")
+             .saveAsTable(q('tech_simulation_run_log'))
         print(f"   ✅ {'tech_simulation_run_log':36s} {len(rows):>8,} lignes")
 
     print(f"""
@@ -1628,38 +1670,6 @@ if A_TRAITER:
 # METADATA ********************
 
 # META {"language": "python", "language_group": "synapse_pyspark"}
-
-# METADATA ********************
-
-# META {
-# META   "language": "python",
-# META   "language_group": "synapse_pyspark"
-# META }
-
-# CELL ********************
-
-from datetime import date, timedelta
-print(date.today())
-print(date.today() - timedelta(days=1))
-print(est_ouvre(date.today() - timedelta(days=1)))
-
-# METADATA ********************
-
-# META {
-# META   "language": "python",
-# META   "language_group": "synapse_pyspark"
-# META }
-
-# CELL ********************
-
-spark.table("dbo.src_conseillers").count()
-
-# METADATA ********************
-
-# META {
-# META   "language": "python",
-# META   "language_group": "synapse_pyspark"
-# META }
 
 # METADATA ********************
 
