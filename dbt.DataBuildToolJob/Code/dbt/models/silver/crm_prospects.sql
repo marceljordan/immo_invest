@@ -13,6 +13,7 @@ Sortie :
   silver.crm_prospects
 
 Actions réalisées :
+- Dédoublonnage : conserve la dernière version par prospect_id (CDC).
 - Conversion des identifiants en varchar(50)
 - Nettoyage des informations de contact
 - Conversion des revenus, patrimoine et capacité d’investissement en decimal(18,2)
@@ -26,6 +27,19 @@ Objectif :
 */
 
 {{ config(alias='crm_prospects') }}
+
+with source_dedup as (
+
+    select
+        *,
+        row_number() over (
+            partition by prospect_id
+            order by last_update_date desc, date_creation desc
+        ) as rn
+    from {{ get_lakehouse() }}.dbo.src_crm_prospects
+    where prospect_id is not null
+
+)
 
 select
     cast(prospect_id as varchar(50)) as prospect_id,
@@ -69,4 +83,5 @@ select
         else cast(0 as bit)
     end as is_deleted
 
-from {{ get_lakehouse() }}.dbo.src_crm_prospects
+from source_dedup
+where rn = 1
