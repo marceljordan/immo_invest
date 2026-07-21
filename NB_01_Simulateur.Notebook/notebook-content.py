@@ -1,27 +1,5 @@
 # Fabric notebook source
 
-# METADATA ********************
-
-# META {
-# META   "kernel_info": {
-# META     "name": "synapse_pyspark"
-# META   },
-# META   "dependencies": {
-# META     "lakehouse": {
-# META       "default_lakehouse": "66841f6d-142d-4f8a-98ff-9b81fed41000",
-# META       "default_lakehouse_name": "LH_Immo_Dev",
-# META       "default_lakehouse_workspace_id": "ec7aa1ee-16a6-43ef-a54d-cdcc1cb90693",
-# META       "known_lakehouses": [
-# META         {
-# META           "id": "66841f6d-142d-4f8a-98ff-9b81fed41000"
-# META         }
-# META       ]
-# META     },
-# META     "warehouse": {
-# META       "known_warehouses": []
-# META     }
-# META   }
-# META }
 
 # CELL ********************
 
@@ -1632,10 +1610,6 @@ if A_TRAITER:
    Silver doit dédoublonner : dernière version par clé, ordonnée par updated_at.
 {'=' * 74}
 """)
-
-# METADATA ********************
-
-# META {"language": "python", "language_group": "synapse_pyspark"}
 
 # METADATA ********************
 
