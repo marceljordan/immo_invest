@@ -53,8 +53,17 @@ jobs:
           dbt deps
           dbt build --target test --profiles-dir ../../../
 
+      - name: Upload dbt target (compiled SQL)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: dbt-target
+          path: dbt.DataBuildToolJob/Code/dbt/target/
+          retention-days: 7
+
       # 3. Le modèle sémantique se rafraîchit-il ? (valide le binding)
       - name: Refresh semantic model
+        if: success()
         env:
           AZURE_TENANT_ID: ${{ secrets.FABRIC_TENANT_ID }}
           AZURE_CLIENT_ID: ${{ secrets.FABRIC_CLIENT_ID }}
