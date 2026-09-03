@@ -8,7 +8,7 @@ default:
       port: 1433
       database: "WH_Immo_Dev"
       schema: silver
-      authentication: ServicePrincipal
+      authentication: ActiveDirectoryServicePrincipal
       tenant_id: "{{ env_var('AZURE_TENANT_ID') }}"
       client_id: "{{ env_var('AZURE_CLIENT_ID') }}"
       client_secret: "{{ env_var('AZURE_CLIENT_SECRET') }}"
@@ -21,7 +21,7 @@ default:
       port: 1433
       database: "WH_Immo_Test"
       schema: silver
-      authentication: ServicePrincipal
+      authentication: ActiveDirectoryServicePrincipal
       tenant_id: "{{ env_var('AZURE_TENANT_ID') }}"
       client_id: "{{ env_var('AZURE_CLIENT_ID') }}"
       client_secret: "{{ env_var('AZURE_CLIENT_SECRET') }}"
@@ -34,7 +34,7 @@ default:
       port: 1433
       database: "WH_Immo_Prod"
       schema: silver
-      authentication: ServicePrincipal
+      authentication: ActiveDirectoryServicePrincipal
       tenant_id: "{{ env_var('AZURE_TENANT_ID') }}"
       client_id: "{{ env_var('AZURE_CLIENT_ID') }}"
       client_secret: "{{ env_var('AZURE_CLIENT_SECRET') }}"
