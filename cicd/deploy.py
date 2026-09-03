@@ -11,7 +11,8 @@ ITEM_TYPES = [
     "Report",
     "Notebook",
     "DataPipeline",
-    "Environment"
+    "Environment",
+    "DataBuildToolJob" 
 ]
 
 EXISTING_ITEMS = {
