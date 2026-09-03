@@ -1,0 +1,66 @@
+table data_freshness
+	lineageTag: 5e60d1a0-cf31-45eb-ba18-88ca93c994aa
+	sourceLineageTag: [tech].[data_freshness]
+
+	column table_schema
+		dataType: string
+		sourceProviderType: varchar(6)
+		lineageTag: 7dec6f5c-20f7-4497-83c4-9c337d757897
+		sourceLineageTag: table_schema
+		summarizeBy: none
+		sourceColumn: table_schema
+
+		annotation SummarizationSetBy = Automatic
+
+	column table_name
+		dataType: string
+		sourceProviderType: varchar(31)
+		lineageTag: ce29ab2a-a520-44f8-ab9f-42cb7e6fdaba
+		sourceLineageTag: table_name
+		summarizeBy: none
+		sourceColumn: table_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column last_load_time
+		dataType: dateTime
+		formatString: General Date
+		sourceProviderType: datetime2
+		lineageTag: a2939eda-8ae3-417c-80eb-0e8fe0fc5530
+		sourceLineageTag: last_load_time
+		summarizeBy: none
+		sourceColumn: last_load_time
+
+		annotation SummarizationSetBy = Automatic
+
+	column row_count
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: f48f5d59-9fb7-4d4c-af56-44d89ece30c5
+		sourceLineageTag: row_count
+		summarizeBy: sum
+		sourceColumn: row_count
+
+		annotation SummarizationSetBy = Automatic
+
+	column checked_at
+		dataType: dateTime
+		formatString: General Date
+		sourceProviderType: datetime2
+		lineageTag: d98dcd05-b5ac-4a0e-acf8-76b3064dac93
+		sourceLineageTag: checked_at
+		summarizeBy: none
+		sourceColumn: checked_at
+
+		annotation SummarizationSetBy = Automatic
+
+	partition data_freshness = entity
+		mode: directLake
+		source
+			entityName: data_freshness
+			schemaName: tech
+			expressionSource: DatabaseQuery
+
+	annotation PBI_ResultType = Table
+

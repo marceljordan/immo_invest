@@ -1,5 +1,18 @@
 # Fabric notebook source
 
+# METADATA ********************
+
+# META {
+# META   "kernel_info": {
+# META     "name": "synapse_pyspark"
+# META   },
+# META   "dependencies": {
+# META     "environment": {
+# META       "environmentId": "83eb490a-658e-a9c3-4f2a-0c23f7ee1105",
+# META       "workspaceId": "00000000-0000-0000-0000-000000000000"
+# META     }
+# META   }
+# META }
 
 # CELL ********************
 
@@ -63,6 +76,13 @@ def q(table):
 
 print(f"🔗 Workspace : {WORKSPACE}  ·  Lakehouse : {LAKEHOUSE}")
 
+# METADATA ********************
+
+# META {
+# META   "language": "python",
+# META   "language_group": "synapse_pyspark"
+# META }
+
 # CELL ********************
 
 # ============================================================
@@ -117,6 +137,13 @@ TAUX_KYC_REFUSE = 0.03
 AFFINITE_REGIONALE = 0.65
 RENOUVELLEMENT_TRIMESTRIEL = True
 NB_NOUVEAUX_PROGRAMMES = (5, 8)
+
+# METADATA ********************
+
+# META {
+# META   "language": "python",
+# META   "language_group": "synapse_pyspark"
+# META }
 
 # CELL ********************
 
@@ -183,6 +210,13 @@ def saisonnalite(d):
          7: 0.90, 8: 0.55, 9: 1.10, 10: 1.15, 11: 1.15, 12: 1.20}
     return f.get(d.month, 1.0)
 
+# METADATA ********************
+
+# META {
+# META   "language": "python",
+# META   "language_group": "synapse_pyspark"
+# META }
+
 # CELL ********************
 
 # ============================================================
@@ -244,6 +278,13 @@ def derniere_version(pdf, cle, horodatage="updated_at"):
     pdf = pdf.sort_values("_ts").drop_duplicates(subset=[cle], keep="last")
     return pdf.drop(columns=["_ts"])
 
+# METADATA ********************
+
+# META {
+# META   "language": "python",
+# META   "language_group": "synapse_pyspark"
+# META }
+
 # CELL ********************
 
 # ============================================================
@@ -268,6 +309,13 @@ class Bus:
 
 
 BUS = Bus()
+
+# METADATA ********************
+
+# META {
+# META   "language": "python",
+# META   "language_group": "synapse_pyspark"
+# META }
 
 # CELL ********************
 
@@ -305,6 +353,13 @@ DEJA = dates_deja_produites()
 A_TRAITER = [d for d in DATES_CIBLES if d not in DEJA]
 
 print(f"🎯 candidates : {len(DATES_CIBLES)}   déjà produites : {len(DATES_CIBLES) - len(A_TRAITER)}   à traiter : {len(A_TRAITER)}")
+
+# METADATA ********************
+
+# META {
+# META   "language": "python",
+# META   "language_group": "synapse_pyspark"
+# META }
 
 # CELL ********************
 
@@ -444,6 +499,13 @@ def emettre(table, rec, d):
         manquant, extra = attendu - recu, recu - attendu
         raise KeyError(f"{table} : manquant={sorted(manquant)} extra={sorted(extra)}")
     BUS.emettre(table, {c: rec[c] for c in COLS[table]}, d)
+
+# METADATA ********************
+
+# META {
+# META   "language": "python",
+# META   "language_group": "synapse_pyspark"
+# META }
 
 # CELL ********************
 
@@ -612,6 +674,13 @@ class Etat:
             if locaux:
                 return self.lots[random.choice(locaux)]
         return self.lots[random.choice(ids)]
+
+# METADATA ********************
+
+# META {
+# META   "language": "python",
+# META   "language_group": "synapse_pyspark"
+# META }
 
 # CELL ********************
 
@@ -954,6 +1023,13 @@ def vente_livraison(e, d, vid):
         e.maj("src_programmes_immobiliers", prog, d, date_livraison_reelle=d, statut_programme="LIVRE")
     if random.random() < 0.55:
         e.planifier(apres(d, GL_APRES_LIVRAISON), creer_gestion, vid)
+
+# METADATA ********************
+
+# META {
+# META   "language": "python",
+# META   "language_group": "synapse_pyspark"
+# META }
 
 # CELL ********************
 
@@ -1502,6 +1578,13 @@ def renouvellement(e, d):
             e.lots_dispo.add(lid)
             emettre("src_lots_immobiliers", lot, d)
 
+# METADATA ********************
+
+# META {
+# META   "language": "python",
+# META   "language_group": "synapse_pyspark"
+# META }
+
 # CELL ********************
 
 # ============================================================
@@ -1536,6 +1619,13 @@ if A_TRAITER:
         journee(etat, d)
         if i % 100 == 0 or i == len(A_TRAITER):
             print(f"   … {i}/{len(A_TRAITER)} jours — {sum(len(v) for v in BUS.buffer.values()):,} versions émises")
+
+# METADATA ********************
+
+# META {
+# META   "language": "python",
+# META   "language_group": "synapse_pyspark"
+# META }
 
 # CELL ********************
 
