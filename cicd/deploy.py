@@ -2,34 +2,48 @@ import argparse
 import os
 import sys
 from pathlib import Path
-import requests
+
 from azure.identity import ClientSecretCredential
 from fabric_cicd import FabricWorkspace, publish_all_items
 
+
+# Déploiement temporairement limité aux artefacts ci-dessous.
+# SemanticModel et Environment sont mis en pause.
 ITEM_TYPES = [
-    "SemanticModel",
     "Report",
     "Notebook",
     "DataPipeline",
-    "Environment",
-    "DataBuildToolJob" 
+    "DataBuildToolJob",
 ]
+
 
 EXISTING_ITEMS = {
     "TEST": {
         "Lakehouse": [
-            {"name": "LH_Immo_Test", "id": "ff9a675e-9109-40a6-918c-d73603f1817b"}
+            {
+                "name": "LH_Immo_Test",
+                "id": "ff9a675e-9109-40a6-918c-d73603f1817b",
+            }
         ],
         "Warehouse": [
-            {"name": "WH_Immo_Test", "id": "ae06833d-ca01-4987-b3d9-29b04c2b29a0"}
+            {
+                "name": "WH_Immo_Test",
+                "id": "ae06833d-ca01-4987-b3d9-29b04c2b29a0",
+            }
         ],
     },
     "PROD": {
         "Lakehouse": [
-            {"name": "LH_Immo_Prod", "id": "376ce754-158f-4705-8e15-cfa1215b2667"}
+            {
+                "name": "LH_Immo_Prod",
+                "id": "376ce754-158f-4705-8e15-cfa1215b2667",
+            }
         ],
         "Warehouse": [
-            {"name": "WH_Immo_Prod", "id": "ff295195-4e19-44ec-93f8-60da368f1689"}
+            {
+                "name": "WH_Immo_Prod",
+                "id": "ff295195-4e19-44ec-93f8-60da368f1689",
+            }
         ],
     },
 }
@@ -37,47 +51,32 @@ EXISTING_ITEMS = {
 
 def required_env(name: str) -> str:
     value = os.getenv(name)
+
     if not value:
-        raise RuntimeError(f"Missing required environment variable: {name}")
-    return value
-
-
-def set_default_environment(workspace_id: str, environment_name: str, runtime_version: str, token: str):
-    """Définit un Environment comme Workspace default via l'API REST Fabric.
-    Doit être appelé APRÈS publish_all_items() : l'item Environment doit déjà exister
-    dans le workspace cible pour que le nom soit résolvable.
-    Échoue en 401 tant que le SPN n'a pas le rôle Admin sur le workspace
-    (ou la permission Workspace.ReadWrite.All côté Entra)."""
-    url = f"https://api.fabric.microsoft.com/v1/workspaces/{workspace_id}/spark/settings"
-    resp = requests.patch(
-        url,
-        headers={"Authorization": f"Bearer {token}", "Content-Type": "application/json"},
-        json={
-            "environment": {
-                "name": environment_name,
-                "runtimeVersion": runtime_version,
-            }
-        },
-    )
-    if resp.status_code == 401:
-        print(
-            "⚠️  401 sur set_default_environment : vérifie que le SPN a le rôle Admin "
-            "sur ce workspace, ou la permission Workspace.ReadWrite.All côté Entra "
-            "(App registrations → API permissions → consentement admin donné). "
-            "Le reste du déploiement a réussi, seul ce toggle a échoué — "
-            "définis-le manuellement dans le portail en attendant."
+        raise RuntimeError(
+            f"Missing required environment variable: {name}"
         )
-        return
-    resp.raise_for_status()
-    print(f"✅ Environment '{environment_name}' défini comme default sur {workspace_id}")
+
+    return value
 
 
 def main() -> int:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--environment", required=True, choices=["TEST", "PROD"])
-    parser.add_argument("--workspace-id", required=True)
+
+    parser.add_argument(
+        "--environment",
+        required=True,
+        choices=["TEST", "PROD"],
+    )
+
+    parser.add_argument(
+        "--workspace-id",
+        required=True,
+    )
+
     args = parser.parse_args()
 
+    # Authentification Service Principal
     tenant_id = required_env("AZURE_TENANT_ID")
     client_id = required_env("AZURE_CLIENT_ID")
     client_secret = required_env("AZURE_CLIENT_SECRET")
@@ -104,27 +103,13 @@ def main() -> int:
         existing_items=EXISTING_ITEMS[args.environment],
     )
 
-    semantic_model_binding = target_workspace.environment_parameter.get("semantic_model_binding")
-    if "SemanticModel" in target_workspace.item_type_in_scope and not semantic_model_binding:
-        print(
-            "Warning: no semantic_model_binding found in parameter.yml. "
-            "Skipping SemanticModel deployment to preserve existing Warehouse connection credentials."
-        )
-        target_workspace.item_type_in_scope = [
-            item_type for item_type in target_workspace.item_type_in_scope if item_type != "SemanticModel"
-        ]
-
+    # Publication des artefacts Fabric
     publish_all_items(target_workspace)
 
-    token = token_credential.get_token("https://api.fabric.microsoft.com/.default").token
-    set_default_environment(
-        workspace_id=args.workspace_id,
-        environment_name="env",
-        runtime_version="1.3",
-        token=token,
+    print(
+        f"Deployment to {args.environment} completed."
     )
 
-    print(f"Deployment to {args.environment} completed.")
     return 0
 
 
