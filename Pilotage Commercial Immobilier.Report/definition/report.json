@@ -1,0 +1,89 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/report/3.3.0/schema.json",
+  "themeCollection": {
+    "baseTheme": {
+      "name": "CY26SU05",
+      "reportVersionAtImport": {
+        "visual": "2.9.0",
+        "report": "3.3.0",
+        "page": "2.3.1"
+      },
+      "type": "SharedResources"
+    }
+  },
+  "objects": {
+    "section": [
+      {
+        "properties": {
+          "verticalAlignment": {
+            "expr": {
+              "Literal": {
+                "Value": "'Top'"
+              }
+            }
+          }
+        }
+      }
+    ]
+  },
+  "publicCustomVisuals": [
+    "advanceCardE03760C5AB684758B56AA29F9E6C257B"
+  ],
+  "resourcePackages": [
+    {
+      "name": "SharedResources",
+      "type": "SharedResources",
+      "items": [
+        {
+          "name": "CY26SU05",
+          "path": "BaseThemes/CY26SU05.json",
+          "type": "BaseTheme"
+        }
+      ]
+    },
+    {
+      "name": "RegisteredResources",
+      "type": "RegisteredResources",
+      "items": [
+        {
+          "name": "ChatGPT_Image_Aug_19,_2026,_03003840425220163368.png",
+          "path": "ChatGPT_Image_Aug_19,_2026,_03003840425220163368.png",
+          "type": "Image"
+        },
+        {
+          "name": "ChatGPT_Image_Aug_19,_2026,_0302721556545587367.png",
+          "path": "ChatGPT_Image_Aug_19,_2026,_0302721556545587367.png",
+          "type": "Image"
+        },
+        {
+          "name": "ChatGPT_Image_Aug_19,_2026,_0332191681576270526.png",
+          "path": "ChatGPT_Image_Aug_19,_2026,_0332191681576270526.png",
+          "type": "Image"
+        },
+        {
+          "name": "ChatGPT_Image_Aug_19,_2026,_035061643816382467.png",
+          "path": "ChatGPT_Image_Aug_19,_2026,_035061643816382467.png",
+          "type": "Image"
+        },
+        {
+          "name": "ChatGPT_Image_Aug_19,_2026,_046819513992624241.png",
+          "path": "ChatGPT_Image_Aug_19,_2026,_046819513992624241.png",
+          "type": "Image"
+        },
+        {
+          "name": "logo47217179451436364.png",
+          "path": "logo47217179451436364.png",
+          "type": "Image"
+        }
+      ]
+    }
+  ],
+  "settings": {
+    "useStylableVisualContainerHeader": true,
+    "exportDataMode": "AllowSummarized",
+    "defaultDrillFilterOtherVisuals": true,
+    "allowChangeFilterTypes": true,
+    "useEnhancedTooltips": true,
+    "useDefaultAggregateDisplayName": true
+  }
+}

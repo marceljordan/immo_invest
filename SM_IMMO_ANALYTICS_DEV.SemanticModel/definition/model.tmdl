@@ -33,8 +33,10 @@ ref table fact_revente
 ref table fact_vente
 ref table fact_souscription_pierre_papier
 ref table dim_statut
-ref table 'Calculation group'
 ref table security_user_access
+ref table _Mesures
+ref table pipeline_run_log
+ref table data_freshness
 
 ref role RLS_region/agence
 ref role RLS_conseillers

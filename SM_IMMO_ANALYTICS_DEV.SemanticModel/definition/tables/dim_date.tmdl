@@ -1,6 +1,7 @@
 table dim_date
 	lineageTag: 53aa3f19-fd98-41c1-98cb-5fabea99f6b0
 	sourceLineageTag: [gold].[dim_date]
+	dataCategory: Time
 
 	column date_key
 		dataType: int64
@@ -17,6 +18,7 @@ table dim_date
 
 	column full_date
 		dataType: dateTime
+		isKey
 		formatString: General Date
 		sourceProviderType: date
 		lineageTag: cec17caa-721c-40b3-a64d-7b9b8ed32fab
@@ -26,7 +28,11 @@ table dim_date
 
 		changedProperty = SummarizeBy
 
+		changedProperty = FormatString
+
 		annotation SummarizationSetBy = User
+
+		annotation PBI_FormatHint = {"isCustom":true}
 
 	column annee
 		dataType: int64
@@ -87,8 +93,11 @@ table dim_date
 		sourceLineageTag: nom_mois
 		summarizeBy: none
 		sourceColumn: nom_mois
+		sortByColumn: mois
 
 		changedProperty = SummarizeBy
+
+		changedProperty = SortByColumn
 
 		annotation SummarizationSetBy = User
 
