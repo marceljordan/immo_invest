@@ -1,0 +1,272 @@
+table _Mesures
+	lineageTag: ca3b12d4-cab6-4349-a031-752a4ccb7de3
+
+	measure 'CA TTC' =
+			
+			SUM ( fact_vente[prix_vente_ttc] )
+		displayFolder: ventes
+		lineageTag: 167de2c4-1cfd-4f78-893d-9ddd3f91f153
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Nb Ventes' =
+			
+			COUNTROWS ( fact_vente )
+		formatString: 0
+		displayFolder: ventes
+		lineageTag: af3b218c-8c74-40cf-ad9a-184180e097f8
+
+	measure 'Panier Moyen' =
+			
+			DIVIDE (
+			    [CA TTC],
+			    [Nb Ventes],
+			    0
+			)
+		formatString: 0.00
+		displayFolder: ventes
+		lineageTag: e9f81a58-d249-4b53-afbc-548572b810a1
+
+	measure 'Objectif CA' =
+			
+			SUM ( fact_objectif_commercial[objectif_ca] )
+		displayFolder: objectifs
+		lineageTag: 627114c1-1801-4f58-8ad8-b2c149186113
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Taux Atteinte' =
+			
+			DIVIDE (
+			    [CA TTC],
+			    [Objectif CA],
+			    0
+			)
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: objectifs
+		lineageTag: 1e505775-d14b-4aaf-9088-92931be9990d
+
+	measure 'Ecart Objectif' =
+			
+			[CA TTC] - [Objectif CA]
+		displayFolder: objectifs
+		lineageTag: 578c1ee1-d127-4e58-8e26-6eb0847bd748
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Ecart Objectif %' =
+			
+			DIVIDE (
+			    [Ecart Objectif],
+			    [Objectif CA],
+			    0
+			)
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: objectifs
+		lineageTag: 3a51f996-daf3-44aa-acd8-03670297fd6a
+
+	measure 'CA TTC Barre' = [CA TTC]
+		displayFolder: ventes
+		lineageTag: b683e7fa-f26d-4a5f-863a-24131a20ba9a
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Rang Conseiller' =
+			
+			RANKX(
+			    ALLSELECTED(dim_conseiller[nom_complet]),
+			    [CA TTC],
+			    ,
+			    DESC,
+			    DENSE
+			)
+		formatString: 0
+		lineageTag: 489224c5-3d5e-4e3e-8079-ca053cc94061
+
+	measure Médaille =
+			
+			SWITCH(
+			    [Rang Conseiller],
+			    1, "🥇",
+			    2, "🥈",
+			    3, "🥉",
+			    BLANK()
+			)
+		lineageTag: 1b3921ee-c6c5-4ca4-a7ae-21c8a7801151
+
+	measure 'Statut Code' =
+			
+			VAR Statut =
+			    SELECTEDVALUE ( dim_statut[statut_value] )
+			
+			RETURN
+			SWITCH(
+			    TRUE(),
+			
+			    -- Vert : terminé / succès
+			    Statut IN {
+			        "ACCEPTE",
+			        "ACTEE",
+			        "ACCORD PRINCIPE",
+			        "ACTE SIGNE",
+			        "ACTIVE",
+			        "CLOTUREE",
+			        "LIVREE",
+			        "MANDAT SIGNE",
+			        "PAYEE",
+			        "REMBOURSEE",
+			        "RESOLUE",
+			        "SIGNEE",
+			        "TERMINEE",
+			        "TRANSFORMEE EN VENTE",
+			        "VALIDE",
+			        "VALIDEE"
+			    }, 3,
+			
+			    -- Orange : en cours / attente
+			    Statut IN {
+			        "CALCULEE",
+			        "DEMANDE DEPOSEE",
+			        "DEMANDE RECUE",
+			        "EN ATTENTE",
+			        "EN COMMERCIALISATION",
+			        "EN COURS",
+			        "ENVOYE NOTAIRE",
+			        "OFFRE EMISE",
+			        "OUVERT",
+			        "OUVERTE",
+			        "PIECES EN ATTENTE",
+			        "RETARD"
+			    }, 2,
+			
+			    -- Rouge : échec / blocage
+			    Statut IN {
+			        "ABANDONNE",
+			        "ANNULEE",
+			        "BLOQUEE",
+			        "DEFAUT",
+			        "ECHEC",
+			        "EXPIREE",
+			        "REFUSE",
+			        "REJETEE"
+			    }, 1,
+			
+			    0
+			)
+		formatString: 0
+		lineageTag: f78c164d-bfde-4a22-a626-7e3b6e905d6e
+
+	measure 'Dernière actualisation' =
+			
+			VAR DateActualisation =
+			    MAX ( data_freshness[checked_at] )
+			RETURN
+			    "Dernière actualisation : "
+			        & FORMAT ( DateActualisation, "dd/MM/yyyy HH:mm" )
+		lineageTag: 70baec14-f8b2-4ba2-9d72-277a7d850e67
+
+	measure 'CA N-1' =
+			
+			CALCULATE (
+			    [CA TTC],
+			    SAMEPERIODLASTYEAR ( dim_date[full_date] )
+			)
+		displayFolder: Comparaison temporelle
+		lineageTag: 6da3123a-6bc3-46a0-9200-90382a9a305c
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Variation CA' =
+			
+			[CA TTC] - [CA N-1]
+		displayFolder: Comparaison temporelle
+		lineageTag: 9583b680-e541-421d-a874-eafdaf80d9d7
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Variation CA %' =
+			
+			DIVIDE (
+			    [Variation CA],
+			    [CA N-1],
+			    0
+			)
+		formatString: +0.0%;-0.0%;0.0%
+		displayFolder: Comparaison temporelle
+		lineageTag: fd73e70a-488d-4599-8a7a-f94a2067d2e0
+
+		annotation PBI_FormatHint = {"isCustom":true}
+
+	measure 'Nb Régions Actives' =
+			
+			CALCULATE (
+			    DISTINCTCOUNT ( dim_agence_region[region_id] ),
+			    dim_agence_region[is_active]
+			)
+		formatString: 0
+		displayFolder: Régions & Agences
+		lineageTag: 7be9b01d-fac8-4cc2-9e69-4764ed9ab520
+
+	measure 'Nb Agences Actives' =
+			
+			CALCULATE (
+			    DISTINCTCOUNT ( dim_agence_region[agence_id] ),
+			    dim_agence_region[is_active]
+			)
+		formatString: 0
+		displayFolder: Régions & Agences
+		lineageTag: 83428c6b-47b3-4030-8261-53bbd3087626
+
+	measure 'Rang Agence CA' =
+			
+			RANKX (
+			    ALLSELECTED ( dim_agence_region[nom_agence] ),
+			    [CA TTC],
+			    ,
+			    DESC,
+			    DENSE
+			)
+		formatString: 0
+		displayFolder: Régions & Agences
+		lineageTag: 8ae49550-6308-4823-931a-9628c35578f2
+
+	measure 'Trimestre Libellé'
+		lineageTag: e9f7e821-808e-47d5-99e2-41ccbd65d4df
+
+	measure 'Nb Agences Actives N-1' =
+			
+			CALCULATE(
+			    [Nb Agences Actives],
+			    SAMEPERIODLASTYEAR(dim_date[full_date])
+			)
+		formatString: 0
+		lineageTag: 807f244d-84ea-4cc1-b5df-780e2028c216
+
+	measure 'Variation Nb Agences' =
+			
+			[Nb Agences Actives] - [Nb Agences Actives N-1]
+		formatString: +0;-0;0
+		lineageTag: abd22e6c-f35f-4bcd-846f-b36adb161666
+
+		annotation PBI_FormatHint = {"isCustom":true}
+
+	column Dummy
+		isHidden
+		lineageTag: 7e28ec97-7170-4fae-b2e2-8a8fe10e2700
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Dummy]
+
+		annotation SummarizationSetBy = Automatic
+
+	partition _Mesures = calculated
+		mode: import
+		source =
+				
+				DATATABLE(
+				    "Dummy", STRING,
+				    { { "" } }
+				)
+
+	annotation PBI_Id = 058b3b6f1c3247478a88101f49168960
+

@@ -1,0 +1,108 @@
+table pipeline_run_log
+	lineageTag: 4c8e19f8-20a4-4020-be80-99be6aea4881
+	sourceLineageTag: [tech].[pipeline_run_log]
+
+	column pipeline_name
+		dataType: string
+		sourceProviderType: varchar(200)
+		lineageTag: d72858f1-4b53-4a99-9cd4-b570052a6397
+		sourceLineageTag: pipeline_name
+		summarizeBy: none
+		sourceColumn: pipeline_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column environment
+		dataType: string
+		sourceProviderType: varchar(3)
+		lineageTag: 473bd368-539d-4351-b754-2a31f6f5c1cf
+		sourceLineageTag: environment
+		summarizeBy: none
+		sourceColumn: environment
+
+		annotation SummarizationSetBy = Automatic
+
+	column status
+		dataType: string
+		sourceProviderType: varchar(200)
+		lineageTag: b8ec9586-4fb6-4877-8e53-74fd1e3c0098
+		sourceLineageTag: status
+		summarizeBy: none
+		sourceColumn: status
+
+		annotation SummarizationSetBy = Automatic
+
+	column start_time
+		dataType: dateTime
+		formatString: General Date
+		sourceProviderType: datetime2
+		lineageTag: d25f6949-5230-442b-8088-e8f90c371928
+		sourceLineageTag: start_time
+		summarizeBy: none
+		sourceColumn: start_time
+
+		annotation SummarizationSetBy = Automatic
+
+	column end_time
+		dataType: dateTime
+		formatString: General Date
+		sourceProviderType: datetime2
+		lineageTag: 409eca55-8e60-422e-8335-29bb1367a588
+		sourceLineageTag: end_time
+		summarizeBy: none
+		sourceColumn: end_time
+
+		annotation SummarizationSetBy = Automatic
+
+	column duration_seconds
+		dataType: int64
+		formatString: 0
+		sourceProviderType: bigint
+		lineageTag: b7090f1f-747d-49da-8156-435a350811cd
+		sourceLineageTag: duration_seconds
+		summarizeBy: sum
+		sourceColumn: duration_seconds
+
+		annotation SummarizationSetBy = Automatic
+
+	column rows_processed
+		dataType: int64
+		formatString: 0
+		sourceProviderType: bigint
+		lineageTag: 2aec9378-a645-4024-8945-ed8c09ac85c3
+		sourceLineageTag: rows_processed
+		summarizeBy: sum
+		sourceColumn: rows_processed
+
+		annotation SummarizationSetBy = Automatic
+
+	column error_message
+		dataType: string
+		sourceProviderType: varchar(4000)
+		lineageTag: ac10e6c2-52e8-492a-8718-45e2c1c9e8b2
+		sourceLineageTag: error_message
+		summarizeBy: none
+		sourceColumn: error_message
+
+		annotation SummarizationSetBy = Automatic
+
+	column inserted_at
+		dataType: dateTime
+		formatString: General Date
+		sourceProviderType: datetime2
+		lineageTag: 9a98aeab-8ad9-4873-9f87-9fd21e04b6bd
+		sourceLineageTag: inserted_at
+		summarizeBy: none
+		sourceColumn: inserted_at
+
+		annotation SummarizationSetBy = Automatic
+
+	partition pipeline_run_log = entity
+		mode: directLake
+		source
+			entityName: pipeline_run_log
+			schemaName: tech
+			expressionSource: DatabaseQuery
+
+	annotation PBI_ResultType = Table
+
