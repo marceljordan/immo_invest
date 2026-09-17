@@ -44,10 +44,81 @@ find_replace:
 
 # PL_Master : connexion utilisée par Invoke_pipeline_ingest
 key_value_replace:
+
+  # ============================================================
+  # PL_Master - Invoke PL
+  # ============================================================
+
+  - find_key: $.properties.activities[?(@.name=="Invoke_pipeline_ingest")].typeProperties.pipelineId
+    replace_value:
+      TEST: "$items.DataPipeline.PL.$id"
+      PROD: "$items.DataPipeline.PL.$id"
+    item_type: "DataPipeline"
+    item_name: "PL_Master"
+
+  - find_key: $.properties.activities[?(@.name=="Invoke_pipeline_ingest")].typeProperties.workspaceId
+    replace_value:
+      TEST: "$workspace.$id"
+      PROD: "$workspace.$id"
+    item_type: "DataPipeline"
+    item_name: "PL_Master"
+
   - find_key: $.properties.activities[?(@.name=="Invoke_pipeline_ingest")].externalReferences.connection
     replace_value:
       TEST: "1640fd62-d638-4062-a349-d1c28628a1d8"
       PROD: "1640fd62-d638-4062-a349-d1c28628a1d8"
+    item_type: "DataPipeline"
+    item_name: "PL_Master"
+
+
+  # ============================================================
+  # PL_Master - dbt Job
+  # ============================================================
+
+  - find_key: $.properties.activities[?(@.name=="dbt job1")].typeProperties.dataBuildToolJobId
+    replace_value:
+      TEST: "$items.DataBuildToolJob.dbt.$id"
+      PROD: "$items.DataBuildToolJob.dbt.$id"
+    item_type: "DataPipeline"
+    item_name: "PL_Master"
+
+  - find_key: $.properties.activities[?(@.name=="dbt job1")].typeProperties.workspaceId
+    replace_value:
+      TEST: "$workspace.$id"
+      PROD: "$workspace.$id"
+    item_type: "DataPipeline"
+    item_name: "PL_Master"
+
+  - find_key: $.properties.activities[?(@.name=="dbt job1")].externalReferences.connection
+    replace_value:
+      TEST: "288a76fa-305a-4a2d-990f-9c8563ac13a4"
+      PROD: "288a76fa-305a-4a2d-990f-9c8563ac13a4"
+    item_type: "DataPipeline"
+    item_name: "PL_Master"
+
+
+  # ============================================================
+  # PL_Master - Semantic Model Refresh
+  # ============================================================
+
+  - find_key: $.properties.activities[?(@.name=="Semantic model refresh1")].typeProperties.groupId
+    replace_value:
+      TEST: "$workspace.$id"
+      PROD: "$workspace.$id"
+    item_type: "DataPipeline"
+    item_name: "PL_Master"
+
+  - find_key: $.properties.activities[?(@.name=="Semantic model refresh1")].typeProperties.datasetId
+    replace_value:
+      TEST: "$items.SemanticModel.SM_IMMO_ANALYTICS_DEV.$id"
+      PROD: "$items.SemanticModel.SM_IMMO_ANALYTICS_DEV.$id"
+    item_type: "DataPipeline"
+    item_name: "PL_Master"
+
+  - find_key: $.properties.activities[?(@.name=="Semantic model refresh1")].externalReferences.connection
+    replace_value:
+      TEST: "22c47972-1280-4e14-9f1b-d55fa4719bef"
+      PROD: "22c47972-1280-4e14-9f1b-d55fa4719bef"
     item_type: "DataPipeline"
     item_name: "PL_Master"
 
