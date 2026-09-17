@@ -2,46 +2,34 @@
   "properties": {
     "activities": [
       {
+        "name": "Invoke_pipeline_ingest",
         "type": "InvokePipeline",
-        "typeProperties": {
-          "parameters": {},
-          "waitOnCompletion": true,
-          "workspaceId": "00000000-0000-0000-0000-000000000000",
-          "pipelineId": "e91d7730-88fd-9e9d-49ba-c03af3b1b355",
-          "operationType": "InvokeFabricPipeline"
-        },
-        "externalReferences": {
-          "connection": "1640fd62-d638-4062-a349-d1c28628a1d8"
-        },
+        "state": "Inactive",
+        "onInactiveMarkAs": "Succeeded",
+        "dependsOn": [],
         "policy": {
           "timeout": "0.12:00:00",
           "retry": 0,
           "retryIntervalInSeconds": 30,
-          "secureInput": false,
-          "secureOutput": false
+          "secureOutput": false,
+          "secureInput": false
         },
-        "name": "Invoke_pipeline_ingest",
-        "dependsOn": []
+        "typeProperties": {
+          "waitOnCompletion": true,
+          "operationType": "InvokeFabricPipeline",
+          "pipelineId": "f3b1b355-c03a-49ba-9e9d-88fde91d7730",
+          "workspaceId": "ec7aa1ee-16a6-43ef-a54d-cdcc1cb90693",
+          "parameters": {}
+        },
+        "externalReferences": {
+          "connection": "d9dde602-b20b-4e3b-aa30-c1949436a1e2"
+        }
       },
       {
-        "type": "InvokeDataBuildToolJob",
-        "typeProperties": {
-          "dataBuildToolJobId": "3652d049-07bb-9b4c-4230-7905aafe1900",
-          "workspaceId": "00000000-0000-0000-0000-000000000000",
-          "threads": 1,
-          "operation": "build"
-        },
-        "externalReferences": {
-          "connection": "288a76fa-305a-4a2d-990f-9c8563ac13a4"
-        },
-        "policy": {
-          "timeout": "0.12:00:00",
-          "retry": 0,
-          "retryIntervalInSeconds": 30,
-          "secureInput": false,
-          "secureOutput": false
-        },
         "name": "dbt job1",
+        "type": "InvokeDataBuildToolJob",
+        "state": "Inactive",
+        "onInactiveMarkAs": "Succeeded",
         "dependsOn": [
           {
             "activity": "Invoke_pipeline_ingest",
@@ -49,29 +37,57 @@
               "Succeeded"
             ]
           }
-        ]
-      },
-      {
-        "type": "PBISemanticModelRefresh",
-        "typeProperties": {
-          "method": "POST",
-          "groupId": "ec7aa1ee-16a6-43ef-a54d-cdcc1cb90693",
-          "datasetId": "47ac6192-d68f-4aa6-8209-29248715898c",
-          "commitMode": "Transactional",
-          "waitOnCompletion": true,
-          "operationType": "SemanticModelRefresh"
-        },
-        "externalReferences": {
-          "connection": "22c47972-1280-4e14-9f1b-d55fa4719bef"
-        },
+        ],
         "policy": {
           "timeout": "0.12:00:00",
           "retry": 0,
           "retryIntervalInSeconds": 30,
-          "secureInput": false,
-          "secureOutput": false
+          "secureOutput": false,
+          "secureInput": false
         },
+        "typeProperties": {
+          "dataBuildToolJobId": "aafe1900-7905-4230-9b4c-07bb3652d049",
+          "workspaceId": "ec7aa1ee-16a6-43ef-a54d-cdcc1cb90693",
+          "operation": "build",
+          "threads": 1
+        },
+        "externalReferences": {
+          "connection": "288a76fa-305a-4a2d-990f-9c8563ac13a4"
+        }
+      },
+      {
         "name": "Semantic model refresh1",
+        "type": "PBISemanticModelRefresh",
+        "dependsOn": [
+          {
+            "activity": "Wait1",
+            "dependencyConditions": [
+              "Succeeded"
+            ]
+          }
+        ],
+        "policy": {
+          "timeout": "0.12:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureOutput": false,
+          "secureInput": false
+        },
+        "typeProperties": {
+          "method": "POST",
+          "operationType": "SemanticModelRefresh",
+          "groupId": "ec7aa1ee-16a6-43ef-a54d-cdcc1cb90693",
+          "datasetId": "47ac6192-d68f-4aa6-8209-29248715898c",
+          "waitOnCompletion": true,
+          "commitMode": "Transactional"
+        },
+        "externalReferences": {
+          "connection": "22c47972-1280-4e14-9f1b-d55fa4719bef"
+        }
+      },
+      {
+        "name": "Wait1",
+        "type": "Wait",
         "dependsOn": [
           {
             "activity": "dbt job1",
@@ -79,7 +95,10 @@
               "Succeeded"
             ]
           }
-        ]
+        ],
+        "typeProperties": {
+          "waitTimeInSeconds": 120
+        }
       }
     ]
   }
