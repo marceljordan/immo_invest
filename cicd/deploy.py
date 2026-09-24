@@ -8,8 +8,9 @@ from fabric_cicd import FabricWorkspace, publish_all_items
 
 
 # Déploiement temporairement limité aux artefacts ci-dessous.
-# SemanticModel et Environment sont mis en pause.
+# Environment est mis en pause.
 ITEM_TYPES = [
+    "SemanticModel",
     "Report",
     "Notebook",
     "DataPipeline",
