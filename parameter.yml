@@ -36,7 +36,9 @@ find_replace:
       PROD: "ff295195-4e19-44ec-93f8-60da368f1689"
 
   # Warehouse SQL endpoint
+  # ignore_case : le TMDL exporté par Fabric écrit ce hostname en MAJUSCULES
   - find_value: "fri4w75fytzuhcdanfxmnvidla-52qxv3fgc3xuhjknzxgbzoigsm.datawarehouse.fabric.microsoft.com"
+    ignore_case: "true"
     replace_value:
       TEST: "fri4w75fytzuhcdanfxmnvidla-libtvr3erurejet4xsiipqixn4.datawarehouse.fabric.microsoft.com"
       PROD: "fri4w75fytzuhcdanfxmnvidla-fsigghbverbefaq7bcq6f4azua.datawarehouse.fabric.microsoft.com"
