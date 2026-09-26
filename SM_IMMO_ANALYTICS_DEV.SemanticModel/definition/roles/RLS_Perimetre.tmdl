@@ -1,0 +1,182 @@
+role RLS_Perimetre
+	modelPermission: read
+
+	tablePermission dim_agence_region =
+			VAR CurrentUser = LOWER ( USERPRINCIPALNAME () )
+			VAR UserRow =
+			    FILTER (
+			        ALL ( security_user_access ),
+			        LOWER ( security_user_access[user_email] ) = CurrentUser
+			            && security_user_access[is_active]
+			            && ( ISBLANK ( security_user_access[start_date] ) || security_user_access[start_date] <= TODAY () )
+			            && ( ISBLANK ( security_user_access[end_date] ) || security_user_access[end_date] >= TODAY () )
+			    )
+			VAR Niveau  = MAXX ( UserRow, security_user_access[access_level] )
+			VAR RegionU = MAXX ( UserRow, security_user_access[region_id] )
+			VAR AgenceU = MAXX ( UserRow, security_user_access[agence_id] )
+			RETURN
+			    SWITCH (
+			        Niveau,
+			        "NATIONAL",   TRUE (),
+			        "REGION",     dim_agence_region[region_id] = RegionU,
+			        "AGENCE",     dim_agence_region[agence_id] = AgenceU,
+			        "CONSEILLER", dim_agence_region[agence_id] = AgenceU,
+			        "PARTENAIRE", TRUE (),
+			        FALSE ()
+			    )
+
+	tablePermission dim_conseiller =
+			VAR CurrentUser = LOWER ( USERPRINCIPALNAME () )
+			VAR UserRow =
+			    FILTER (
+			        ALL ( security_user_access ),
+			        LOWER ( security_user_access[user_email] ) = CurrentUser
+			            && security_user_access[is_active]
+			            && ( ISBLANK ( security_user_access[start_date] ) || security_user_access[start_date] <= TODAY () )
+			            && ( ISBLANK ( security_user_access[end_date] ) || security_user_access[end_date] >= TODAY () )
+			    )
+			VAR Niveau      = MAXX ( UserRow, security_user_access[access_level] )
+			VAR RegionU     = MAXX ( UserRow, security_user_access[region_id] )
+			VAR AgenceU     = MAXX ( UserRow, security_user_access[agence_id] )
+			VAR ConseillerU = MAXX ( UserRow, security_user_access[conseiller_id] )
+			RETURN
+			    SWITCH (
+			        Niveau,
+			        "NATIONAL",   TRUE (),
+			        "REGION",     dim_conseiller[region_id] = RegionU,
+			        "AGENCE",     dim_conseiller[agence_id] = AgenceU,
+			        "CONSEILLER", dim_conseiller[conseiller_id] = ConseillerU,
+			        "PARTENAIRE", TRUE (),
+			        FALSE ()
+			    )
+
+	tablePermission dim_partenaire =
+			VAR CurrentUser = LOWER ( USERPRINCIPALNAME () )
+			VAR UserRow =
+			    FILTER (
+			        ALL ( security_user_access ),
+			        LOWER ( security_user_access[user_email] ) = CurrentUser
+			            && security_user_access[is_active]
+			            && ( ISBLANK ( security_user_access[start_date] ) || security_user_access[start_date] <= TODAY () )
+			            && ( ISBLANK ( security_user_access[end_date] ) || security_user_access[end_date] >= TODAY () )
+			    )
+			VAR Niveau      = MAXX ( UserRow, security_user_access[access_level] )
+			VAR PartenaireU = MAXX ( UserRow, security_user_access[partenaire_id] )
+			RETURN
+			    SWITCH (
+			        Niveau,
+			        "PARTENAIRE", dim_partenaire[partenaire_id] = PartenaireU,
+			        BLANK (), FALSE (),
+			        TRUE ()
+			    )
+
+	tablePermission dim_investisseur =
+			VAR CurrentUser = LOWER ( USERPRINCIPALNAME () )
+			VAR UserRow =
+			    FILTER (
+			        ALL ( security_user_access ),
+			        LOWER ( security_user_access[user_email] ) = CurrentUser
+			            && security_user_access[is_active]
+			            && ( ISBLANK ( security_user_access[start_date] ) || security_user_access[start_date] <= TODAY () )
+			            && ( ISBLANK ( security_user_access[end_date] ) || security_user_access[end_date] >= TODAY () )
+			    )
+			VAR Niveau      = MAXX ( UserRow, security_user_access[access_level] )
+			VAR RegionU     = MAXX ( UserRow, security_user_access[region_id] )
+			VAR AgenceU     = MAXX ( UserRow, security_user_access[agence_id] )
+			VAR ConseillerU = MAXX ( UserRow, security_user_access[conseiller_id] )
+			VAR PartenaireU = MAXX ( UserRow, security_user_access[partenaire_id] )
+			VAR AgencesRegion =
+			    CALCULATETABLE (
+			        VALUES ( dim_agence_region[agence_id] ),
+			        dim_agence_region[region_id] = RegionU
+			    )
+			RETURN
+			    SWITCH (
+			        Niveau,
+			        "NATIONAL",   TRUE (),
+			        "REGION",     dim_investisseur[agence_id] IN AgencesRegion,
+			        "AGENCE",     dim_investisseur[agence_id] = AgenceU,
+			        "CONSEILLER", dim_investisseur[conseiller_id] = ConseillerU,
+			        "PARTENAIRE", dim_investisseur[partenaire_id] = PartenaireU,
+			        FALSE ()
+			    )
+
+	tablePermission security_user_access = LOWER ( security_user_access[user_email] ) = LOWER ( USERPRINCIPALNAME () )
+
+	tablePermission dim_region =
+			VAR CurrentUser = LOWER ( USERPRINCIPALNAME () )
+			VAR UserRow =
+			    FILTER (
+			        ALL ( security_user_access ),
+			        LOWER ( security_user_access[user_email] ) = CurrentUser
+			            && security_user_access[is_active]
+			            && ( ISBLANK ( security_user_access[start_date] ) || security_user_access[start_date] <= TODAY () )
+			            && ( ISBLANK ( security_user_access[end_date] ) || security_user_access[end_date] >= TODAY () )
+			    )
+			VAR Niveau  = MAXX ( UserRow, security_user_access[access_level] )
+			VAR RegionU = MAXX ( UserRow, security_user_access[region_id] )
+			RETURN
+			    SWITCH (
+			        Niveau,
+			        "NATIONAL",   TRUE (),
+			        "REGION",     dim_region[region_id] = RegionU,
+			        "AGENCE",     dim_region[region_id] = RegionU,
+			        "CONSEILLER", dim_region[region_id] = RegionU,
+			        "PARTENAIRE", TRUE (),
+			        FALSE ()
+			    )
+
+	tablePermission fact_objectif_region =
+			VAR Niveau =
+			    MAXX (
+			        FILTER (
+			            ALL ( security_user_access ),
+			            LOWER ( security_user_access[user_email] ) = LOWER ( USERPRINCIPALNAME () )
+			                && security_user_access[is_active]
+			        ),
+			        security_user_access[access_level]
+			    )
+			RETURN
+			    Niveau IN { "NATIONAL", "REGION" }
+
+	tablePermission fact_objectif_agence =
+			VAR Niveau =
+			    MAXX (
+			        FILTER (
+			            ALL ( security_user_access ),
+			            LOWER ( security_user_access[user_email] ) = LOWER ( USERPRINCIPALNAME () )
+			                && security_user_access[is_active]
+			        ),
+			        security_user_access[access_level]
+			    )
+			RETURN
+			    Niveau IN { "NATIONAL", "REGION", "AGENCE" }
+
+	tablePermission fact_objectif_conseiller =
+			VAR Niveau =
+			    MAXX (
+			        FILTER (
+			            ALL ( security_user_access ),
+			            LOWER ( security_user_access[user_email] ) = LOWER ( USERPRINCIPALNAME () )
+			                && security_user_access[is_active]
+			        ),
+			        security_user_access[access_level]
+			    )
+			RETURN
+			    Niveau IN { "NATIONAL", "REGION", "AGENCE", "CONSEILLER" }
+
+	tablePermission fact_objectif_partenaire =
+			VAR Niveau =
+			    MAXX (
+			        FILTER (
+			            ALL ( security_user_access ),
+			            LOWER ( security_user_access[user_email] ) = LOWER ( USERPRINCIPALNAME () )
+			                && security_user_access[is_active]
+			        ),
+			        security_user_access[access_level]
+			    )
+			RETURN
+			    Niveau IN { "NATIONAL", "PARTENAIRE" }
+
+	annotation PBI_Id = 4100e8751c0941f3994a7f983f59500a
+

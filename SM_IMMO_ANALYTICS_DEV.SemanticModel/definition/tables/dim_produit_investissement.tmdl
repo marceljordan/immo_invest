@@ -110,7 +110,7 @@ table dim_produit_investissement
 
 	column rendement_cible_annuel
 		dataType: decimal
-		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		formatString: 0.00%;-0.00%;0.00%
 		sourceProviderType: decimal(9, 4)
 		lineageTag: 53562ff4-c31a-482b-bfeb-a070a123f370
 		sourceLineageTag: rendement_cible_annuel
@@ -119,9 +119,9 @@ table dim_produit_investissement
 
 		changedProperty = SummarizeBy
 
-		annotation SummarizationSetBy = User
+		changedProperty = FormatString
 
-		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+		annotation SummarizationSetBy = User
 
 	column montant_minimum_investissement
 		dataType: double
@@ -139,7 +139,7 @@ table dim_produit_investissement
 
 	column frais_entree
 		dataType: decimal
-		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		formatString: 0.00%;-0.00%;0.00%
 		sourceProviderType: decimal(9, 4)
 		lineageTag: 8ca5d475-f22e-4146-82bb-ae1937602a0f
 		sourceLineageTag: frais_entree
@@ -148,13 +148,13 @@ table dim_produit_investissement
 
 		changedProperty = SummarizeBy
 
-		annotation SummarizationSetBy = User
+		changedProperty = FormatString
 
-		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+		annotation SummarizationSetBy = User
 
 	column frais_gestion_annuels
 		dataType: decimal
-		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		formatString: 0.00%;-0.00%;0.00%
 		sourceProviderType: decimal(9, 4)
 		lineageTag: ac40b680-74fe-405b-887c-6184dcde64b2
 		sourceLineageTag: frais_gestion_annuels
@@ -163,13 +163,13 @@ table dim_produit_investissement
 
 		changedProperty = SummarizeBy
 
-		annotation SummarizationSetBy = User
+		changedProperty = FormatString
 
-		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+		annotation SummarizationSetBy = User
 
 	column frais_sortie
 		dataType: decimal
-		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		formatString: 0.00%;-0.00%;0.00%
 		sourceProviderType: decimal(9, 4)
 		lineageTag: 7c70f74e-12b0-4316-98d0-58ee18252a6d
 		sourceLineageTag: frais_sortie
@@ -178,9 +178,9 @@ table dim_produit_investissement
 
 		changedProperty = SummarizeBy
 
-		annotation SummarizationSetBy = User
+		changedProperty = FormatString
 
-		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+		annotation SummarizationSetBy = User
 
 	column societe_gestion_id
 		dataType: string

@@ -304,6 +304,27 @@ table fact_revente
 
 		annotation SummarizationSetBy = Automatic
 
+	column conseiller_key
+		dataType: string
+		isHidden
+		lineageTag: 7a05d3b8-fbf8-4f4a-9370-8a45ea45c0f6
+		summarizeBy: none
+		sourceColumn: conseiller_key
+
+	column agence_region_key
+		dataType: string
+		isHidden
+		lineageTag: 5916fb01-eb1c-4021-8a96-22bda6fa691a
+		summarizeBy: none
+		sourceColumn: agence_region_key
+
+	column conseiller_id
+		dataType: string
+		isHidden
+		lineageTag: e5ae7331-158e-43af-a1d4-6a3bb4144bce
+		summarizeBy: none
+		sourceColumn: conseiller_id
+
 	partition fact_revente = entity
 		mode: directLake
 		source

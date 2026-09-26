@@ -19,7 +19,7 @@ table dim_date
 	column full_date
 		dataType: dateTime
 		isKey
-		formatString: General Date
+		formatString: dd/MM/yyyy
 		sourceProviderType: date
 		lineageTag: cec17caa-721c-40b3-a64d-7b9b8ed32fab
 		sourceLineageTag: full_date
@@ -108,8 +108,11 @@ table dim_date
 		sourceLineageTag: nom_jour
 		summarizeBy: none
 		sourceColumn: nom_jour
+		sortByColumn: numero_jour_semaine
 
 		changedProperty = SummarizeBy
+
+		changedProperty = SortByColumn
 
 		annotation SummarizationSetBy = User
 
@@ -146,8 +149,11 @@ table dim_date
 		sourceLineageTag: annee_mois
 		summarizeBy: none
 		sourceColumn: annee_mois
+		sortByColumn: annee_mois_key
 
 		changedProperty = SummarizeBy
+
+		changedProperty = SortByColumn
 
 		annotation SummarizationSetBy = User
 

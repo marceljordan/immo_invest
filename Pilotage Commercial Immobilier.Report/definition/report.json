@@ -24,10 +24,24 @@
           }
         }
       }
+    ],
+    "outspacePane": [
+      {
+        "properties": {
+          "expanded": {
+            "expr": {
+              "Literal": {
+                "Value": "true"
+              }
+            }
+          }
+        }
+      }
     ]
   },
   "publicCustomVisuals": [
-    "advanceCardE03760C5AB684758B56AA29F9E6C257B"
+    "advanceCardE03760C5AB684758B56AA29F9E6C257B",
+    "cardWithStatesByOKVIZ1379955260C24C1F81BC865FBF061388"
   ],
   "resourcePackages": [
     {
@@ -68,6 +82,16 @@
         {
           "name": "ChatGPT_Image_Aug_19,_2026,_046819513992624241.png",
           "path": "ChatGPT_Image_Aug_19,_2026,_046819513992624241.png",
+          "type": "Image"
+        },
+        {
+          "name": "ChatGPT_Image_Sep_24,_2026,_012569497872628499.png",
+          "path": "ChatGPT_Image_Sep_24,_2026,_012569497872628499.png",
+          "type": "Image"
+        },
+        {
+          "name": "ChatGPT_Image_Sep_24,_2026,_019832539509300267.png",
+          "path": "ChatGPT_Image_Sep_24,_2026,_019832539509300267.png",
           "type": "Image"
         },
         {

@@ -88,7 +88,7 @@ table dim_lot_immobilier
 
 	column surface_m2
 		dataType: decimal
-		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		formatString: #,0.00 "m²"
 		sourceProviderType: decimal(10, 2)
 		lineageTag: d1ab1e66-715d-4fc3-b867-9288d08da788
 		sourceLineageTag: surface_m2
@@ -97,9 +97,9 @@ table dim_lot_immobilier
 
 		changedProperty = SummarizeBy
 
-		annotation SummarizationSetBy = User
+		changedProperty = FormatString
 
-		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+		annotation SummarizationSetBy = User
 
 	column etage
 		dataType: int64
@@ -197,7 +197,7 @@ table dim_lot_immobilier
 
 	column rentabilite_brute_estimee
 		dataType: decimal
-		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		formatString: 0.00%;-0.00%;0.00%
 		sourceProviderType: decimal(9, 4)
 		lineageTag: 192e995c-0019-4c5f-afda-2e67e63588ac
 		sourceLineageTag: rentabilite_brute_estimee
@@ -206,9 +206,9 @@ table dim_lot_immobilier
 
 		changedProperty = SummarizeBy
 
-		annotation SummarizationSetBy = User
+		changedProperty = FormatString
 
-		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+		annotation SummarizationSetBy = User
 
 	column statut_lot
 		dataType: string

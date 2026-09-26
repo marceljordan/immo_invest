@@ -5,18 +5,54 @@ Rôle :
 - Créer la table de faits des ventes immobilières.
 
 Grain Kimball :
-- 1 ligne = 1 vente immobilière.
+- 1 ligne = 1 vente immobilière conforme aux règles métier.
+
+Règles métier (ventes exclues si une règle est violée) :
+- RM1 : pas de contrat signé dans le futur.
+- RM2 : contrat signé avant (ou le jour de) l'acte.
+- RM3 : une vente ACTEE ou LIVREE a un acte déjà passé.
+- RM4 : une vente LIVREE a une livraison réelle déjà passée.
+Une date manquante (NULL) ne provoque pas d'exclusion.
 
 Actions réalisées :
+- Applique les règles métier.
 - Récupère les clés dimensionnelles via LEFT JOIN.
 - Récupère statut_key depuis dim_statut.
 - Envoie vers UNKNOWN si une dimension est absente.
-
-Objectif :
-- Garantir des relations valides vers les dimensions Gold.
+- Expose is_vente_valide (0 = ECHEC / ANNULEE / ABANDONNE) pour les mesures.
 */
 
 {{ config(alias='fact_vente') }}
+
+with ventes as (
+
+    select
+        f.*,
+        upper(trim(f.statut_vente)) as statut_vente_norm,
+        cast(getdate() as date)     as date_controle
+    from {{ ref('ventes_immobilieres') }} f
+    where f.is_deleted = 0
+
+),
+
+ventes_conformes as (
+
+    select v.*
+    from ventes v
+    where not (
+           -- RM1 : contrat dans le futur
+           coalesce(case when v.date_signature_contrat > v.date_controle then 1 end, 0) = 1
+           -- RM2 : contrat après l'acte
+        or coalesce(case when v.date_signature_contrat > v.date_signature_acte then 1 end, 0) = 1
+           -- RM3 : actée ou livrée avec un acte futur
+        or coalesce(case when v.statut_vente_norm in ('ACTEE', 'LIVREE')
+                          and v.date_signature_acte > v.date_controle then 1 end, 0) = 1
+           -- RM4 : livrée avec une livraison future
+        or coalesce(case when v.statut_vente_norm = 'LIVREE'
+                          and v.date_livraison_reelle > v.date_controle then 1 end, 0) = 1
+    )
+
+)
 
 select
     {{ dbt_utils.generate_surrogate_key(['f.vente_id']) }} as vente_key,
@@ -56,11 +92,13 @@ select
     f.banque_financement,
     f.statut_vente,
     f.motif_echec,
+    case when f.statut_vente_norm in ('ECHEC', 'ANNULEE', 'ABANDONNE')
+         then 0 else 1 end as is_vente_valide,
 
     f.created_at,
     f.updated_at
 
-from {{ ref('ventes_immobilieres') }} f
+from ventes_conformes f
 
 left join {{ ref('dim_investisseur') }} di
     on f.investisseur_id = di.investisseur_id
@@ -82,6 +120,4 @@ left join {{ ref('dim_lot_immobilier') }} dl
 
 left join {{ ref('dim_statut') }} ds
     on ds.domaine_statut = 'VENTE'
-   and ds.statut_value = upper(trim(f.statut_vente))
-
-where f.is_deleted = 0
+   and ds.statut_value = f.statut_vente_norm

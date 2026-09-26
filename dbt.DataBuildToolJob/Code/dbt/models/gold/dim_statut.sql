@@ -7,11 +7,17 @@ Rôle :
 Actions réalisées :
 - Centralise les statuts métier.
 - Ajoute une ligne UNKNOWN par domaine de statut.
+- Classe chaque statut (TERMINE / EN_COURS / ECHEC) via la liste
+  « categories » ci-dessous (règle métier explicite, versionnée avec le modèle).
+- Un statut absent de la liste est classé NON_CLASSE (code 0) : un test dbt
+  le signale pour qu'il soit ajouté à la liste.
 - Génère une surrogate key composite avec dbt_utils.
 
 Objectif :
 - Permettre aux facts de pointer vers une dimension statut valide,
   même si le statut source est absent ou non reconnu.
+- Porter la classification des statuts comme attribut de dimension
+  (et non dans une mesure DAX).
 */
 
 {{ config(alias='dim_statut') }}
@@ -99,11 +105,71 @@ final as (
     union
     select * from unknown_rows
 
+),
+
+-- Règle métier de classification des statuts (tous domaines).
+-- Pour ajouter ou reclasser un statut : modifier cette liste.
+categories (statut_value, categorie_statut, libelle_categorie, code_couleur) as (
+
+    select 'ACCEPTE', 'TERMINE', 'Terminé / succès', 3
+    union all select 'ACTEE', 'TERMINE', 'Terminé / succès', 3
+    union all select 'ACCORD PRINCIPE', 'TERMINE', 'Terminé / succès', 3
+    union all select 'ACTE SIGNE', 'TERMINE', 'Terminé / succès', 3
+    union all select 'ACTIVE', 'TERMINE', 'Terminé / succès', 3
+    union all select 'CLOTUREE', 'TERMINE', 'Terminé / succès', 3
+    union all select 'LIVREE', 'TERMINE', 'Terminé / succès', 3
+    union all select 'MANDAT SIGNE', 'TERMINE', 'Terminé / succès', 3
+    union all select 'PAYEE', 'TERMINE', 'Terminé / succès', 3
+    union all select 'REMBOURSEE', 'TERMINE', 'Terminé / succès', 3
+    union all select 'RESOLUE', 'TERMINE', 'Terminé / succès', 3
+    union all select 'SIGNEE', 'TERMINE', 'Terminé / succès', 3
+    union all select 'TERMINEE', 'TERMINE', 'Terminé / succès', 3
+    union all select 'TRANSFORMEE EN VENTE', 'TERMINE', 'Terminé / succès', 3
+    union all select 'VALIDE', 'TERMINE', 'Terminé / succès', 3
+    union all select 'VALIDEE', 'TERMINE', 'Terminé / succès', 3
+    union all select 'REVENDU', 'TERMINE', 'Terminé / succès', 3
+    union all select 'CALCULEE', 'EN_COURS', 'En cours / attente', 2
+    union all select 'DEMANDE DEPOSEE', 'EN_COURS', 'En cours / attente', 2
+    union all select 'DEMANDE RECUE', 'EN_COURS', 'En cours / attente', 2
+    union all select 'EN ATTENTE', 'EN_COURS', 'En cours / attente', 2
+    union all select 'EN COMMERCIALISATION', 'EN_COURS', 'En cours / attente', 2
+    union all select 'EN COURS', 'EN_COURS', 'En cours / attente', 2
+    union all select 'ENVOYE NOTAIRE', 'EN_COURS', 'En cours / attente', 2
+    union all select 'OFFRE EMISE', 'EN_COURS', 'En cours / attente', 2
+    union all select 'OUVERT', 'EN_COURS', 'En cours / attente', 2
+    union all select 'OUVERTE', 'EN_COURS', 'En cours / attente', 2
+    union all select 'PIECES EN ATTENTE', 'EN_COURS', 'En cours / attente', 2
+    union all select 'RETARD', 'EN_COURS', 'En cours / attente', 2
+    union all select 'ABANDONNE', 'ECHEC', 'Échec / blocage', 1
+    union all select 'ANNULEE', 'ECHEC', 'Échec / blocage', 1
+    union all select 'BLOQUEE', 'ECHEC', 'Échec / blocage', 1
+    union all select 'BLOQUE', 'ECHEC', 'Échec / blocage', 1
+    union all select 'DEFAUT', 'ECHEC', 'Échec / blocage', 1
+    union all select 'ECHEC', 'ECHEC', 'Échec / blocage', 1
+    union all select 'EXPIREE', 'ECHEC', 'Échec / blocage', 1
+    union all select 'REFUSE', 'ECHEC', 'Échec / blocage', 1
+    union all select 'REJETEE', 'ECHEC', 'Échec / blocage', 1
+
 )
 
 select
-    {{ dbt_utils.generate_surrogate_key(['domaine_statut', 'statut_value']) }} as statut_key,
-    domaine_statut,
-    statut_value
+    {{ dbt_utils.generate_surrogate_key(['f.domaine_statut', 'f.statut_value']) }} as statut_key,
+    f.domaine_statut,
+    f.statut_value,
 
-from final
+    case
+        when f.statut_value = '__UNKNOWN__' then 'INCONNU'
+        else coalesce(c.categorie_statut, 'NON_CLASSE')
+    end as categorie_statut,
+
+    case
+        when f.statut_value = '__UNKNOWN__' then 'Inconnu'
+        else coalesce(c.libelle_categorie, 'Non classé')
+    end as libelle_categorie,
+
+    cast(coalesce(c.code_couleur, 0) as int) as code_couleur
+
+from final f
+
+left join categories c
+    on f.statut_value = c.statut_value

@@ -1,0 +1,43 @@
+table dim_region
+	lineageTag: 0fd2159e-457f-4a49-b852-ae855f6d4dd6
+	sourceLineageTag: [gold].[dim_region]
+
+	column region_key
+		dataType: string
+		sourceProviderType: varchar(400)
+		lineageTag: b619ad22-47ff-48fd-939a-fe131ea40a69
+		sourceLineageTag: region_key
+		summarizeBy: none
+		sourceColumn: region_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column region_id
+		dataType: string
+		sourceProviderType: varchar(50)
+		lineageTag: 5664eafa-bef1-4e23-9a5a-fb8f8887afde
+		sourceLineageTag: region_id
+		summarizeBy: none
+		sourceColumn: region_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column nom_region
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: 35596c8b-411e-4525-a5c0-9f49e8474ceb
+		sourceLineageTag: nom_region
+		summarizeBy: none
+		sourceColumn: nom_region
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_region = entity
+		mode: directLake
+		source
+			entityName: dim_region
+			schemaName: gold
+			expressionSource: DatabaseQuery
+
+	annotation PBI_ResultType = Table
+

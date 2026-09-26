@@ -217,7 +217,7 @@ table fact_operation_crowdfunding
 
 	column taux_rendement_annuel_prevu
 		dataType: decimal
-		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		formatString: #,0.00%;-#,0.00%;#,0.00%
 		sourceProviderType: decimal(9, 4)
 		lineageTag: 2b82b4ab-3f7f-4d57-9813-d91ac55258c0
 		sourceLineageTag: taux_rendement_annuel_prevu
@@ -226,9 +226,9 @@ table fact_operation_crowdfunding
 
 		changedProperty = SummarizeBy
 
-		annotation SummarizationSetBy = User
+		changedProperty = FormatString
 
-		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+		annotation SummarizationSetBy = User
 
 	column duree_mois
 		dataType: int64

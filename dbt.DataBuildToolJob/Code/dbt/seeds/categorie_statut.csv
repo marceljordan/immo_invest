@@ -1,0 +1,37 @@
+statut_value,categorie_statut,libelle_categorie,code_couleur
+ACCEPTE,TERMINE,Terminé / succès,3
+ACTEE,TERMINE,Terminé / succès,3
+ACCORD PRINCIPE,TERMINE,Terminé / succès,3
+ACTE SIGNE,TERMINE,Terminé / succès,3
+ACTIVE,TERMINE,Terminé / succès,3
+CLOTUREE,TERMINE,Terminé / succès,3
+LIVREE,TERMINE,Terminé / succès,3
+MANDAT SIGNE,TERMINE,Terminé / succès,3
+PAYEE,TERMINE,Terminé / succès,3
+REMBOURSEE,TERMINE,Terminé / succès,3
+RESOLUE,TERMINE,Terminé / succès,3
+SIGNEE,TERMINE,Terminé / succès,3
+TERMINEE,TERMINE,Terminé / succès,3
+TRANSFORMEE EN VENTE,TERMINE,Terminé / succès,3
+VALIDE,TERMINE,Terminé / succès,3
+VALIDEE,TERMINE,Terminé / succès,3
+CALCULEE,EN_COURS,En cours / attente,2
+DEMANDE DEPOSEE,EN_COURS,En cours / attente,2
+DEMANDE RECUE,EN_COURS,En cours / attente,2
+EN ATTENTE,EN_COURS,En cours / attente,2
+EN COMMERCIALISATION,EN_COURS,En cours / attente,2
+EN COURS,EN_COURS,En cours / attente,2
+ENVOYE NOTAIRE,EN_COURS,En cours / attente,2
+OFFRE EMISE,EN_COURS,En cours / attente,2
+OUVERT,EN_COURS,En cours / attente,2
+OUVERTE,EN_COURS,En cours / attente,2
+PIECES EN ATTENTE,EN_COURS,En cours / attente,2
+RETARD,EN_COURS,En cours / attente,2
+ABANDONNE,ECHEC,Échec / blocage,1
+ANNULEE,ECHEC,Échec / blocage,1
+BLOQUEE,ECHEC,Échec / blocage,1
+DEFAUT,ECHEC,Échec / blocage,1
+ECHEC,ECHEC,Échec / blocage,1
+EXPIREE,ECHEC,Échec / blocage,1
+REFUSE,ECHEC,Échec / blocage,1
+REJETEE,ECHEC,Échec / blocage,1

@@ -428,8 +428,11 @@ models:
 
   - name: fact_vente
     description: >
-      Table de faits des ventes immobilières. Grain : 1 ligne = 1 vente.
-      Référence toutes les dimensions Gold. Les dimensions absentes pointent vers UNKNOWN.
+      Table de faits des ventes immobilières. Grain : 1 ligne = 1 vente conforme
+      aux règles métier. Ventes exclues : RM1 contrat dans le futur, RM2 contrat
+      après l'acte, RM3 ACTEE/LIVREE avec acte futur, RM4 LIVREE avec livraison
+      future. Les ventes exclues sont listées dans dq_vente_rejets.
+      Les dimensions absentes pointent vers UNKNOWN.
     columns:
       - name: vente_key
         description: Clé surrogate (SHA256 sur vente_id).
@@ -501,6 +504,32 @@ models:
         description: Statut métier de la vente.
       - name: motif_echec
         description: Motif d'échec si la vente n'a pas abouti.
+      - name: is_vente_valide
+        description: 0 si statut ECHEC, ANNULEE ou ABANDONNE, sinon 1. À utiliser dans les mesures.
+        tests:
+          - not_null
+          - accepted_values:
+              values: [0, 1]
+
+  - name: dq_vente_rejets
+    description: >
+      Ventes de la source exclues de fact_vente par les règles métier RM1 à RM4.
+      Grain : 1 ligne = 1 vente rejetée. Les colonnes rm1 à rm4 indiquent la ou
+      les règles violées.
+    columns:
+      - name: vente_id
+        description: Identifiant métier de la vente rejetée.
+        tests:
+          - not_null
+          - unique
+      - name: rm1_contrat_futur
+        description: 1 si le contrat est signé dans le futur.
+      - name: rm2_contrat_apres_acte
+        description: 1 si le contrat est signé après l'acte.
+      - name: rm3_acte_futur
+        description: 1 si la vente est ACTEE ou LIVREE avec un acte futur.
+      - name: rm4_livraison_future
+        description: 1 si la vente est LIVREE avec une livraison future.
 
   - name: fact_reservation
     description: >

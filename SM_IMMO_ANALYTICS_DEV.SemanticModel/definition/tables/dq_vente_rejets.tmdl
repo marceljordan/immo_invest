@@ -1,0 +1,133 @@
+table dq_vente_rejets
+	lineageTag: 5008cf87-3c00-4024-815f-82722838ad57
+	sourceLineageTag: [gold].[dq_vente_rejets]
+
+	column vente_id
+		dataType: string
+		sourceProviderType: varchar(50)
+		lineageTag: 9607d1ff-d821-4fb6-af41-d0d9478bd455
+		sourceLineageTag: vente_id
+		summarizeBy: none
+		sourceColumn: vente_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column statut_vente
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: cd67c591-cfa8-4f62-b489-463f7982f44b
+		sourceLineageTag: statut_vente
+		summarizeBy: none
+		sourceColumn: statut_vente
+
+		annotation SummarizationSetBy = Automatic
+
+	column date_signature_contrat
+		dataType: dateTime
+		formatString: General Date
+		sourceProviderType: date
+		lineageTag: bc57f6b8-391b-4e35-a3de-9fcd59e5531d
+		sourceLineageTag: date_signature_contrat
+		summarizeBy: none
+		sourceColumn: date_signature_contrat
+
+		annotation SummarizationSetBy = Automatic
+
+	column date_signature_acte
+		dataType: dateTime
+		formatString: General Date
+		sourceProviderType: date
+		lineageTag: 34693c24-6108-4076-954c-f46ab3e1527d
+		sourceLineageTag: date_signature_acte
+		summarizeBy: none
+		sourceColumn: date_signature_acte
+
+		annotation SummarizationSetBy = Automatic
+
+	column date_livraison_reelle
+		dataType: dateTime
+		formatString: General Date
+		sourceProviderType: date
+		lineageTag: 85e4eed4-1229-43dd-b2a8-f6c28c09ece4
+		sourceLineageTag: date_livraison_reelle
+		summarizeBy: none
+		sourceColumn: date_livraison_reelle
+
+		annotation SummarizationSetBy = Automatic
+
+	column prix_vente_ttc
+		dataType: double
+		sourceProviderType: decimal(18, 2)
+		lineageTag: b7732112-d59c-4d1d-acbe-dd3cbec2cae8
+		sourceLineageTag: prix_vente_ttc
+		summarizeBy: sum
+		sourceColumn: prix_vente_ttc
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column rm1_contrat_futur
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: 77e47981-45a5-4682-86f6-a81c92ac4360
+		sourceLineageTag: rm1_contrat_futur
+		summarizeBy: sum
+		sourceColumn: rm1_contrat_futur
+
+		annotation SummarizationSetBy = Automatic
+
+	column rm2_contrat_apres_acte
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: a65f175d-ae31-4626-acb9-5b9cea896cc3
+		sourceLineageTag: rm2_contrat_apres_acte
+		summarizeBy: sum
+		sourceColumn: rm2_contrat_apres_acte
+
+		annotation SummarizationSetBy = Automatic
+
+	column rm3_acte_futur
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: ad1830ce-16db-4470-b4d4-ed481ef4bb1d
+		sourceLineageTag: rm3_acte_futur
+		summarizeBy: sum
+		sourceColumn: rm3_acte_futur
+
+		annotation SummarizationSetBy = Automatic
+
+	column rm4_livraison_future
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: 694afb7f-9938-4e51-b759-e8a5d66c5c7a
+		sourceLineageTag: rm4_livraison_future
+		summarizeBy: sum
+		sourceColumn: rm4_livraison_future
+
+		annotation SummarizationSetBy = Automatic
+
+	column date_controle
+		dataType: dateTime
+		formatString: General Date
+		sourceProviderType: date
+		lineageTag: e8e00607-540b-43cb-98b3-f179a3f94ae6
+		sourceLineageTag: date_controle
+		summarizeBy: none
+		sourceColumn: date_controle
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dq_vente_rejets = entity
+		mode: directLake
+		source
+			entityName: dq_vente_rejets
+			schemaName: gold
+			expressionSource: DatabaseQuery
+
+	annotation PBI_ResultType = Table
+

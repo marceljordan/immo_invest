@@ -1,0 +1,151 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
+  "name": "f4e30002111ca56f9660",
+  "position": {
+    "x": 224.00000000000003,
+    "y": 256,
+    "z": 31000,
+    "height": 32,
+    "width": 64,
+    "tabOrder": 31000
+  },
+  "visual": {
+    "visualType": "cardWithStatesByOKVIZ1379955260C24C1F81BC865FBF061388",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Mesures"
+                    }
+                  },
+                  "Property": "Variation CA %"
+                }
+              },
+              "queryRef": "_Mesures.Variation CA %",
+              "nativeQueryRef": "Variation CA %"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Measure": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "_Mesures"
+                  }
+                },
+                "Property": "Variation CA %"
+              }
+            },
+            "direction": "Descending"
+          }
+        ],
+        "isDefaultSort": true
+      }
+    },
+    "objects": {
+      "dataLabel": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "11L"
+                }
+              }
+            },
+            "fontFamily": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Arial'"
+                }
+              }
+            },
+            "autoSizeMaxFontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "11L"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "categoryLabel": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "colorRulesEditor": [
+        {
+          "properties": {
+            "showEditor": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "internal": [
+        {
+          "properties": {
+            "colorRules": {
+              "expr": {
+                "Literal": {
+                  "Value": "'[{\"id\":\"fe78947d-e2bc-8f9d-85bd-f99d4fd664ea\",\"version\":2,\"displayName\":\"Règle 1\",\"automatic\":false,\"locked\":null,\"enabled\":true,\"stop\":false,\"legend\":true,\"property\":\"card-_Mesures.Variation CA %\",\"mode\":\"conditions\",\"conditions\":{\"operator\":0,\"conditions\":{\"0\":{\"id\":0,\"field\":{\"role\":\"Values\",\"roleIndex\":0},\"comparison\":4,\"mode\":1,\"value\":0}},\"level\":\"default\",\"effects\":{\"dataLabel\":{\"kind\":\"color\",\"value\":\"#54b565\"},\"categoryLabel\":{\"kind\":\"color\",\"value\":\"default\"},\"variance\":{\"kind\":\"color\",\"value\":\"default\"},\"trendline\":{\"kind\":\"color\",\"value\":\"default\"},\"trendlineArea\":{\"kind\":\"color\",\"value\":\"default\"},\"background\":{\"kind\":\"color\",\"value\":\"default\"},\"icon\":{\"kind\":\"icon\",\"icon\":{\"value\":\"blank\",\"color\":\"default\"}},\"message\":{\"kind\":\"message\",\"message\":{\"type\":\"none\",\"staticText\":null,\"color\":\"default\"}}}},\"colorScales\":{\"field\":{\"role\":\"Values\",\"roleIndex\":0},\"blank\":\"ignore\",\"blankColor\":\"#e6e6e6\",\"type\":0,\"relative\":false,\"scalesByLevel\":{\"default\":{\"min\":{\"mode\":1,\"value\":null,\"color\":\"#e6f2e6\"},\"max\":{\"mode\":0,\"value\":null,\"color\":\"#3CB44A\"},\"center\":{\"mode\":0,\"value\":null,\"color\":null},\"topColor\":null,\"bottomColor\":null}},\"targets\":{\"dataLabel\":false,\"categoryLabel\":false,\"variance\":false,\"trendline\":false,\"trendlineArea\":false,\"background\":false}}},{\"id\":\"_5d3fcdbf-999d-4e3d-1781-7a30a6c8a515\",\"version\":2,\"displayName\":\"Règle 2\",\"automatic\":false,\"locked\":null,\"enabled\":true,\"stop\":false,\"legend\":true,\"property\":\"card-_Mesures.Variation CA %\",\"mode\":\"conditions\",\"conditions\":{\"operator\":0,\"conditions\":{\"0\":{\"id\":0,\"field\":{\"role\":\"Values\",\"roleIndex\":0},\"comparison\":0,\"mode\":1,\"value\":0}},\"level\":\"default\",\"effects\":{\"dataLabel\":{\"kind\":\"color\",\"value\":\"#e40c0c\"},\"categoryLabel\":{\"kind\":\"color\",\"value\":\"default\"},\"variance\":{\"kind\":\"color\",\"value\":\"default\"},\"trendline\":{\"kind\":\"color\",\"value\":\"default\"},\"trendlineArea\":{\"kind\":\"color\",\"value\":\"default\"},\"background\":{\"kind\":\"color\",\"value\":\"default\"},\"icon\":{\"kind\":\"icon\",\"icon\":{\"value\":\"blank\",\"color\":\"default\"}},\"message\":{\"kind\":\"message\",\"message\":{\"type\":\"none\",\"staticText\":null,\"color\":\"default\"}}}},\"colorScales\":{\"field\":{\"role\":\"\"},\"blank\":\"ignore\",\"blankColor\":\"#e6e6e6\",\"type\":0,\"relative\":false,\"scalesByLevel\":{\"default\":{\"min\":{\"mode\":0,\"value\":null,\"color\":\"#e6f2e6\"},\"max\":{\"mode\":0,\"value\":null,\"color\":\"#3CB44A\"},\"center\":{\"mode\":0,\"value\":null,\"color\":null},\"topColor\":null,\"bottomColor\":null}},\"targets\":{\"dataLabel\":false,\"categoryLabel\":false,\"variance\":false,\"trendline\":false,\"trendlineArea\":false,\"background\":false}}}]'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "dropShadow": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "background": [
+        {
+          "properties": {}
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

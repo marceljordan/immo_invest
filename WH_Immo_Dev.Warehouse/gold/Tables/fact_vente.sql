@@ -31,6 +31,7 @@ CREATE TABLE [gold].[fact_vente] (
 	[banque_financement] varchar(8000) NULL, 
 	[statut_vente] varchar(8000) NULL, 
 	[motif_echec] varchar(8000) NULL, 
+	[is_vente_valide] int NOT NULL, 
 	[created_at] datetime2(6) NULL, 
 	[updated_at] datetime2(6) NULL
 );

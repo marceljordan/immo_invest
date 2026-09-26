@@ -4,10 +4,10 @@
   "position": {
     "x": 16,
     "y": 784,
-    "z": 24003,
+    "z": 26000,
     "height": 288,
     "width": 1568,
-    "tabOrder": 24003
+    "tabOrder": 26000
   },
   "visual": {
     "visualType": "tableEx",
@@ -524,107 +524,5 @@
       ]
     },
     "drillFilterOtherVisuals": true
-  },
-  "filterConfig": {
-    "filters": [
-      {
-        "name": "95ee04655e09c29a69d7",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "dim_date"
-              }
-            },
-            "Property": "full_date"
-          }
-        },
-        "type": "Categorical"
-      },
-      {
-        "name": "af60385d58846c94bb77",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "dim_conseiller"
-              }
-            },
-            "Property": "nom_complet"
-          }
-        },
-        "type": "Categorical"
-      },
-      {
-        "name": "4036831c0acd71107390",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "dim_agence_region"
-              }
-            },
-            "Property": "nom_agence"
-          }
-        },
-        "type": "Categorical"
-      },
-      {
-        "name": "9de8a882a43e3b121b0c",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "dim_programme_immobilier"
-              }
-            },
-            "Property": "nom_programme"
-          }
-        },
-        "type": "Categorical"
-      },
-      {
-        "name": "6758429758c947278646",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "dim_lot_immobilier"
-              }
-            },
-            "Property": "numero_lot"
-          }
-        },
-        "type": "Categorical"
-      },
-      {
-        "name": "e938d9a0a222af7d3530",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "_Mesures"
-              }
-            },
-            "Property": "CA TTC"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "fbebacf20c793f9575ff",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "dim_statut"
-              }
-            },
-            "Property": "statut_value"
-          }
-        },
-        "type": "Categorical"
-      }
-    ]
   }
 }
