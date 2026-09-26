@@ -68,4 +68,4 @@ select
         else cast(0 as bit)
     end as is_active
 
-from {{ get_lakehouse() }}.dbo.src_programmes_immobiliers
+from {{ derniere_version(get_lakehouse() ~ '.dbo.src_programmes_immobiliers', 'programme_id') }}

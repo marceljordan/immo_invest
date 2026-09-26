@@ -71,4 +71,4 @@ select
         else cast(0 as bit)
     end as is_deleted
 
-from {{ get_lakehouse() }}.dbo.src_crm_investisseurs
+from {{ derniere_version(get_lakehouse() ~ '.dbo.src_crm_investisseurs', 'investisseur_id', 'last_update_date') }}
