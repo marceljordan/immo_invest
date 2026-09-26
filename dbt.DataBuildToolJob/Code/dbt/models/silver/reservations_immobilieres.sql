@@ -63,4 +63,4 @@ select
         else cast(0 as bit)
     end as is_deleted
 
-from {{ get_lakehouse() }}.dbo.src_reservations_immobilieres
+from {{ derniere_version(get_lakehouse() ~ '.dbo.src_reservations_immobilieres', 'reservation_id') }}
