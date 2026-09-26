@@ -32,6 +32,26 @@ table dim_statut
 
 		annotation SummarizationSetBy = Automatic
 
+	column categorie_statut
+		dataType: string
+		lineageTag: a988b372-13dc-49cc-b2f1-1c2929bfaa92
+		summarizeBy: none
+		sourceColumn: categorie_statut
+
+	column libelle_categorie
+		dataType: string
+		lineageTag: 4859e83b-f12a-4ed8-86cb-65899e25fbd4
+		summarizeBy: none
+		sourceColumn: libelle_categorie
+
+	column code_couleur
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 1c27e5f0-17ab-454e-ad13-588fcc64237c
+		summarizeBy: none
+		sourceColumn: code_couleur
+
 	partition dim_statut = entity
 		mode: directLake
 		source

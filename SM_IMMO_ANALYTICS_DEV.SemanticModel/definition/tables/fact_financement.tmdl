@@ -164,7 +164,7 @@ table fact_financement
 
 	column taux_credit
 		dataType: decimal
-		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		formatString: #,0.00%;-#,0.00%;#,0.00%
 		sourceProviderType: decimal(9, 4)
 		lineageTag: 688a0f6e-3538-46a0-8e35-e7d916739601
 		sourceLineageTag: taux_credit
@@ -173,9 +173,9 @@ table fact_financement
 
 		changedProperty = SummarizeBy
 
-		annotation SummarizationSetBy = User
+		changedProperty = FormatString
 
-		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+		annotation SummarizationSetBy = User
 
 	column duree_credit_mois
 		dataType: int64
@@ -273,6 +273,34 @@ table fact_financement
 		sourceColumn: updated_at
 
 		annotation SummarizationSetBy = Automatic
+
+	column conseiller_key
+		dataType: string
+		isHidden
+		lineageTag: 41a5d516-daf4-40d8-8cc6-2ddcd06ad833
+		summarizeBy: none
+		sourceColumn: conseiller_key
+
+	column agence_region_key
+		dataType: string
+		isHidden
+		lineageTag: 066c6a3b-2bdb-4487-bac2-839e1c69975d
+		summarizeBy: none
+		sourceColumn: agence_region_key
+
+	column conseiller_id
+		dataType: string
+		isHidden
+		lineageTag: ff0b6a5f-d081-4f68-827a-b5aa98808ded
+		summarizeBy: none
+		sourceColumn: conseiller_id
+
+	column agence_id
+		dataType: string
+		isHidden
+		lineageTag: b00bc52c-1788-413e-8564-476d41946d72
+		summarizeBy: none
+		sourceColumn: agence_id
 
 	partition fact_financement = entity
 		mode: directLake

@@ -4,10 +4,10 @@
   "position": {
     "x": 1120,
     "y": 0,
-    "z": 24004,
+    "z": 27000,
     "height": 64,
     "width": 416,
-    "tabOrder": 24004
+    "tabOrder": 27000
   },
   "visual": {
     "visualType": "advanceCardE03760C5AB684758B56AA29F9E6C257B",
@@ -69,23 +69,5 @@
       ]
     },
     "drillFilterOtherVisuals": true
-  },
-  "filterConfig": {
-    "filters": [
-      {
-        "name": "4eedacaef5716be6ea9c",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "_Mesures"
-              }
-            },
-            "Property": "Dernière actualisation"
-          }
-        },
-        "type": "Advanced"
-      }
-    ]
   }
 }

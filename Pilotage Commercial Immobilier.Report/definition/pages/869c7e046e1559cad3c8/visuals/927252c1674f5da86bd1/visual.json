@@ -1,5 +1,5 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.11.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
   "name": "927252c1674f5da86bd1",
   "position": {
     "x": 16,
@@ -106,7 +106,7 @@
                 "Property": "CA TTC"
               }
             },
-            "direction": "Descending"
+            "direction": "Ascending"
           }
         ]
       }
@@ -121,7 +121,7 @@
                   "color": {
                     "expr": {
                       "Literal": {
-                        "Value": "'#04336B'"
+                        "Value": "'#EFA948'"
                       }
                     }
                   }
@@ -456,62 +456,6 @@
             }
           ]
         }
-      },
-      {
-        "name": "70a5c3ccb11d1de733c8",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "dim_conseiller"
-              }
-            },
-            "Property": "nom_complet"
-          }
-        },
-        "type": "Categorical"
-      },
-      {
-        "name": "73d7f4c79a1ce6b4298d",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "_Mesures"
-              }
-            },
-            "Property": "CA TTC"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "77f2656259c7abd0f5e3",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "_Mesures"
-              }
-            },
-            "Property": "CA TTC Barre"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "23ec93dfb086e4557780",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "_Mesures"
-              }
-            },
-            "Property": "Médaille"
-          }
-        },
-        "type": "Advanced"
       }
     ]
   }

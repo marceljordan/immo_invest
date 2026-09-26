@@ -5,21 +5,33 @@ Rôle :
 - Créer la table de faits des dossiers ADV.
 
 Grain Kimball :
-- 1 ligne = 1 dossier d’administration des ventes.
+- 1 ligne = 1 dossier d'administration des ventes.
 
 Actions réalisées :
 - Génère dossier_adv_key.
 - Récupère les clés dimensionnelles via LEFT JOIN.
+- Récupère agence_region_key depuis la vente d'origine
+  (source ventes_immobilieres, pas fact_vente). À défaut, agence du conseiller.
 - Récupère statut_key depuis dim_statut.
 - Envoie vers UNKNOWN si une dimension est absente.
 - Conserve les mesures de suivi ADV.
 
 Objectif :
 - Garantir des relations valides vers investisseur, partenaire, conseiller,
-  programme, lot, date et statut.
+  agence, programme, lot, date et statut (filtrage RLS géographique).
 */
 
 {{ config(alias='fact_dossier_adv') }}
+
+with vente_origine as (
+
+    select
+        vente_id,
+        agence_id
+    from {{ ref('ventes_immobilieres') }}
+    where is_deleted = 0
+
+)
 
 select
     {{ dbt_utils.generate_surrogate_key(['f.dossier_adv_id']) }} as dossier_adv_key,
@@ -37,6 +49,7 @@ select
     coalesce(di.investisseur_key, {{ dbt_utils.generate_surrogate_key(["'__UNKNOWN__'"]) }}) as investisseur_key,
     coalesce(dp.partenaire_key, {{ dbt_utils.generate_surrogate_key(["'__UNKNOWN__'"]) }}) as partenaire_key,
     coalesce(dc.conseiller_key, {{ dbt_utils.generate_surrogate_key(["'__UNKNOWN__'"]) }}) as conseiller_key,
+    coalesce(da.agence_region_key, dc.agence_region_key, {{ dbt_utils.generate_surrogate_key(["'__UNKNOWN__'"]) }}) as agence_region_key,
     coalesce(dpr.programme_key, {{ dbt_utils.generate_surrogate_key(["'__UNKNOWN__'"]) }}) as programme_key,
     coalesce(dl.lot_key, {{ dbt_utils.generate_surrogate_key(["'__UNKNOWN__'"]) }}) as lot_key,
     coalesce(ds.statut_key, {{ dbt_utils.generate_surrogate_key(["'DOSSIER_ADV'", "'__UNKNOWN__'"]) }}) as statut_key,
@@ -44,6 +57,7 @@ select
     f.investisseur_id,
     f.partenaire_id,
     f.conseiller_id,
+    vo.agence_id,
     f.programme_id,
     f.lot_id,
     f.responsable_adv_id,
@@ -61,6 +75,9 @@ select
 
 from {{ ref('dossiers_adv') }} f
 
+left join vente_origine vo
+    on f.vente_id = vo.vente_id
+
 left join {{ ref('dim_investisseur') }} di
     on f.investisseur_id = di.investisseur_id
 
@@ -69,6 +86,9 @@ left join {{ ref('dim_partenaire') }} dp
 
 left join {{ ref('dim_conseiller') }} dc
     on f.conseiller_id = dc.conseiller_id
+
+left join {{ ref('dim_agence_region') }} da
+    on vo.agence_id = da.agence_id
 
 left join {{ ref('dim_programme_immobilier') }} dpr
     on f.programme_id = dpr.programme_id

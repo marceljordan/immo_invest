@@ -2,85 +2,75 @@ table _Mesures
 	lineageTag: ca3b12d4-cab6-4349-a031-752a4ccb7de3
 
 	measure 'CA TTC' =
-			
-			SUM ( fact_vente[prix_vente_ttc] )
+			CALCULATE (
+			    SUM ( fact_vente[prix_vente_ttc] ),
+			    KEEPFILTERS ( fact_vente[is_vente_valide] = 1 )
+			)
+		formatString: #,0 €;-#,0 €;#,0 €
 		displayFolder: ventes
 		lineageTag: 167de2c4-1cfd-4f78-893d-9ddd3f91f153
 
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
+	/// P1-2 : même filtre que CA TTC.
 	measure 'Nb Ventes' =
-			
-			COUNTROWS ( fact_vente )
+			CALCULATE (
+			    COUNTROWS ( fact_vente ),
+			    KEEPFILTERS ( NOT fact_vente[statut_vente] IN { "ANNULEE", "ECHEC", "ABANDONNE" } )
+			)
 		formatString: 0
 		displayFolder: ventes
 		lineageTag: af3b218c-8c74-40cf-ad9a-184180e097f8
 
-	measure 'Panier Moyen' =
-			
-			DIVIDE (
-			    [CA TTC],
-			    [Nb Ventes],
-			    0
-			)
-		formatString: 0.00
+	measure 'Panier Moyen' = DIVIDE ( [CA TTC], [Nb Ventes] )
+		formatString: #,0 €;-#,0 €;#,0 €
 		displayFolder: ventes
 		lineageTag: e9f81a58-d249-4b53-afbc-548572b810a1
 
 	measure 'Objectif CA' =
-			
-			SUM ( fact_objectif_commercial[objectif_ca] )
+			SWITCH (
+			    [Niveau Objectif],
+			    "CONSEILLER", [Objectif CA Conseiller],
+			    "AGENCE",     [Objectif CA Agence],
+			    "PARTENAIRE", [Objectif CA Partenaire],
+			    [Objectif CA Région]
+			)
+		formatString: #,0 €;-#,0 €;#,0 €
 		displayFolder: objectifs
 		lineageTag: 627114c1-1801-4f58-8ad8-b2c149186113
 
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
-	measure 'Taux Atteinte' =
-			
-			DIVIDE (
-			    [CA TTC],
-			    [Objectif CA],
-			    0
-			)
-		formatString: 0.00%;-0.00%;0.00%
+	measure 'Taux Atteinte' = DIVIDE ( [CA TTC], [Objectif CA] )
+		formatString: 0.0%;-0.0%;0.0%
 		displayFolder: objectifs
 		lineageTag: 1e505775-d14b-4aaf-9088-92931be9990d
 
-	measure 'Ecart Objectif' =
-			
-			[CA TTC] - [Objectif CA]
+	measure 'Ecart Objectif' = [CA TTC] - [Objectif CA]
+		formatString: +#,0 €;-#,0 €;0 €
 		displayFolder: objectifs
 		lineageTag: 578c1ee1-d127-4e58-8e26-6eb0847bd748
 
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
-	measure 'Ecart Objectif %' =
-			
-			DIVIDE (
-			    [Ecart Objectif],
-			    [Objectif CA],
-			    0
-			)
-		formatString: 0.00%;-0.00%;0.00%
+	measure 'Ecart Objectif %' = DIVIDE ( [Ecart Objectif], [Objectif CA] )
+		formatString: +0.0%;-0.0%;0.0%
 		displayFolder: objectifs
 		lineageTag: 3a51f996-daf3-44aa-acd8-03670297fd6a
 
 	measure 'CA TTC Barre' = [CA TTC]
-		displayFolder: ventes
+		formatString: #,0 €;-#,0 €;#,0 €
+		displayFolder: _visuel
 		lineageTag: b683e7fa-f26d-4a5f-863a-24131a20ba9a
 
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
 	measure 'Rang Conseiller' =
-			
-			RANKX(
-			    ALLSELECTED(dim_conseiller[nom_complet]),
-			    [CA TTC],
-			    ,
-			    DESC,
-			    DENSE
+			IF (
+			    ( ISINSCOPE ( dim_conseiller[nom_complet] ) || ISINSCOPE ( dim_conseiller[conseiller_key] ) )
+			        && NOT ISBLANK ( [CA TTC] ),
+			    RANKX (
+			        ALLSELECTED ( dim_conseiller[conseiller_key], dim_conseiller[nom_complet] ),
+			        [CA TTC],
+			        ,
+			        DESC,
+			        DENSE
+			    )
 			)
 		formatString: 0
+		displayFolder: performance conseillers
 		lineageTag: 489224c5-3d5e-4e3e-8079-ca053cc94061
 
 	measure Médaille =
@@ -94,137 +84,91 @@ table _Mesures
 			)
 		lineageTag: 1b3921ee-c6c5-4ca4-a7ae-21c8a7801151
 
-	measure 'Statut Code' =
-			
-			VAR Statut =
-			    SELECTEDVALUE ( dim_statut[statut_value] )
-			
-			RETURN
-			SWITCH(
-			    TRUE(),
-			
-			    -- Vert : terminé / succès
-			    Statut IN {
-			        "ACCEPTE",
-			        "ACTEE",
-			        "ACCORD PRINCIPE",
-			        "ACTE SIGNE",
-			        "ACTIVE",
-			        "CLOTUREE",
-			        "LIVREE",
-			        "MANDAT SIGNE",
-			        "PAYEE",
-			        "REMBOURSEE",
-			        "RESOLUE",
-			        "SIGNEE",
-			        "TERMINEE",
-			        "TRANSFORMEE EN VENTE",
-			        "VALIDE",
-			        "VALIDEE"
-			    }, 3,
-			
-			    -- Orange : en cours / attente
-			    Statut IN {
-			        "CALCULEE",
-			        "DEMANDE DEPOSEE",
-			        "DEMANDE RECUE",
-			        "EN ATTENTE",
-			        "EN COMMERCIALISATION",
-			        "EN COURS",
-			        "ENVOYE NOTAIRE",
-			        "OFFRE EMISE",
-			        "OUVERT",
-			        "OUVERTE",
-			        "PIECES EN ATTENTE",
-			        "RETARD"
-			    }, 2,
-			
-			    -- Rouge : échec / blocage
-			    Statut IN {
-			        "ABANDONNE",
-			        "ANNULEE",
-			        "BLOQUEE",
-			        "DEFAUT",
-			        "ECHEC",
-			        "EXPIREE",
-			        "REFUSE",
-			        "REJETEE"
-			    }, 1,
-			
-			    0
-			)
+	measure 'Statut Code' = SELECTEDVALUE ( dim_statut[code_couleur], 0 )
 		formatString: 0
 		lineageTag: f78c164d-bfde-4a22-a626-7e3b6e905d6e
 
 	measure 'Dernière actualisation' =
-			
-			VAR DateActualisation =
-			    MAX ( data_freshness[checked_at] )
+			VAR DateChargement =
+			    CALCULATE (
+			        MINX (
+			            VALUES ( data_freshness[table_name] ),
+			            CALCULATE ( MAX ( data_freshness[checked_at_paris] ) )
+			        ),
+			        data_freshness[table_schema] = "gold"
+			    )
 			RETURN
-			    "Dernière actualisation : "
-			        & FORMAT ( DateActualisation, "dd/MM/yyyy HH:mm" )
+			    IF (
+			        NOT ISBLANK ( DateChargement ),
+			        "Données au : " & FORMAT ( DateChargement, "dd/MM/yyyy HH:mm" )
+			    )
 		lineageTag: 70baec14-f8b2-4ba2-9d72-277a7d850e67
 
 	measure 'CA N-1' =
-			
 			CALCULATE (
 			    [CA TTC],
 			    SAMEPERIODLASTYEAR ( dim_date[full_date] )
 			)
+		formatString: #,0 €;-#,0 €;#,0 €
 		displayFolder: Comparaison temporelle
 		lineageTag: 6da3123a-6bc3-46a0-9200-90382a9a305c
 
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
-	measure 'Variation CA' =
-			
-			[CA TTC] - [CA N-1]
+	measure 'Variation CA' = [CA TTC] - [CA N-1]
+		formatString: +#,0 €;-#,0 €;0 €
 		displayFolder: Comparaison temporelle
 		lineageTag: 9583b680-e541-421d-a874-eafdaf80d9d7
 
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
-	measure 'Variation CA %' =
-			
-			DIVIDE (
-			    [Variation CA],
-			    [CA N-1],
-			    0
-			)
+	measure 'Variation CA %' = DIVIDE ( [Variation CA], [CA N-1] )
 		formatString: +0.0%;-0.0%;0.0%
 		displayFolder: Comparaison temporelle
 		lineageTag: fd73e70a-488d-4599-8a7a-f94a2067d2e0
 
-		annotation PBI_FormatHint = {"isCustom":true}
-
+	/// P1-3 : régions ayant au moins une agence ouverte à la fin de la période filtrée.
 	measure 'Nb Régions Actives' =
-			
-			CALCULATE (
-			    DISTINCTCOUNT ( dim_agence_region[region_id] ),
-			    dim_agence_region[is_active]
-			)
+			VAR FinPeriode =
+			    MAX ( dim_date[full_date] )
+			RETURN
+			    CALCULATE (
+			        DISTINCTCOUNT ( dim_agence_region[region_id] ),
+			        KEEPFILTERS ( dim_agence_region[date_ouverture] <= FinPeriode ),
+			        KEEPFILTERS (
+			            ISBLANK ( dim_agence_region[date_fermeture] )
+			                || dim_agence_region[date_fermeture] > FinPeriode
+			        )
+			    )
 		formatString: 0
 		displayFolder: Régions & Agences
 		lineageTag: 7be9b01d-fac8-4cc2-9e69-4764ed9ab520
 
+	/// P1-3 : agences ouvertes (administrativement) à la fin de la période filtrée.
+	/// Même définition qu'avant, mais datée : le N-1 fonctionne enfin.
 	measure 'Nb Agences Actives' =
-			
-			CALCULATE (
-			    DISTINCTCOUNT ( dim_agence_region[agence_id] ),
-			    dim_agence_region[is_active]
-			)
+			VAR FinPeriode =
+			    MAX ( dim_date[full_date] )
+			RETURN
+			    CALCULATE (
+			        DISTINCTCOUNT ( dim_agence_region[agence_id] ),
+			        KEEPFILTERS ( dim_agence_region[date_ouverture] <= FinPeriode ),
+			        KEEPFILTERS (
+			            ISBLANK ( dim_agence_region[date_fermeture] )
+			                || dim_agence_region[date_fermeture] > FinPeriode
+			        )
+			    )
 		formatString: 0
 		displayFolder: Régions & Agences
 		lineageTag: 83428c6b-47b3-4030-8261-53bbd3087626
 
 	measure 'Rang Agence CA' =
-			
-			RANKX (
-			    ALLSELECTED ( dim_agence_region[nom_agence] ),
-			    [CA TTC],
-			    ,
-			    DESC,
-			    DENSE
+			IF (
+			    ( ISINSCOPE ( dim_agence_region[nom_agence] ) || ISINSCOPE ( dim_agence_region[agence_region_key] ) )
+			        && NOT ISBLANK ( [CA TTC] ),
+			    RANKX (
+			        ALLSELECTED ( dim_agence_region[agence_region_key], dim_agence_region[nom_agence] ),
+			        [CA TTC],
+			        ,
+			        DESC,
+			        DENSE
+			    )
 			)
 		formatString: 0
 		displayFolder: Régions & Agences
@@ -249,6 +193,267 @@ table _Mesures
 		lineageTag: abd22e6c-f35f-4bcd-846f-b36adb161666
 
 		annotation PBI_FormatHint = {"isCustom":true}
+
+	measure 'Taux Atteinte barre' = [Taux Atteinte]
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: _visuel
+		lineageTag: 1a5348a8-e3bf-44cd-b624-c62c8810b395
+
+	/// P1-6 : seuils explicites. Valeurs à valider avec le métier.
+	measure 'Statut Performance' =
+			VAR Taux = [Taux Atteinte]
+			VAR SeuilAtteint = 1.00
+			VAR SeuilVigilance = 0.70
+			RETURN
+			    SWITCH (
+			        TRUE (),
+			        ISBLANK ( Taux ), BLANK (),
+			        Taux >= SeuilAtteint, "Atteint",
+			        Taux >= SeuilVigilance, "À surveiller",
+			        "En retard"
+			    )
+		displayFolder: performance conseillers
+		lineageTag: 4f94532e-a5f1-476a-87b7-29ca7000fcdb
+
+	measure 'Commissions Internes' = SUM ( fact_commission[part_commission_interne] )
+		formatString: #,0 €;-#,0 €;#,0 €
+		displayFolder: commissions
+		lineageTag: e765c302-a4db-40f3-a8f7-1ba9eef55628
+
+	measure 'Commissions Internes M-1' =
+			IF (
+			    COUNTROWS ( VALUES ( dim_date[annee_mois_key] ) ) = 1,
+			    CALCULATE ( [Commissions Internes], DATEADD ( dim_date[full_date], -1, MONTH ) )
+			)
+		formatString: #,0 €;-#,0 €;#,0 €
+		displayFolder: commissions
+		lineageTag: 225fb166-f7be-490d-afaf-2d8c13dbbf5d
+
+	measure 'Evolution Commissions M-1 %' =
+			DIVIDE (
+			    [Commissions Internes] - [Commissions Internes M-1],
+			    [Commissions Internes M-1]
+			)
+		formatString: +0.0%;-0.0%;0.0%
+		displayFolder: commissions
+		lineageTag: 3d5e8017-df63-44cc-aae9-3a71dbcdecbe
+
+	measure 'CA TTC M-1' =
+			IF (
+			    COUNTROWS ( VALUES ( dim_date[annee_mois_key] ) ) = 1,
+			    CALCULATE ( [CA TTC], DATEADD ( dim_date[full_date], -1, MONTH ) )
+			)
+		formatString: #,0 €;-#,0 €;#,0 €
+		displayFolder: Comparaison temporelle
+		lineageTag: fc7df60a-2c9f-41e8-888a-70f914a88725
+
+	measure 'Evolution CA TTC M-1 %' = DIVIDE ( [CA TTC] - [CA TTC M-1], [CA TTC M-1] )
+		formatString: +0.0%;-0.0%;0.0%
+		displayFolder: Comparaison temporelle
+		lineageTag: bb027b89-88a0-4015-9af8-5745de213fcc
+
+	measure 'Objectif Nb Ventes' =
+			SWITCH (
+			    [Niveau Objectif],
+			    "CONSEILLER", [Objectif Nb Ventes Conseiller],
+			    "AGENCE",     [Objectif Nb Ventes Agence],
+			    "PARTENAIRE", [Objectif Nb Ventes Partenaire],
+			    [Objectif Nb Ventes Région]
+			)
+		formatString: 0
+		lineageTag: 1da982c7-011f-4126-952c-7f0991889994
+
+	measure 'Nb Ventes M-1' =
+			IF (
+			    COUNTROWS ( VALUES ( dim_date[annee_mois_key] ) ) = 1,
+			    CALCULATE ( [Nb Ventes], DATEADD ( dim_date[full_date], -1, MONTH ) )
+			)
+		formatString: 0
+		displayFolder: Comparaison temporelle
+		lineageTag: 4e245fd4-4cf2-4c22-b743-7c346064c05b
+
+	measure 'Evolution Nb Ventes M-1 %' = DIVIDE ( [Nb Ventes] - [Nb Ventes M-1], [Nb Ventes M-1] )
+		formatString: +0.0%;-0.0%;0.0%
+		displayFolder: Comparaison temporelle
+		lineageTag: e2e95fe7-c1cc-486e-b1c3-35864c57cc0d
+
+	measure 'Nb Reservations' =
+			
+			DISTINCTCOUNT ( fact_reservation[reservation_id] )
+		formatString: 0
+		lineageTag: de80f6b9-a81e-456b-9b9f-930d34b5f22f
+
+	/// P1-2 : une réservation n'est convertie que si la vente est valide.
+	measure 'Nb Reservations Converties' =
+			VAR ReservationsSelectionnees =
+			    VALUES ( fact_reservation[reservation_id] )
+			RETURN
+			    CALCULATE (
+			        DISTINCTCOUNT ( fact_vente[reservation_id] ),
+			        REMOVEFILTERS ( dim_date ),
+			        TREATAS ( ReservationsSelectionnees, fact_vente[reservation_id] ),
+			        KEEPFILTERS ( NOT fact_vente[statut_vente] IN { "ANNULEE", "ECHEC", "ABANDONNE" } )
+			    )
+		formatString: 0
+		lineageTag: 56c3fe13-0ca7-49c1-b1f9-ae5fad590ff6
+
+	measure 'Taux Transformation' = DIVIDE ( [Nb Reservations Converties], [Nb Reservations] )
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: réservations
+		lineageTag: 86500fac-192c-4621-8528-f08075e0f233
+
+	measure 'Taux Transformation M-1' =
+			IF (
+			    COUNTROWS ( VALUES ( dim_date[annee_mois_key] ) ) = 1,
+			    CALCULATE ( [Taux Transformation], DATEADD ( dim_date[full_date], -1, MONTH ) )
+			)
+		formatString: 0.00%;-0.00%;0.00%
+		displayFolder: Comparaison temporelle
+		lineageTag: 8d927dcf-fc7c-4291-95a0-80ae27704336
+
+	measure 'Variation Transformation M-1' = ( [Taux Transformation] - [Taux Transformation M-1] ) * 100
+		formatString: +0.0" pts";-0.0" pts";0.0" pts"
+		displayFolder: réservations
+		lineageTag: 45ba5c41-807a-4f55-bdb6-fcb6fc483f2d
+
+	measure 'Nb Reservations Annulees' =
+			
+			CALCULATE (
+			    DISTINCTCOUNT ( fact_reservation[reservation_id] ),
+			    NOT ISBLANK ( fact_reservation[date_annulation_key] )
+			)
+		formatString: 0
+		lineageTag: 49ab8e76-ab41-45e8-8440-f1e468180f7f
+
+	measure 'Taux Annulation' = DIVIDE ( [Nb Reservations Annulees], [Nb Reservations] )
+		formatString: 0.0%;-0.0%;0.0%
+		displayFolder: réservations
+		lineageTag: 0811d057-9dcd-4594-88d5-270d5206a699
+
+	measure Measure
+		lineageTag: fe34ddc4-83f6-4870-949b-af7bc477dfc3
+
+		annotation 43dbc3e8-3a1c-4b6f-9923-b49ff7d6691c = True
+
+	measure 'Test Evolution CA' =
+			
+			DIVIDE (
+			    [CA TTC] - [CA TTC M-1],
+			    [CA TTC M-1]
+			) * 100
+		lineageTag: 8a6629bf-3c5f-4db4-a501-84ebe86cce1c
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	measure 'Debug Niveau Objectif' =
+			
+			SWITCH (
+			    TRUE (),
+			    ISFILTERED ( dim_conseiller ), "CONSEILLER",
+			    ISFILTERED ( dim_agence_region[agence_id] )
+			        || ISFILTERED ( dim_agence_region[nom_agence] )
+			        || ISFILTERED ( dim_agence_region[code_agence] ), "AGENCE",
+			    ISFILTERED ( dim_partenaire ), "PARTENAIRE",
+			    "REGION"
+			)
+		lineageTag: 02c67dbe-8fa5-414f-b5f1-c3775110764e
+
+	measure 'Objectif CA Région' =
+			CALCULATE (
+			    SUM ( fact_objectif_region[objectif_ca] ),
+			    KEEPFILTERS ( fact_objectif_region[famille_produit] = "IMMOBILIER DIRECT" )
+			)
+		formatString: #,0 €;-#,0 €;#,0 €
+		displayFolder: objectifs\par niveau
+		lineageTag: 90bbb3de-45c1-4f9a-b0d1-059da03f33b5
+
+	measure 'Objectif CA Agence' =
+			CALCULATE (
+			    SUM ( fact_objectif_agence[objectif_ca] ),
+			    KEEPFILTERS ( fact_objectif_agence[famille_produit] = "IMMOBILIER DIRECT" )
+			)
+		formatString: #,0 €;-#,0 €;#,0 €
+		displayFolder: objectifs\par niveau
+		lineageTag: 6768ec41-8676-429b-86a9-a6073f18cf79
+
+	measure 'Objectif CA Conseiller' =
+			CALCULATE (
+			    SUM ( fact_objectif_conseiller[objectif_ca] ),
+			    KEEPFILTERS ( fact_objectif_conseiller[famille_produit] = "IMMOBILIER DIRECT" )
+			)
+		formatString: #,0 €;-#,0 €;#,0 €
+		displayFolder: objectifs\par niveau
+		lineageTag: 45d6660a-868d-4aaa-8083-8a5291120aba
+
+	measure 'Objectif CA Partenaire' =
+			CALCULATE (
+			    SUM ( fact_objectif_partenaire[objectif_ca] ),
+			    KEEPFILTERS ( fact_objectif_partenaire[famille_produit] = "IMMOBILIER DIRECT" )
+			)
+		formatString: #,0 €;-#,0 €;#,0 €
+		displayFolder: objectifs\par niveau
+		lineageTag: fe2f7e39-3b17-4d94-b2f8-a04f614f8189
+
+	measure 'Objectif Nb Ventes Région' =
+			CALCULATE (
+			    SUM ( fact_objectif_region[objectif_nombre_ventes] ),
+			    KEEPFILTERS ( fact_objectif_region[famille_produit] = "IMMOBILIER DIRECT" )
+			)
+		formatString: 0
+		displayFolder: objectifs\par niveau
+		lineageTag: 8265fd21-3f06-486e-87a2-35a0d6ce2c3e
+
+	measure 'Objectif Nb Ventes Agence' =
+			CALCULATE (
+			    SUM ( fact_objectif_agence[objectif_nombre_ventes] ),
+			    KEEPFILTERS ( fact_objectif_agence[famille_produit] = "IMMOBILIER DIRECT" )
+			)
+		formatString: 0
+		displayFolder: objectifs\par niveau
+		lineageTag: 16016632-a315-43c6-9e0a-95ad875e557e
+
+	measure 'Objectif Nb Ventes Conseiller' =
+			CALCULATE (
+			    SUM ( fact_objectif_conseiller[objectif_nombre_ventes] ),
+			    KEEPFILTERS ( fact_objectif_conseiller[famille_produit] = "IMMOBILIER DIRECT" )
+			)
+		formatString: 0
+		displayFolder: objectifs\par niveau
+		lineageTag: 474904ad-960f-449b-91f0-bdd4a1c9561f
+
+	measure 'Objectif Nb Ventes Partenaire' =
+			CALCULATE (
+			    SUM ( fact_objectif_partenaire[objectif_nombre_ventes] ),
+			    KEEPFILTERS ( fact_objectif_partenaire[famille_produit] = "IMMOBILIER DIRECT" )
+			)
+		formatString: 0
+		displayFolder: objectifs\par niveau
+		lineageTag: 441fe525-34fe-4351-96b0-856e5b7ebb7f
+
+	measure 'Niveau Objectif' =
+			VAR NiveauUtilisateur =
+			    MAXX (
+			        FILTER (
+			            security_user_access,
+			            LOWER ( security_user_access[user_email] ) = LOWER ( USERPRINCIPALNAME () )
+			                && security_user_access[is_active]
+			        ),
+			        security_user_access[access_level]
+			    )
+			RETURN
+			    SWITCH (
+			        TRUE (),
+			        ISFILTERED ( dim_conseiller ), "CONSEILLER",
+			        ISFILTERED ( dim_agence_region[agence_id] )
+			            || ISFILTERED ( dim_agence_region[nom_agence] )
+			            || ISFILTERED ( dim_agence_region[code_agence] ), "AGENCE",
+			        ISFILTERED ( dim_partenaire ), "PARTENAIRE",
+			        NiveauUtilisateur IN { "CONSEILLER", "AGENCE", "PARTENAIRE" }, NiveauUtilisateur,
+			        "REGION"
+			    )
+		isHidden
+		displayFolder: objectifs
+		lineageTag: 0a9a426f-74d3-4896-a26f-552072cc8192
 
 	column Dummy
 		isHidden

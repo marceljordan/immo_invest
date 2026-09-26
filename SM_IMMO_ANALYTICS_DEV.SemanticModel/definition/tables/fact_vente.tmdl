@@ -408,6 +408,17 @@ table fact_vente
 
 		annotation SummarizationSetBy = User
 
+	column is_vente_valide
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: 12e879a9-523c-4be7-a53b-687da861c08c
+		sourceLineageTag: is_vente_valide
+		summarizeBy: sum
+		sourceColumn: is_vente_valide
+
+		annotation SummarizationSetBy = Automatic
+
 	partition fact_vente = entity
 		mode: directLake
 		source

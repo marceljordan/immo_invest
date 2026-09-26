@@ -1,12 +1,12 @@
 {
-  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.11.0/schema.json",
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
   "name": "8a98a80dbf3c02376015",
   "position": {
-    "x": 192.00000000000003,
-    "y": 48.000000000000007,
+    "x": 192,
+    "y": 48,
     "z": 3000,
-    "height": 48.000000000000007,
-    "width": 144,
+    "height": 48,
+    "width": 224,
     "tabOrder": 3000
   },
   "visual": {
@@ -19,7 +19,7 @@
               {
                 "textRuns": [
                   {
-                    "value": "Immo Invest",
+                    "value": "Vue d'ensemble",
                     "textStyle": {
                       "fontFamily": "Arial",
                       "fontSize": "18pt",

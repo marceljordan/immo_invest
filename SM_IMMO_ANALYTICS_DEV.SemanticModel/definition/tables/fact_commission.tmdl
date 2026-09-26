@@ -257,7 +257,7 @@ table fact_commission
 
 	column taux_commission
 		dataType: decimal
-		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		formatString: #,0.00%;-#,0.00%;#,0.00%
 		sourceProviderType: decimal(9, 4)
 		lineageTag: f0f55888-83e8-4a95-803f-e3904aa27bb1
 		sourceLineageTag: taux_commission
@@ -266,9 +266,9 @@ table fact_commission
 
 		changedProperty = SummarizeBy
 
-		annotation SummarizationSetBy = User
+		changedProperty = FormatString
 
-		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+		annotation SummarizationSetBy = User
 
 	column montant_commission_brut
 		dataType: double

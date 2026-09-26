@@ -242,3 +242,71 @@ relationship 553eac89-1295-d1bb-6306-f2de487d86a5
 	fromColumn: fact_dossier_adv.statut_key
 	toColumn: dim_statut.statut_key
 
+relationship 78341f4f-210b-9a39-b918-15a2d57bf1ad
+	fromColumn: dim_agence_region.region_id
+	toColumn: dim_region.region_id
+
+relationship f822dcbd-af0c-3f64-4902-e0ea6de31f1c
+	fromColumn: fact_objectif_agence.agence_region_key
+	toColumn: dim_agence_region.agence_region_key
+
+relationship 68db8a32-dc5d-eecb-0b41-500ebb1473ad
+	fromColumn: fact_objectif_agence.date_objectif_key
+	toColumn: dim_date.date_key
+
+relationship 4597aedf-2d55-ed4a-309e-1b2ace9f0c51
+	fromColumn: fact_objectif_conseiller.conseiller_key
+	toColumn: dim_conseiller.conseiller_key
+
+relationship 016d1a35-4f92-18c6-def2-b16ed6dfb38f
+	fromColumn: fact_objectif_conseiller.date_objectif_key
+	toColumn: dim_date.date_key
+
+relationship 28333f58-7e33-5592-400b-b94489d89d74
+	fromColumn: fact_objectif_region.date_objectif_key
+	toColumn: dim_date.date_key
+
+relationship 9c692443-532a-e415-7d27-98be10b52c16
+	fromColumn: fact_objectif_partenaire.date_objectif_key
+	toColumn: dim_date.date_key
+
+relationship 921732f2-6e27-4df6-d8f4-f40862824cbb
+	fromColumn: fact_objectif_partenaire.partenaire_key
+	toColumn: dim_partenaire.partenaire_key
+
+relationship 5dabac4d-a2b2-a858-1cd7-73fb04d68ab6
+	fromColumn: fact_objectif_region.region_key
+	toColumn: dim_region.region_key
+
+relationship edc14d54-fde3-d4c7-ec22-944ddeb0edd7
+	fromColumn: fact_objectif_conseiller.agence_region_key
+	toColumn: dim_agence_region.agence_region_key
+
+relationship rel_financement_conseiller
+	fromColumn: fact_financement.conseiller_key
+	toColumn: dim_conseiller.conseiller_key
+
+relationship rel_financement_agence
+	fromColumn: fact_financement.agence_region_key
+	toColumn: dim_agence_region.agence_region_key
+
+relationship rel_gestion_locative_conseiller
+	fromColumn: fact_gestion_locative.conseiller_key
+	toColumn: dim_conseiller.conseiller_key
+
+relationship rel_gestion_locative_agence
+	fromColumn: fact_gestion_locative.agence_region_key
+	toColumn: dim_agence_region.agence_region_key
+
+relationship rel_revente_conseiller
+	fromColumn: fact_revente.conseiller_key
+	toColumn: dim_conseiller.conseiller_key
+
+relationship rel_revente_agence
+	fromColumn: fact_revente.agence_region_key
+	toColumn: dim_agence_region.agence_region_key
+
+relationship rel_dossier_adv_agence
+	fromColumn: fact_dossier_adv.agence_region_key
+	toColumn: dim_agence_region.agence_region_key
+

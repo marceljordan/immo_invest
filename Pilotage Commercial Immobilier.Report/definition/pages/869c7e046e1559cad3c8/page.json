@@ -1,7 +1,7 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/page/2.1.0/schema.json",
   "name": "869c7e046e1559cad3c8",
-  "displayName": "Réservations & ventes",
+  "displayName": "Vue d'ensemble ",
   "displayOption": "FitToPage",
   "height": 1100,
   "width": 1600

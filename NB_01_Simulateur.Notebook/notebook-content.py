@@ -7,6 +7,16 @@
 # META     "name": "synapse_pyspark"
 # META   },
 # META   "dependencies": {
+# META     "lakehouse": {
+# META       "default_lakehouse": "66841f6d-142d-4f8a-98ff-9b81fed41000",
+# META       "default_lakehouse_name": "LH_Immo_Dev",
+# META       "default_lakehouse_workspace_id": "ec7aa1ee-16a6-43ef-a54d-cdcc1cb90693",
+# META       "known_lakehouses": [
+# META         {
+# META           "id": "66841f6d-142d-4f8a-98ff-9b81fed41000"
+# META         }
+# META       ]
+# META     },
 # META     "environment": {
 # META       "environmentId": "83eb490a-658e-a9c3-4f2a-0c23f7ee1105",
 # META       "workspaceId": "00000000-0000-0000-0000-000000000000"
@@ -40,6 +50,15 @@
 # Modes :
 #   quotidien : DATE_DEBUT = DATE_FIN = None   -> J-1
 #   backfill  : DATE_DEBUT = '2025-01-02', DATE_FIN = '2026-07-08'
+#
+# Agenda persistant (correctif) :
+#   Les étapes futures d'un dossier (KYC, SRU, prêt, acte, livraison,
+#   ADV, commissions…) sont planifiées dans un agenda. Cet agenda est
+#   désormais SAUVEGARDÉ dans tech_simulation_agenda en fin de run et
+#   RECHARGÉ au run suivant. Sans cela, en mode quotidien, tout ce qui
+#   était planifié la veille était perdu et aucun dossier n'avançait.
+#   Si la table est absente ou vide, l'agenda est RECONSTRUIT à partir
+#   des statuts en cours (rattrapage unique).
 # ============================================================
 
 import pandas as pd
@@ -48,6 +67,7 @@ from faker import Faker
 from datetime import datetime, date, timedelta
 import random
 import uuid
+import json
 import warnings
 import notebookutils
 
@@ -90,9 +110,9 @@ print(f"🔗 Workspace : {WORKSPACE}  ·  Lakehouse : {LAKEHOUSE}")
 # ============================================================
 
 DATE_DEBUT = None
-DATE_FIN = None
-MODE = "append"            # 'append' | 'dry_run'
-FORCER = False
+DATE_FIN   = None
+MODE       = "append"
+FORCER     = False
 EXCLURE_JOURS_FERIES = True
 
 # --- Volume exogène : seuls les prospects arrivent "de nulle part".
@@ -632,6 +652,7 @@ class Etat:
 
         self.agenda = defaultdict(list)
         self.compteurs = defaultdict(int)
+        self.agenda_charge = charger_agenda(self)
 
         print(f"   {len(self.conseillers)} conseillers · {len(self.villes)} villes · "
               f"{len(self.lots)} lots ({len(self.lots_dispo)} dispo) · {len(self.programmes)} programmes")
@@ -647,8 +668,10 @@ class Etat:
         self.agenda[jour_ouvre_suivant(d)].append((fn, args))
 
     def executer(self, d):
-        for fn, args in self.agenda.pop(d, []):
-            fn(self, d, *args)
+        """Exécute toutes les échéances <= d (rattrape un jour non traité)."""
+        for jour in sorted(k for k in list(self.agenda) if k <= d):
+            for fn, args in self.agenda.pop(jour, []):
+                fn(self, d, *args)
 
     # ---- Émission d'une version ----
     def maj(self, table, rec, d, **ch):
@@ -1588,6 +1611,167 @@ def renouvellement(e, d):
 # CELL ********************
 
 # ============================================================
+# AGENDA PERSISTANT
+# ------------------------------------------------------------
+# Format : une ligne par échéance planifiée.
+#   date_echeance DATE · fonction STRING · args STRING (JSON)
+# La table ne contient que les échéances NON exécutées : elle est
+# réécrite intégralement (overwrite) en fin de run.
+# ============================================================
+
+AGENDA_TABLE = "tech_simulation_agenda"
+
+
+def _fonction(nom):
+    fn = globals().get(nom)
+    if not callable(fn):
+        raise KeyError(f"Fonction d'agenda inconnue : {nom}")
+    return fn
+
+
+def charger_agenda(e):
+    """Recharge l'agenda sauvegardé. Retourne le nombre d'échéances chargées."""
+    try:
+        rows = spark.sql(
+            f"SELECT date_echeance, fonction, args FROM {q(AGENDA_TABLE)}"
+        ).collect()
+    except Exception:
+        rows = []
+    for r in rows:
+        e.agenda[r["date_echeance"]].append((_fonction(r["fonction"]), tuple(json.loads(r["args"]))))
+    return len(rows)
+
+
+def sauvegarder_agenda(e):
+    """Réécrit la table avec les échéances restantes (non exécutées)."""
+    rows = [(d, fn.__name__, json.dumps(list(args)), datetime.now())
+            for d, taches in e.agenda.items() for fn, args in taches]
+    schema = StructType([
+        StructField("date_echeance", DateType()), StructField("fonction", StringType()),
+        StructField("args", StringType()), StructField("saved_at", TimestampType()),
+    ])
+    spark.createDataFrame(rows, schema=schema).write.mode("overwrite").format("delta") \
+         .option("overwriteSchema", "true").saveAsTable(q(AGENDA_TABLE))
+    return len(rows)
+
+
+def reconstruire_agenda(e, d):
+    """Rattrapage unique : replanifie les dossiers en cours d'après leur statut.
+    Utilisé quand l'agenda sauvegardé est absent (premier run après correctif).
+    Les délais restants sont retirés à nouveau : l'historique n'est pas modifié."""
+    n0 = sum(len(v) for v in e.agenda.values())
+
+    # --- KYC en attente
+    for iid, inv in e.investisseurs.items():
+        if inv.get("statut_kyc") == "EN_COURS":
+            e.planifier(apres(d, KYC_DELAI), kyc_resultat, iid)
+
+    # --- Réservations et financements
+    fin_par_inv = {}
+    for fid, f in e.financements.items():
+        fin_par_inv.setdefault(f.get("investisseur_id"), []).append(fid)
+    resas_vendues = {v.get("reservation_id") for v in e.ventes.values()}
+
+    for rid, r in e.reservations.items():
+        st = r.get("statut_reservation")
+        if st == "EN_ATTENTE":
+            e.planifier(d, resa_issue, rid)
+        elif st == "CONFIRMEE" and rid not in resas_vendues:
+            fins = [e.financements[f] for f in fin_par_inv.get(r["investisseur_id"], [])
+                    if e.financements[f].get("vente_id") in (None, "", "None")
+                    and e.financements[f].get("statut_financement") != "REFUSE"]
+            if r.get("mode_financement_prevu") == "Comptant":
+                e.planifier(apres(d, (10, 20, 40)), creer_vente, rid, None)
+            elif not fins:
+                e.planifier(apres(d, FIN_DEMANDE), creer_financement, rid)
+            else:
+                f = fins[0]
+                etape = {"DEMANDE": (FIN_ACCORD, fin_accord),
+                         "ACCORD_PRINCIPE": (FIN_OFFRE, fin_offre),
+                         "OFFRE_EMISE": (FIN_ACCEPTATION, fin_acceptation)}.get(f.get("statut_financement"))
+                if etape:
+                    e.planifier(apres(d, etape[0]), etape[1], f["financement_id"], rid)
+
+    # --- Ventes : acte puis livraison
+    for vid, v in e.ventes.items():
+        st = v.get("statut_vente")
+        if st == "SIGNEE" and not v.get("date_signature_acte"):
+            e.planifier(apres(d, VENTE_ACTE), vente_acte, vid)
+        elif st == "EN_COURS" and not v.get("date_livraison_reelle"):
+            liv = _dt(v.get("date_livraison_prevue")) or apres(d, VENTE_LIVRAISON)
+            e.planifier(max(liv, d), vente_livraison, vid)
+
+    # --- Dossiers ADV
+    adv = {"OUVERT": (ADV_PIECES, adv_pieces), "PIECES_RECUES": (ADV_VALIDATION, adv_validation),
+           "VALIDE": (ADV_NOTAIRE, adv_notaire), "ENVOYE_NOTAIRE": (ADV_SIGNATURE, adv_signature)}
+    for did, r in e.dossiers.items():
+        etape = adv.get(r.get("statut_dossier"))
+        if etape:
+            e.planifier(apres(d, etape[0]), etape[1], did)
+
+    # --- Commissions
+    for cid, r in e.commissions.items():
+        st = r.get("statut_commission")
+        if st == "EN_ATTENTE":
+            e.planifier(apres(d, COMM_VALIDATION), comm_validation, cid)
+        elif st == "VALIDEE":
+            e.planifier(apres(d, COMM_PAIEMENT), comm_paiement, cid)
+
+    # --- Souscriptions
+    for sid, r in e.souscriptions.items():
+        if r.get("statut_souscription") == "EN_ATTENTE":
+            e.planifier(apres(d, (1, 5, 12)), sous_issue, sid)
+
+    # --- Crowdfunding
+    for oid, r in e.crowd.items():
+        st = r.get("statut_operation")
+        if st == "EN_COURS":
+            ech = _dt(r.get("date_remboursement_prevue")) or d
+            e.planifier(max(ech, d), crowd_echeance, oid)
+        elif st == "EN_RETARD":
+            e.planifier(d + timedelta(days=random.randint(30, 180)), crowd_echeance, oid)
+
+    # --- Gestion locative : reprise du cycle mensuel
+    for gid, r in e.gestion.items():
+        if r.get("statut_gestion") == "ACTIVE":
+            e.planifier(d + timedelta(days=random.randint(1, 30)), gestion_mensuelle, gid)
+
+    # --- Réclamations
+    for rid, r in e.reclamations.items():
+        st = r.get("statut_reclamation")
+        if st == "OUVERTE":
+            e.planifier(apres(d, RECLA_RESOLUTION), recla_resolution, rid)
+        elif st == "RESOLUE":
+            e.planifier(apres(d, (3, 8, 20)), recla_cloture, rid)
+
+    # --- Reventes
+    for rid, r in e.revente.items():
+        st = r.get("statut_revente")
+        if st == "DEMANDE":
+            e.planifier(apres(d, (10, 25, 60)), revente_marche, rid)
+        elif st == "EN_VENTE":
+            e.planifier(apres(d, (60, 150, 400)), revente_conclusion, rid)
+
+    # --- LMNP
+    for did, r in e.lmnp.items():
+        st = r.get("statut_dossier_comptable")
+        if st == "OUVERT":
+            e.planifier(apres(d, (15, 45, 90)), lmnp_reception, did)
+        elif st == "DOCUMENTS_RECUS":
+            e.planifier(apres(d, (10, 20, 40)), lmnp_declaration, did)
+
+    return sum(len(v) for v in e.agenda.values()) - n0
+
+# METADATA ********************
+
+# META {
+# META   "language": "python",
+# META   "language_group": "synapse_pyspark"
+# META }
+
+# CELL ********************
+
+# ============================================================
 # BOUCLE QUOTIDIENNE
 # ============================================================
 
@@ -1613,6 +1797,11 @@ def journee(e, d):
 
 if A_TRAITER:
     etat = Etat()
+    if etat.agenda_charge:
+        print(f"   📅 agenda rechargé : {etat.agenda_charge:,} échéances")
+    else:
+        n = reconstruire_agenda(etat, A_TRAITER[0])
+        print(f"   📅 agenda absent → reconstruit depuis les statuts : {n:,} échéances")
     print(f"\n▶️  Simulation de {A_TRAITER[0]} à {A_TRAITER[-1]}\n")
 
     for i, d in enumerate(A_TRAITER, 1):
@@ -1692,6 +1881,11 @@ if A_TRAITER:
              .saveAsTable(q('tech_simulation_run_log'))
         print(f"   ✅ {'tech_simulation_run_log':36s} {len(rows):>8,} lignes")
 
+        # L'agenda n'est sauvegardé qu'après l'écriture Bronze : si l'écriture
+        # échoue, l'agenda précédent reste intact et le run peut être rejoué.
+        n_agenda = sauvegarder_agenda(etat)
+        print(f"   ✅ {AGENDA_TABLE:36s} {n_agenda:>8,} échéances à venir")
+
     print(f"""
 {'=' * 74}
 ✅ Terminé — {A_TRAITER[0]} → {A_TRAITER[-1]} · {len(A_TRAITER)} jours ouvrés · {total:,} versions
@@ -1710,10 +1904,14 @@ if A_TRAITER:
 
 # CELL ********************
 
-from datetime import date, timedelta
-print(date.today())
-print(date.today() - timedelta(days=1))
-print(est_ouvre(date.today() - timedelta(days=1)))
+print("A_TRAITER :", len(A_TRAITER) if "A_TRAITER" in globals() else "non défini")
+print("MODE      :", MODE)
+print("etat      :", "etat" in globals())
+print("sauvegarder_agenda :", "sauvegarder_agenda" in globals())
+
+if "etat" in globals() and "sauvegarder_agenda" in globals() and MODE == "append":
+    n = sauvegarder_agenda(etat)
+    print(f"✅ agenda sauvegardé : {n:,} échéances")
 
 # METADATA ********************
 

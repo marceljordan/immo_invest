@@ -217,23 +217,5 @@
       ]
     },
     "drillFilterOtherVisuals": true
-  },
-  "filterConfig": {
-    "filters": [
-      {
-        "name": "ed3cf0ad73854ee75166",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "_Mesures"
-              }
-            },
-            "Property": "CA TTC"
-          }
-        },
-        "type": "Advanced"
-      }
-    ]
   }
 }

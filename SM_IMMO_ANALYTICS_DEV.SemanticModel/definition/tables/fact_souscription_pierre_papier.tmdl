@@ -245,7 +245,7 @@ table fact_souscription_pierre_papier
 
 	column nombre_parts
 		dataType: decimal
-		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		formatString: #,0.0000
 		sourceProviderType: decimal(18, 4)
 		lineageTag: 5493acff-1000-48f2-9090-b1dbf5290951
 		sourceLineageTag: nombre_parts
@@ -254,9 +254,9 @@ table fact_souscription_pierre_papier
 
 		changedProperty = SummarizeBy
 
-		annotation SummarizationSetBy = User
+		changedProperty = FormatString
 
-		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+		annotation SummarizationSetBy = User
 
 	column prix_part
 		dataType: double
@@ -288,7 +288,7 @@ table fact_souscription_pierre_papier
 
 	column rendement_previsionnel
 		dataType: decimal
-		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		formatString: 0.00%;-0.00%;0.00%
 		sourceProviderType: decimal(9, 4)
 		lineageTag: ff6d7b88-434f-4120-ba3f-1a837a2839f7
 		sourceLineageTag: rendement_previsionnel
@@ -297,9 +297,9 @@ table fact_souscription_pierre_papier
 
 		changedProperty = SummarizeBy
 
-		annotation SummarizationSetBy = User
+		changedProperty = FormatString
 
-		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+		annotation SummarizationSetBy = User
 
 	column duree_recommandee
 		dataType: string

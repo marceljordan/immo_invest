@@ -4,10 +4,10 @@
   "position": {
     "x": 800,
     "y": 544,
-    "z": 24001,
+    "z": 24000,
     "height": 224,
     "width": 784,
-    "tabOrder": 24001
+    "tabOrder": 24000
   },
   "visual": {
     "visualType": "barChart",
@@ -209,37 +209,5 @@
       ]
     },
     "drillFilterOtherVisuals": true
-  },
-  "filterConfig": {
-    "filters": [
-      {
-        "name": "05d5cf7334776b0625fb",
-        "field": {
-          "Measure": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "_Mesures"
-              }
-            },
-            "Property": "CA TTC"
-          }
-        },
-        "type": "Advanced"
-      },
-      {
-        "name": "a5cd5e08d61d8d8b7187",
-        "field": {
-          "Column": {
-            "Expression": {
-              "SourceRef": {
-                "Entity": "dim_programme_immobilier"
-              }
-            },
-            "Property": "nom_programme"
-          }
-        },
-        "type": "Categorical"
-      }
-    ]
   }
 }

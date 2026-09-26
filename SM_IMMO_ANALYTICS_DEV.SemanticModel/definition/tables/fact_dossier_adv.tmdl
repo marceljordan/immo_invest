@@ -327,6 +327,20 @@ table fact_dossier_adv
 
 		annotation SummarizationSetBy = Automatic
 
+	column agence_region_key
+		dataType: string
+		isHidden
+		lineageTag: 4314c198-6ce4-4029-b01b-874080371b90
+		summarizeBy: none
+		sourceColumn: agence_region_key
+
+	column agence_id
+		dataType: string
+		isHidden
+		lineageTag: 5702530b-0959-48cb-b56b-d31b53659b48
+		summarizeBy: none
+		sourceColumn: agence_id
+
 	partition fact_dossier_adv = entity
 		mode: directLake
 		source

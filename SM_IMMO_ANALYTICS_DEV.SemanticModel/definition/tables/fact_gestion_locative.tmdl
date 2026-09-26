@@ -168,7 +168,7 @@ table fact_gestion_locative
 
 	column taux_occupation
 		dataType: decimal
-		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		formatString: #,0.00%;-#,0.00%;#,0.00%
 		sourceProviderType: decimal(9, 4)
 		lineageTag: 135207c2-7cf6-4edd-a1ab-30e423c19d61
 		sourceLineageTag: taux_occupation
@@ -177,9 +177,9 @@ table fact_gestion_locative
 
 		changedProperty = SummarizeBy
 
-		annotation SummarizationSetBy = User
+		changedProperty = FormatString
 
-		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+		annotation SummarizationSetBy = User
 
 	column vacance_locative_jours
 		dataType: int64
@@ -235,7 +235,7 @@ table fact_gestion_locative
 
 	column rendement_reel_annuel
 		dataType: decimal
-		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		formatString: 0.00%;-0.00%;0.00%
 		sourceProviderType: decimal(9, 4)
 		lineageTag: 99d37980-5b24-4726-92f8-c386096db355
 		sourceLineageTag: rendement_reel_annuel
@@ -244,9 +244,9 @@ table fact_gestion_locative
 
 		changedProperty = SummarizeBy
 
-		annotation SummarizationSetBy = User
+		changedProperty = FormatString
 
-		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+		annotation SummarizationSetBy = User
 
 	column statut_gestion
 		dataType: string
@@ -290,6 +290,34 @@ table fact_gestion_locative
 		sourceColumn: updated_at
 
 		annotation SummarizationSetBy = Automatic
+
+	column conseiller_key
+		dataType: string
+		isHidden
+		lineageTag: ab43409f-f687-42eb-b9ec-8d637bd3dec2
+		summarizeBy: none
+		sourceColumn: conseiller_key
+
+	column agence_region_key
+		dataType: string
+		isHidden
+		lineageTag: a2f08ace-ea4c-4856-b166-152606c4731c
+		summarizeBy: none
+		sourceColumn: agence_region_key
+
+	column conseiller_id
+		dataType: string
+		isHidden
+		lineageTag: fb990a7e-c89d-4234-b232-6b8eeea2761a
+		summarizeBy: none
+		sourceColumn: conseiller_id
+
+	column agence_id
+		dataType: string
+		isHidden
+		lineageTag: 9d7808d4-7f9b-48cd-a3f7-d40c34885e6e
+		summarizeBy: none
+		sourceColumn: agence_id
 
 	partition fact_gestion_locative = entity
 		mode: directLake

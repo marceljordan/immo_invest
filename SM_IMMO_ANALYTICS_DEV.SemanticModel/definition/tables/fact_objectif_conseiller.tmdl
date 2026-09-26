@@ -1,0 +1,227 @@
+table fact_objectif_conseiller
+	lineageTag: cd7eb472-017c-431a-b360-38a03045dbf9
+	sourceLineageTag: [gold].[fact_objectif_conseiller]
+
+	column objectif_key
+		dataType: string
+		sourceProviderType: varchar(400)
+		lineageTag: 7ac8cde6-05d9-4756-a83e-b6dd350c770f
+		sourceLineageTag: objectif_key
+		summarizeBy: none
+		sourceColumn: objectif_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column objectif_id
+		dataType: string
+		sourceProviderType: varchar(50)
+		lineageTag: 8fde4dad-1e1a-4a47-90cf-23dc33b26e21
+		sourceLineageTag: objectif_id
+		summarizeBy: none
+		sourceColumn: objectif_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column date_objectif_key
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: b777754e-d397-429c-a3a3-f896865f20ac
+		sourceLineageTag: date_objectif_key
+		summarizeBy: none
+		sourceColumn: date_objectif_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column conseiller_key
+		dataType: string
+		sourceProviderType: varchar(400)
+		lineageTag: aef79c93-1307-4344-a4e8-a013c6650805
+		sourceLineageTag: conseiller_key
+		summarizeBy: none
+		sourceColumn: conseiller_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column agence_region_key
+		dataType: string
+		sourceProviderType: varchar(400)
+		lineageTag: b31bee47-6f96-4c75-a5f8-1b49dea8e886
+		sourceLineageTag: agence_region_key
+		summarizeBy: none
+		sourceColumn: agence_region_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column conseiller_id
+		dataType: string
+		sourceProviderType: varchar(50)
+		lineageTag: 5fe1c60c-4c53-4f04-ac15-3fb832bcf91d
+		sourceLineageTag: conseiller_id
+		summarizeBy: none
+		sourceColumn: conseiller_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column agence_id
+		dataType: string
+		sourceProviderType: varchar(50)
+		lineageTag: ddef34f6-f012-4ad4-844c-d03a3fa8d2e9
+		sourceLineageTag: agence_id
+		summarizeBy: none
+		sourceColumn: agence_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column annee
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: 82aa4bda-8c48-4e83-8260-c096732ec7d8
+		sourceLineageTag: annee
+		summarizeBy: sum
+		sourceColumn: annee
+
+		annotation SummarizationSetBy = Automatic
+
+	column mois
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: 8143ef1c-7c38-4ca5-9904-2757e9f4911d
+		sourceLineageTag: mois
+		summarizeBy: sum
+		sourceColumn: mois
+
+		annotation SummarizationSetBy = Automatic
+
+	column periode
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: 75d30b4a-f9ef-430d-8ecb-30dd481d8fa9
+		sourceLineageTag: periode
+		summarizeBy: none
+		sourceColumn: periode
+
+		annotation SummarizationSetBy = Automatic
+
+	column famille_produit
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: a3d84037-5bba-4666-b3ed-0a597fda494f
+		sourceLineageTag: famille_produit
+		summarizeBy: none
+		sourceColumn: famille_produit
+
+		annotation SummarizationSetBy = Automatic
+
+	column type_produit
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: f56c12a2-d420-449f-ac7d-1e729de491a7
+		sourceLineageTag: type_produit
+		summarizeBy: none
+		sourceColumn: type_produit
+
+		annotation SummarizationSetBy = Automatic
+
+	column objectif_ca
+		dataType: double
+		sourceProviderType: decimal(18, 2)
+		lineageTag: b11c6ad0-cf85-46ae-9b58-cdb5afa5b78a
+		sourceLineageTag: objectif_ca
+		summarizeBy: sum
+		sourceColumn: objectif_ca
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column objectif_nombre_ventes
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: 4414f95a-b33d-4edc-91cf-c8444c0d2c3e
+		sourceLineageTag: objectif_nombre_ventes
+		summarizeBy: sum
+		sourceColumn: objectif_nombre_ventes
+
+		annotation SummarizationSetBy = Automatic
+
+	column objectif_nombre_reservations
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: 57cdffbc-c626-412c-882a-5e610b649d3a
+		sourceLineageTag: objectif_nombre_reservations
+		summarizeBy: sum
+		sourceColumn: objectif_nombre_reservations
+
+		annotation SummarizationSetBy = Automatic
+
+	column objectif_montant_souscriptions
+		dataType: double
+		sourceProviderType: decimal(18, 2)
+		lineageTag: 2013d7c9-a032-4575-a68c-6197e37a3887
+		sourceLineageTag: objectif_montant_souscriptions
+		summarizeBy: sum
+		sourceColumn: objectif_montant_souscriptions
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column objectif_commissions
+		dataType: double
+		sourceProviderType: decimal(18, 2)
+		lineageTag: 61617b2d-f9cd-47a4-9232-22f48345c8e5
+		sourceLineageTag: objectif_commissions
+		summarizeBy: sum
+		sourceColumn: objectif_commissions
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column objectif_nouveaux_clients
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: f73a123e-af8c-4f19-92cc-8eff9fc91ce6
+		sourceLineageTag: objectif_nouveaux_clients
+		summarizeBy: sum
+		sourceColumn: objectif_nouveaux_clients
+
+		annotation SummarizationSetBy = Automatic
+
+	column created_at
+		dataType: dateTime
+		formatString: General Date
+		sourceProviderType: datetime2
+		lineageTag: f5c02cf7-f16e-482b-8cbe-7fde4f4c2977
+		sourceLineageTag: created_at
+		summarizeBy: none
+		sourceColumn: created_at
+
+		annotation SummarizationSetBy = Automatic
+
+	column updated_at
+		dataType: dateTime
+		formatString: General Date
+		sourceProviderType: datetime2
+		lineageTag: f190e63c-c711-4473-9427-4f75e4e0d586
+		sourceLineageTag: updated_at
+		summarizeBy: none
+		sourceColumn: updated_at
+
+		annotation SummarizationSetBy = Automatic
+
+	partition fact_objectif_conseiller = entity
+		mode: directLake
+		source
+			entityName: fact_objectif_conseiller
+			schemaName: gold
+			expressionSource: DatabaseQuery
+
+	annotation PBI_ResultType = Table
+

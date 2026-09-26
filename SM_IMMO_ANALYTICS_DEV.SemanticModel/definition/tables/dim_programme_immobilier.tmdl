@@ -255,7 +255,7 @@ table dim_programme_immobilier
 
 	column rentabilite_cible
 		dataType: decimal
-		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		formatString: 0.00%;-0.00%;0.00%
 		sourceProviderType: decimal(9, 4)
 		lineageTag: 2ee74d6b-5895-429c-a6ae-4648b2363e5b
 		sourceLineageTag: rentabilite_cible
@@ -264,9 +264,9 @@ table dim_programme_immobilier
 
 		changedProperty = SummarizeBy
 
-		annotation SummarizationSetBy = User
+		changedProperty = FormatString
 
-		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+		annotation SummarizationSetBy = User
 
 	column zone_fiscale
 		dataType: string
@@ -306,7 +306,7 @@ table dim_programme_immobilier
 
 	column note_programme
 		dataType: decimal
-		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		formatString: 0.00
 		sourceProviderType: decimal(5, 2)
 		lineageTag: 0f196d56-d9ea-4df1-bda4-17e1ddc8016b
 		sourceLineageTag: note_programme
@@ -315,9 +315,9 @@ table dim_programme_immobilier
 
 		changedProperty = SummarizeBy
 
-		annotation SummarizationSetBy = User
+		changedProperty = FormatString
 
-		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+		annotation SummarizationSetBy = User
 
 	column is_active
 		dataType: boolean

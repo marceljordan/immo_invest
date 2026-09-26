@@ -12,7 +12,7 @@ annotation __PBI_TimeIntelligenceEnabled = 0
 
 annotation PBI_QueryOrder = ["DatabaseQuery"]
 
-annotation PBI_ProTooling = ["WebModelingEdit","CalcGroup"]
+annotation PBI_ProTooling = ["WebModelingEdit","CalcGroup","TMDLView_Desktop","DaxQueryView_Desktop"]
 
 ref table dim_date
 ref table fact_commission
@@ -37,8 +37,12 @@ ref table security_user_access
 ref table _Mesures
 ref table pipeline_run_log
 ref table data_freshness
+ref table dim_region
+ref table fact_objectif_agence
+ref table fact_objectif_partenaire
+ref table fact_objectif_region
+ref table fact_objectif_conseiller
+ref table dq_vente_rejets
 
-ref role RLS_region/agence
-ref role RLS_conseillers
-ref role RLS_investisseur
+ref role RLS_Perimetre
 

@@ -260,7 +260,7 @@ table dim_partenaire
 
 	column commission_rate_default
 		dataType: decimal
-		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		formatString: 0.00%;-0.00%;0.00%
 		sourceProviderType: decimal(9, 4)
 		lineageTag: 75797366-4bc7-49bb-90ed-d781d5b1e5ed
 		sourceLineageTag: commission_rate_default
@@ -269,9 +269,9 @@ table dim_partenaire
 
 		changedProperty = SummarizeBy
 
-		annotation SummarizationSetBy = User
+		changedProperty = FormatString
 
-		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+		annotation SummarizationSetBy = User
 
 	column manager_interne_id
 		dataType: string
