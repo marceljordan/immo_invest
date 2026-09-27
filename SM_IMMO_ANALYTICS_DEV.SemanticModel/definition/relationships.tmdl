@@ -23,6 +23,7 @@ relationship 18ab2822-2ec1-ccd9-ffbf-4fb836c735ed
 	toColumn: dim_statut.statut_key
 
 relationship dbb1e097-fd94-ccd4-11bd-e4e7826e908a
+	isActive: false
 	fromColumn: fact_vente.date_signature_acte_key
 	toColumn: dim_date.date_key
 
@@ -309,4 +310,8 @@ relationship rel_revente_agence
 relationship rel_dossier_adv_agence
 	fromColumn: fact_dossier_adv.agence_region_key
 	toColumn: dim_agence_region.agence_region_key
+
+relationship 8f9145c8-972e-00bf-e7a1-dd3a6b20d84e
+	fromColumn: fact_vente.date_signature_contrat_key
+	toColumn: dim_date.date_key
 
