@@ -5,14 +5,17 @@ Rôle :
 - Créer la table de faits des financements.
 
 Grain Kimball :
-- 1 ligne = 1 dossier de financement rattaché à une vente.
+- 1 ligne = 1 dossier de financement (avec ou sans vente).
 
 Actions réalisées :
 - Génère financement_key.
 - Récupère investisseur_key via LEFT JOIN.
-- Récupère conseiller_key et agence_region_key depuis la vente d'origine
-  (source ventes_immobilieres, pas fact_vente : un financement lié à une vente
-  écartée par les règles métier garde son rattachement commercial).
+- Récupère conseiller_key et agence_region_key :
+    1. depuis la vente d'origine (source ventes_immobilieres, pas fact_vente :
+       un financement lié à une vente écartée par les règles métier garde
+       son rattachement commercial) ;
+    2. à défaut (financement en cours ou refusé, donc sans vente),
+       depuis l'investisseur.
 - Récupère statut_key depuis dim_statut.
 - Envoie vers UNKNOWN si une dimension est absente.
 - Conserve les mesures de financement.
@@ -33,6 +36,32 @@ with vente_origine as (
     from {{ ref('ventes_immobilieres') }}
     where is_deleted = 0
 
+),
+
+investisseur_origine as (
+
+    select
+        investisseur_id,
+        conseiller_id,
+        agence_id
+    from {{ ref('crm_investisseurs') }}
+    where is_deleted = 0
+
+),
+
+financements as (
+
+    select
+        f.*,
+        coalesce(vo.conseiller_id, io.conseiller_id) as conseiller_id_rattache,
+        coalesce(vo.agence_id, io.agence_id)         as agence_id_rattache
+    from {{ ref('financements') }} f
+    left join vente_origine vo
+        on f.vente_id = vo.vente_id
+    left join investisseur_origine io
+        on f.investisseur_id = io.investisseur_id
+    where f.is_deleted = 0
+
 )
 
 select
@@ -52,8 +81,8 @@ select
     coalesce(ds.statut_key, {{ dbt_utils.generate_surrogate_key(["'FINANCEMENT'", "'__UNKNOWN__'"]) }}) as statut_key,
 
     f.investisseur_id,
-    vo.conseiller_id,
-    vo.agence_id,
+    f.conseiller_id_rattache as conseiller_id,
+    f.agence_id_rattache     as agence_id,
 
     f.banque,
     f.courtier,
@@ -72,22 +101,17 @@ select
     f.created_at,
     f.updated_at
 
-from {{ ref('financements') }} f
-
-left join vente_origine vo
-    on f.vente_id = vo.vente_id
+from financements f
 
 left join {{ ref('dim_investisseur') }} di
     on f.investisseur_id = di.investisseur_id
 
 left join {{ ref('dim_conseiller') }} dc
-    on vo.conseiller_id = dc.conseiller_id
+    on f.conseiller_id_rattache = dc.conseiller_id
 
 left join {{ ref('dim_agence_region') }} da
-    on vo.agence_id = da.agence_id
+    on f.agence_id_rattache = da.agence_id
 
 left join {{ ref('dim_statut') }} ds
     on ds.domaine_statut = 'FINANCEMENT'
    and ds.statut_value = upper(trim(f.statut_financement))
-
-where f.is_deleted = 0

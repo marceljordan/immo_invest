@@ -9,6 +9,9 @@ Actions réalisées :
 - Ajoute une ligne UNKNOWN par domaine de statut.
 - Classe chaque statut (TERMINE / EN_COURS / ECHEC) via la liste
   « categories » ci-dessous (règle métier explicite, versionnée avec le modèle).
+- Les statuts source avec underscores (EN_ATTENTE, OFFRE_EMISE...) sont
+  rapprochés de la liste après remplacement de '_' par ' ' ; statut_value
+  reste inchangé (les faits font la jointure sur la valeur source).
 - Un statut absent de la liste est classé NON_CLASSE (code 0) : un test dbt
   le signale pour qu'il soit ajouté à la liste.
 - Génère une surrogate key composite avec dbt_utils.
@@ -128,6 +131,11 @@ categories (statut_value, categorie_statut, libelle_categorie, code_couleur) as 
     union all select 'VALIDE', 'TERMINE', 'Terminé / succès', 3
     union all select 'VALIDEE', 'TERMINE', 'Terminé / succès', 3
     union all select 'REVENDU', 'TERMINE', 'Terminé / succès', 3
+    union all select 'VENDUE', 'TERMINE', 'Terminé / succès', 3
+    union all select 'SIGNE', 'TERMINE', 'Terminé / succès', 3
+    union all select 'REMBOURSE', 'TERMINE', 'Terminé / succès', 3
+    union all select 'ACCEPTEE', 'TERMINE', 'Terminé / succès', 3
+    union all select 'OFFRE ACCEPTEE', 'TERMINE', 'Terminé / succès', 3
     union all select 'CALCULEE', 'EN_COURS', 'En cours / attente', 2
     union all select 'DEMANDE DEPOSEE', 'EN_COURS', 'En cours / attente', 2
     union all select 'DEMANDE RECUE', 'EN_COURS', 'En cours / attente', 2
@@ -140,8 +148,14 @@ categories (statut_value, categorie_statut, libelle_categorie, code_couleur) as 
     union all select 'OUVERTE', 'EN_COURS', 'En cours / attente', 2
     union all select 'PIECES EN ATTENTE', 'EN_COURS', 'En cours / attente', 2
     union all select 'RETARD', 'EN_COURS', 'En cours / attente', 2
+    union all select 'EN RETARD', 'EN_COURS', 'En cours / attente', 2
+    union all select 'CONFIRMEE', 'EN_COURS', 'En cours / attente', 2
+    union all select 'DEMANDE', 'EN_COURS', 'En cours / attente', 2
+    union all select 'PIECES RECUES', 'EN_COURS', 'En cours / attente', 2
+    union all select 'EN VENTE', 'EN_COURS', 'En cours / attente', 2
     union all select 'ABANDONNE', 'ECHEC', 'Échec / blocage', 1
     union all select 'ANNULEE', 'ECHEC', 'Échec / blocage', 1
+    union all select 'ANNULE', 'ECHEC', 'Échec / blocage', 1
     union all select 'BLOQUEE', 'ECHEC', 'Échec / blocage', 1
     union all select 'BLOQUE', 'ECHEC', 'Échec / blocage', 1
     union all select 'DEFAUT', 'ECHEC', 'Échec / blocage', 1
@@ -149,6 +163,8 @@ categories (statut_value, categorie_statut, libelle_categorie, code_couleur) as 
     union all select 'EXPIREE', 'ECHEC', 'Échec / blocage', 1
     union all select 'REFUSE', 'ECHEC', 'Échec / blocage', 1
     union all select 'REJETEE', 'ECHEC', 'Échec / blocage', 1
+    union all select 'RESILIEE', 'ECHEC', 'Échec / blocage', 1
+    union all select 'RETIREE', 'ECHEC', 'Échec / blocage', 1
 
 )
 
@@ -172,4 +188,4 @@ select
 from final f
 
 left join categories c
-    on f.statut_value = c.statut_value
+    on replace(f.statut_value, '_', ' ') = c.statut_value

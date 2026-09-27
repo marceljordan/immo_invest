@@ -7,6 +7,16 @@
 # META     "name": "synapse_pyspark"
 # META   },
 # META   "dependencies": {
+# META     "lakehouse": {
+# META       "default_lakehouse": "66841f6d-142d-4f8a-98ff-9b81fed41000",
+# META       "default_lakehouse_name": "LH_Immo_Dev",
+# META       "default_lakehouse_workspace_id": "ec7aa1ee-16a6-43ef-a54d-cdcc1cb90693",
+# META       "known_lakehouses": [
+# META         {
+# META           "id": "66841f6d-142d-4f8a-98ff-9b81fed41000"
+# META         }
+# META       ]
+# META     },
 # META     "environment": {
 # META       "environmentId": "83eb490a-658e-a9c3-4f2a-0c23f7ee1105",
 # META       "workspaceId": "00000000-0000-0000-0000-000000000000"
@@ -49,14 +59,6 @@
 #   était planifié la veille était perdu et aucun dossier n'avançait.
 #   Si la table est absente ou vide, l'agenda est RECONSTRUIT à partir
 #   des statuts en cours (rattrapage unique).
-#
-# v3 — réalisme des données :
-#   - prix des lots au m² par ville + surfaces par typologie ;
-#   - ventes annulées avant l'acte (condition suspensive, rétractation) ;
-#   - anomalies de saisie contrôlées et tracées (tech_simulation_anomalies) ;
-#   - objectifs de l'année N fixés au 1er jour ouvré de N à partir du
-#     rythme réalisé au 2e semestre N-1 (plus aucun objectif calé après coup) ;
-#   - rattrapage automatique des jours ouvrés manqués en mode quotidien.
 # ============================================================
 
 import pandas as pd
@@ -107,10 +109,10 @@ print(f"🔗 Workspace : {WORKSPACE}  ·  Lakehouse : {LAKEHOUSE}")
 # PARAMÈTRES
 # ============================================================
 
-DATE_DEBUT = None
-DATE_FIN = None
-MODE = "append"            # 'append' | 'dry_run'
-FORCER = False
+DATE_DEBUT = "2024-01-02"
+DATE_FIN   = "2026-09-25"
+MODE       = "append"
+FORCER     = False
 EXCLURE_JOURS_FERIES = True
 
 # --- Volume exogène : seuls les prospects arrivent "de nulle part".
@@ -155,47 +157,6 @@ TAUX_KYC_REFUSE = 0.03
 AFFINITE_REGIONALE = 0.65
 RENOUVELLEMENT_TRIMESTRIEL = True
 NB_NOUVEAUX_PROGRAMMES = (5, 8)
-
-# --- Rattrapage : en mode quotidien, jours ouvrés manqués rejoués (plafond)
-MAX_RATTRAPAGE_JOURS = 31
-
-# --- Prix des lots neufs : €/m² par ville.
-#     HYPOTHÈSES d'ordre de grandeur, à remplacer par les médianes DVF
-#     (fact_transaction_marche) si besoin. Une ville absente prend le défaut.
-PRIX_M2_VILLE = {
-    "Paris": 12000, "Lyon": 6000, "Marseille": 5000, "Nantes": 5000, "Rennes": 4800,
-    "Lille": 4800, "Strasbourg": 4800, "Rouen": 4000, "Reims": 3800,
-}
-PRIX_M2_DEFAUT = 4500
-TYPOLOGIES_INVEST = {  # typologie: (poids, surface min, surface max)
-    "T1": (0.30, 18, 30), "T2": (0.40, 38, 50), "T3": (0.22, 58, 72), "T4": (0.08, 78, 95),
-}
-RENDEMENT_BRUT = (0.035, 0.050)        # loyer annuel / prix
-
-# --- Ventes annulées entre le contrat et l'acte
-P_ANNULATION_VENTE = 0.04
-MOTIFS_ANNULATION_VENTE = [
-    "Condition suspensive de prêt non levée", "Rétractation de l'acquéreur",
-    "Changement de situation personnelle", "Désaccord sur le lot livré",
-]
-
-# --- Anomalies de saisie contrôlées (tracées dans tech_simulation_anomalies)
-ANOMALIES = True
-P_ANO_TEXTE = 0.02            # statut saisi en minuscules / avec espaces
-P_ANO_DOUBLON = 0.005         # même version transmise deux fois
-P_ANO_DATE_FUTURE = 0.01      # date de contrat saisie dans le futur (corrigée à la version suivante)
-P_ANO_ACTE_AVANT = 0.01       # date d'acte antérieure au contrat (corrigée à la version suivante)
-STATUT_PAR_TABLE = {
-    "src_ventes_immobilieres": "statut_vente",
-    "src_commissions": "statut_commission",
-    "src_reservations_immobilieres": "statut_reservation",
-    "src_financements": "statut_financement",
-    "src_souscriptions_pierre_papier": "statut_souscription",
-}
-
-# --- Objectifs : N = rythme du 2e semestre N-1 (x2) x progression
-PROGRESSION_OBJECTIF = (1.00, 1.10)     # tirée par conseiller / partenaire
-TAUX_COMMISSION_OBJ = {"Immobilier direct": 0.035, "Pierre papier": 0.02, "Crowdfunding immobilier": 0.0125}
 
 # METADATA ********************
 
@@ -385,17 +346,7 @@ BUS = Bus()
 
 def resoudre_dates():
     if DATE_DEBUT is None and DATE_FIN is None:
-        # Mode quotidien : de la dernière date produite (+1) jusqu'à J-1.
-        hier = date.today() - timedelta(days=1)
-        try:
-            derniere = spark.sql(
-                f"SELECT MAX(date_cible) AS m FROM {q('tech_simulation_run_log')}"
-            ).first()["m"]
-        except Exception:
-            derniere = None
-        d0 = derniere + timedelta(days=1) if derniere else hier
-        d0 = max(d0, hier - timedelta(days=MAX_RATTRAPAGE_JOURS))
-        cibles = [d0 + timedelta(days=i) for i in range((hier - d0).days + 1)]
+        cibles = [date.today() - timedelta(days=1)]
     else:
         d0 = date.fromisoformat(DATE_DEBUT)
         d1 = date.fromisoformat(DATE_FIN) if DATE_FIN else d0
@@ -542,17 +493,6 @@ COLS = {
     "date_remboursement_prevue","date_remboursement_reelle","montant_rembourse","interets_bruts",
     "fiscalite_appliquee","incident_paiement","created_at","updated_at","is_deleted"],
 
-# --- Objectifs annuels (émis au 1er jour ouvré de l'année) ---
-"src_objectifs_commerciaux": [
-    "objectif_id","annee","mois","periode","niveau_objectif","region_id","agence_id",
-    "conseiller_id","partenaire_id","famille_produit","type_produit","objectif_ca",
-    "objectif_nombre_ventes","objectif_nombre_reservations","objectif_montant_souscriptions",
-    "objectif_commissions","objectif_nouveaux_clients","created_at","updated_at","is_active"],
-
-# --- Journal technique des anomalies injectées ---
-"tech_simulation_anomalies": [
-    "anomalie_id","date_cible","table_source","cle","type_anomalie","detail"],
-
 # --- Référentiels mutables (versions émises aussi) ---
 "src_lots_immobiliers": [
     "lot_id","programme_id","numero_lot","type_lot","typologie","surface_m2","etage",
@@ -572,51 +512,13 @@ COLS = {
 
 
 def emettre(table, rec, d):
-    """Émet une version complète. Valide le contrat de schéma.
-    Les anomalies ne touchent que la version ÉMISE, jamais l'état interne :
-    la version suivante du même enregistrement est donc correcte."""
+    """Émet une version complète. Valide le contrat de schéma."""
     attendu = set(COLS[table])
     recu = set(rec)
     if recu != attendu:
         manquant, extra = attendu - recu, recu - attendu
         raise KeyError(f"{table} : manquant={sorted(manquant)} extra={sorted(extra)}")
-    version = {c: rec[c] for c in COLS[table]}
-    doublon = False
-    if ANOMALIES and table in STATUT_PAR_TABLE:
-        version, doublon = injecter_anomalies(table, version, d)
-    BUS.emettre(table, version, d)
-    if doublon:
-        BUS.emettre(table, dict(version), d)
-
-
-def tracer_anomalie(table, cle, type_ano, detail, d):
-    emettre("tech_simulation_anomalies", {
-        "anomalie_id": gen_id("ANO"), "date_cible": d, "table_source": table,
-        "cle": cle, "type_anomalie": type_ano, "detail": detail}, d)
-
-
-def injecter_anomalies(table, v, d):
-    cle = v[COLS[table][0]]
-    col = STATUT_PAR_TABLE[table]
-
-    if v.get(col) and random.random() < P_ANO_TEXTE:
-        v[col] = random.choice([str(v[col]).lower(), f" {v[col]} ", str(v[col]).title()])
-        tracer_anomalie(table, cle, "TEXTE_SALE", f"{col}={v[col]!r}", d)
-
-    if table == "src_ventes_immobilieres":
-        statut = str(v.get("statut_vente") or "").strip().upper()
-        if statut == "SIGNEE" and random.random() < P_ANO_DATE_FUTURE:
-            v["date_signature_contrat"] = d + timedelta(days=random.randint(30, 120))
-            tracer_anomalie(table, cle, "DATE_CONTRAT_FUTURE", str(v["date_signature_contrat"]), d)
-        elif statut == "EN_COURS" and v.get("date_signature_acte") and random.random() < P_ANO_ACTE_AVANT:
-            contrat = _dt(v.get("date_signature_contrat")) or d
-            v["date_signature_acte"] = contrat - timedelta(days=random.randint(1, 20))
-            tracer_anomalie(table, cle, "ACTE_AVANT_CONTRAT", str(v["date_signature_acte"]), d)
-
-    doublon = random.random() < P_ANO_DOUBLON
-    if doublon:
-        tracer_anomalie(table, cle, "DOUBLON_TRANSMISSION", "version émise deux fois", d)
-    return v, doublon
+    BUS.emettre(table, {c: rec[c] for c in COLS[table]}, d)
 
 # METADATA ********************
 
@@ -727,10 +629,6 @@ class Etat:
         self.partenaires_ids = self.partenaires["partenaire_id"].dropna().tolist()
         self.produits_ids = self.produits["produit_id"].dropna().tolist()
         self.produits_idx = {r["produit_id"]: dict(r) for _, r in self.produits.iterrows()}
-        # Une souscription pierre-papier ne porte que sur un produit pierre-papier
-        self.produits_pp = [p for p, r in self.produits_idx.items()
-                            if str(r.get("famille_produit") or "").strip().lower() == "pierre papier"] \
-                           or self.produits_ids
 
         # ---- Pools dérivés : aucune table nouvelle, on reprend les IDs en base ----
         soc = self.produits["societe_gestion_id"].dropna().unique().tolist() if "societe_gestion_id" in self.produits else []
@@ -751,13 +649,6 @@ class Etat:
         # ---- Ensembles dérivés ----
         self.lots_dispo = {k for k, r in self.lots.items() if r.get("statut_lot") == "DISPONIBLE"}
         self.prospects_convertis = {r["prospect_id"] for r in self.investisseurs.values() if r.get("prospect_id")}
-
-        # ---- Objectifs déjà fixés (années) ----
-        try:
-            obj = read_bronze("src_objectifs_commerciaux")
-            self.annees_objectifs = set(pd.to_numeric(obj["annee"], errors="coerce").dropna().astype(int))
-        except Exception:
-            self.annees_objectifs = set()
 
         self.agenda = defaultdict(list)
         self.compteurs = defaultdict(int)
@@ -1137,31 +1028,12 @@ def creer_vente(e, d, rid, fid):
 
 def vente_acte(e, d, vid):
     v = e.ventes.get(vid)
-    if not v or v.get("statut_vente") != "SIGNEE":
-        return
-    if random.random() < P_ANNULATION_VENTE:
-        annuler_vente(e, d, vid)
+    if not v:
         return
     e.maj("src_ventes_immobilieres", v, d, statut_vente="EN_COURS", date_signature_acte=d)
     liv = _dt(v["date_livraison_prevue"])
     if liv:
         e.planifier(liv + timedelta(days=random.randint(-30, 120)), vente_livraison, vid)
-
-
-def annuler_vente(e, d, vid):
-    """Vente annulée avant l'acte : le lot revient en stock, la commission
-    non payée est annulée, le dossier ADV est fermé."""
-    v = e.ventes[vid]
-    e.maj("src_ventes_immobilieres", v, d, statut_vente="ANNULEE",
-          motif_echec=random.choice(MOTIFS_ANNULATION_VENTE))
-    if v.get("lot_id") in e.lots:
-        liberer_lot(e, d, v["lot_id"])
-    for c in e.commissions.values():
-        if c.get("vente_id") == vid and c.get("statut_commission") != "PAYEE":
-            e.maj("src_commissions", c, d, statut_commission="ANNULEE", motif_blocage="Vente annulée")
-    for a in e.dossiers.values():
-        if a.get("vente_id") == vid and a.get("statut_dossier") != "SIGNE":
-            e.maj("src_dossiers_adv", a, d, statut_dossier="ANNULE", commentaire_adv="Vente annulée")
 
 
 def vente_livraison(e, d, vid):
@@ -1213,7 +1085,7 @@ def creer_dossier_adv(e, d, vid):
 
 def adv_pieces(e, d, did):
     r = e.dossiers.get(did)
-    if not r or r.get("statut_dossier") == "ANNULE":
+    if not r:
         return
     e.maj("src_dossiers_adv", r, d, statut_dossier="PIECES_RECUES", date_reception_pieces=d,
           pieces_manquantes=None, blocage_adv=0, motif_blocage=None,
@@ -1223,7 +1095,7 @@ def adv_pieces(e, d, did):
 
 def adv_validation(e, d, did):
     r = e.dossiers.get(did)
-    if not r or r.get("statut_dossier") == "ANNULE":
+    if not r:
         return
     e.maj("src_dossiers_adv", r, d, statut_dossier="VALIDE", date_validation_dossier=d)
     e.planifier(apres(d, ADV_NOTAIRE), adv_notaire, did)
@@ -1231,7 +1103,7 @@ def adv_validation(e, d, did):
 
 def adv_notaire(e, d, did):
     r = e.dossiers.get(did)
-    if not r or r.get("statut_dossier") == "ANNULE":
+    if not r:
         return
     e.maj("src_dossiers_adv", r, d, statut_dossier="ENVOYE_NOTAIRE", date_envoi_notaire=d)
     e.planifier(apres(d, ADV_SIGNATURE), adv_signature, did)
@@ -1239,7 +1111,7 @@ def adv_notaire(e, d, did):
 
 def adv_signature(e, d, did):
     r = e.dossiers.get(did)
-    if not r or r.get("statut_dossier") == "ANNULE":
+    if not r:
         return
     ouv = _dt(r["date_ouverture_dossier"])
     e.maj("src_dossiers_adv", r, d, statut_dossier="SIGNE", date_signature_acte=d,
@@ -1289,7 +1161,7 @@ def creer_commission(e, d, type_op, op_id):
 
 def comm_validation(e, d, cid):
     r = e.commissions.get(cid)
-    if not r or r.get("statut_commission") == "ANNULEE":
+    if not r:
         return
     if random.random() < COMM_TAUX_BLOCAGE:
         e.maj("src_commissions", r, d, statut_commission="BLOQUEE",
@@ -1301,7 +1173,7 @@ def comm_validation(e, d, cid):
 
 def comm_paiement(e, d, cid):
     r = e.commissions.get(cid)
-    if not r or r.get("statut_commission") == "ANNULEE":
+    if not r:
         return
     e.maj("src_commissions", r, d, statut_commission="PAYEE", date_paiement=d)
 
@@ -1315,7 +1187,7 @@ def creer_souscriptions(e, d):
     n = max(0, int(random.randint(3, 7) * saisonnalite(d)))
     for _ in range(n):
         inv = random.choice(elig)
-        prod = e.produits_idx[random.choice(e.produits_pp)]
+        prod = e.produits_idx[random.choice(e.produits_ids)]
         cons = inv["conseiller_id"]
         montant = round(random.uniform(5000, 180000), 2)
         prix_part = round(random.uniform(150, 1100), 2)
@@ -1680,7 +1552,7 @@ def renouvellement(e, d):
     for _ in range(random.randint(*NB_NOUVEAUX_PROGRAMMES)):
         ville = random.choices(e.villes, weights=e.poids_ville)[0]
         nb = random.randint(12, 55)
-        prix_m2 = round(PRIX_M2_VILLE.get(ville, PRIX_M2_DEFAUT) * random.uniform(0.92, 1.10), 2)
+        prix_m2 = round(random.uniform(2600, 11500), 2)
         pid = gen_id("PROG")
         prog = {
             "programme_id": pid, "nom_programme": f"Résidence {fake.last_name()} - {ville}",
@@ -1706,25 +1578,20 @@ def renouvellement(e, d):
         e.programmes[pid] = prog
         emettre("src_programmes_immobiliers", prog, d)
 
-        typos = list(TYPOLOGIES_INVEST)
-        poids = [TYPOLOGIES_INVEST[t][0] for t in typos]
         for j in range(nb):
-            typo = random.choices(typos, weights=poids)[0]
-            _, smin, smax = TYPOLOGIES_INVEST[typo]
-            surface = round(random.uniform(smin, smax), 2)
-            cat = round(surface * prix_m2 * random.uniform(0.95, 1.08), 2)
+            surface = round(random.uniform(24, 118), 2)
+            cat = round(surface * prix_m2 * random.uniform(0.90, 1.12), 2)
             remise = round(cat * random.uniform(0, 0.05), 2)
-            rdt = round(random.uniform(*RENDEMENT_BRUT), 4)
             lid = gen_id("LOT")
             lot = {
                 "lot_id": lid, "programme_id": pid, "numero_lot": f"{pid[-4:]}-{j+1:03d}",
-                "type_lot": "Studio" if typo == "T1" else "Appartement",
-                "typologie": typo, "surface_m2": surface,
+                "type_lot": random.choice(["Appartement", "Studio", "Duplex", "Penthouse"]),
+                "typologie": random.choice(TYPOLOGIES), "surface_m2": surface,
                 "etage": random.randint(0, 12), "orientation": random.choice(ORIENTATIONS),
                 "parking_inclus": random.choice([0, 1]),
                 "prix_catalogue": cat, "prix_remise": remise, "prix_final": round(cat - remise, 2),
-                "loyer_estime_mensuel": round(cat * rdt / 12, 2),
-                "rentabilite_brute_estimee": rdt,
+                "loyer_estime_mensuel": round(cat * random.uniform(0.0025, 0.0045), 2),
+                "rentabilite_brute_estimee": round(random.uniform(0.020, 0.070), 4),
                 "statut_lot": "DISPONIBLE", "date_disponibilite": d,
                 "date_reservation": None, "date_vente": None,
                 "investisseur_id": None, "partenaire_id": None,
@@ -1909,105 +1776,7 @@ def reconstruire_agenda(e, d):
 # ============================================================
 
 
-def _dans(dt_val, debut, fin):
-    x = _dt(dt_val)
-    return x is not None and debut <= x <= fin
-
-
-def objectifs_annuels(e, d):
-    """Au 1er jour ouvré de l'année N, fixe les objectifs de N à partir du
-    rythme réalisé au 2e semestre N-1 (x2), x une progression par personne.
-    Grain : niveau x entité x mois x type de produit. Agence = somme des
-    conseillers, région = somme des agences. Aucun calage a posteriori."""
-    annee = d.year
-    if annee in e.annees_objectifs:
-        return
-    e.annees_objectifs.add(annee)
-    debut, fin = date(annee - 1, 7, 1), date(annee - 1, 12, 31)
-
-    realise = defaultdict(lambda: [0.0, 0])   # (niveau, entite, famille, type) -> [ca, nb]
-
-    def ajouter(cons, part, famille, type_p, montant):
-        cles = []
-        if cons:
-            cles.append(("Conseiller", cons))
-        if part:
-            cles.append(("Partenaire", part))
-        for niveau, entite in cles:
-            acc = realise[(niveau, entite, famille, type_p)]
-            acc[0] += montant
-            acc[1] += 1
-
-    for v in e.ventes.values():
-        if _dans(v.get("date_signature_contrat"), debut, fin) and \
-           str(v.get("statut_vente") or "").strip().upper() != "ANNULEE":
-            prog = e.programmes.get(v.get("programme_id"), {})
-            type_p = "LMNP" if prog.get("dispositif_fiscal") == "LMNP" else "VEFA"
-            ajouter(v.get("conseiller_id"), v.get("partenaire_id"), "Immobilier direct", type_p,
-                    _num(v.get("prix_vente_ttc")))
-    for sct in e.souscriptions.values():
-        if _dans(sct.get("date_souscription"), debut, fin) and sct.get("statut_souscription") == "VALIDEE":
-            prod = e.produits_idx.get(sct.get("produit_id"), {})
-            ajouter(sct.get("conseiller_id"), sct.get("partenaire_id"),
-                    prod.get("famille_produit") or "Pierre papier", prod.get("type_produit") or "SCPI",
-                    _num(sct.get("montant_souscrit")))
-    for c in e.crowd.values():
-        if _dans(c.get("date_investissement"), debut, fin):
-            ajouter(c.get("conseiller_id"), c.get("partenaire_id"), "Crowdfunding immobilier",
-                    "Crowdfunding", _num(c.get("montant_investi")))
-
-    if not realise:
-        print(f"   ⚠️ objectifs {annee} non fixés : aucun réalisé au 2e semestre {annee - 1}")
-        return
-
-    poids = {m: saisonnalite(date(annee, m, 15)) for m in range(1, 13)}
-    total_poids = sum(poids.values())
-    rng = random.Random(f"objectifs-{annee}")
-    progression = {}
-    lignes = defaultdict(lambda: [0.0, 0.0])   # (niveau, entite, mois, famille, type) -> [ca, nb]
-
-    for (niveau, entite, famille, type_p), (ca, nb) in realise.items():
-        if entite not in progression:
-            progression[entite] = rng.uniform(*PROGRESSION_OBJECTIF)
-        coef = 2 * progression[entite]
-        cibles = [(niveau, entite)]
-        if niveau == "Conseiller":
-            agence = e.cons_to_agence.get(entite)
-            cibles += [("Agence", agence), ("Region", e.cons_to_region.get(entite))]
-        for m, pds in poids.items():
-            part = pds / total_poids
-            for niv, ent in cibles:
-                if ent:
-                    acc = lignes[(niv, ent, m, famille, type_p)]
-                    acc[0] += ca * coef * part
-                    acc[1] += nb * coef * part
-
-    region_agence = {a: e.cons_to_region.get(c) for c, a in e.cons_to_agence.items()}
-    cree = date(annee - 1, 12, 15)
-    for i, ((niv, ent, m, famille, type_p), (ca, nb)) in enumerate(sorted(lignes.items()), start=1):
-        cons = ent if niv == "Conseiller" else None
-        agence = ent if niv == "Agence" else (e.cons_to_agence.get(ent) if cons else None)
-        region = ent if niv == "Region" else (region_agence.get(agence) if agence else None)
-        immo = famille == "Immobilier direct"
-        emettre("src_objectifs_commerciaux", {
-            "objectif_id": f"OBJ-{annee}-{i:06d}", "annee": annee, "mois": m,
-            "periode": f"{annee}-{m:02d}", "niveau_objectif": niv,
-            "region_id": region, "agence_id": agence, "conseiller_id": cons,
-            "partenaire_id": ent if niv == "Partenaire" else None,
-            "famille_produit": famille, "type_produit": type_p,
-            "objectif_ca": round(ca, -2),
-            "objectif_nombre_ventes": round(nb) if immo else 0,
-            "objectif_nombre_reservations": round(nb * 1.25) if immo else 0,
-            "objectif_montant_souscriptions": round(ca, -2) if famille == "Pierre papier" else 0,
-            "objectif_commissions": round(ca * TAUX_COMMISSION_OBJ.get(famille, 0.02), 2),
-            "objectif_nouveaux_clients": round(nb * 0.6),
-            "created_at": cree, "updated_at": cree, "is_active": 1,
-        }, d)
-    print(f"   🎯 objectifs {annee} fixés : {len(lignes):,} lignes (rythme S2 {annee - 1} x2, progression 0 à +10 %)")
-
-
 def journee(e, d):
-    objectifs_annuels(e, d)       # 0. objectifs de l'année (1er jour ouvré, une fois)
     e.executer(d)                 # 1. faire avancer les dossiers déjà ouverts
     renouvellement(e, d)          # 2. nouveaux programmes (trimestriel)
 
@@ -2125,6 +1894,24 @@ if A_TRAITER:
    Silver doit dédoublonner : dernière version par clé, ordonnée par updated_at.
 {'=' * 74}
 """)
+
+# METADATA ********************
+
+# META {
+# META   "language": "python",
+# META   "language_group": "synapse_pyspark"
+# META }
+
+# CELL ********************
+
+print("A_TRAITER :", len(A_TRAITER) if "A_TRAITER" in globals() else "non défini")
+print("MODE      :", MODE)
+print("etat      :", "etat" in globals())
+print("sauvegarder_agenda :", "sauvegarder_agenda" in globals())
+
+if "etat" in globals() and "sauvegarder_agenda" in globals() and MODE == "append":
+    n = sauvegarder_agenda(etat)
+    print(f"✅ agenda sauvegardé : {n:,} échéances")
 
 # METADATA ********************
 
