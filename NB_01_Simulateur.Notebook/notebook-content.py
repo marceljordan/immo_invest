@@ -109,8 +109,8 @@ print(f"🔗 Workspace : {WORKSPACE}  ·  Lakehouse : {LAKEHOUSE}")
 # PARAMÈTRES
 # ============================================================
 
-DATE_DEBUT = None
-DATE_FIN   = None
+DATE_DEBUT = "2024-01-02"
+DATE_FIN   = "2026-09-25"
 MODE       = "append"
 FORCER     = False
 EXCLURE_JOURS_FERIES = True
